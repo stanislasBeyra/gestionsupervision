@@ -65,3 +65,19 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # gestionsupervision
+
+
+pour avoir la base de donneee en local chez toi
+
+ tu vas dans le fichier .env tu prend le nom de la base de donnee. et la creer la base de donnee en local chez toi
+  ensuite :
+
+il faut tapper cette commande 
+
+php artisan migrate:fresh               
+php artisan db:seed
+
+ ou 
+
+ php artisan migrate            
+php artisan db:seed
