@@ -81,3 +81,6 @@ php artisan db:seed
 
  php artisan migrate            
 php artisan db:seed
+
+
+aussi si tu fini de travailler il faut creer la branch avant de pousser
