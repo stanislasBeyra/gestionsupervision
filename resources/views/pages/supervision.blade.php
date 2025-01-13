@@ -585,63 +585,7 @@
         }, 3000);
     }
 
-    // function handleSubmit(event) {
-    //     event.preventDefault();
-    //     const formData = {
-    //         domaine: {
-    //             value: document.getElementById('domaine').value,
-    //             text: document.getElementById('domaine').options[document.getElementById('domaine').selectedIndex].text
-    //         },
-    //         contenu: {
-    //             value: document.getElementById('contenu').value,
-    //             text: document.getElementById('contenu').options[document.getElementById('contenu').selectedIndex].text
-    //         },
-    //         question: {
-    //             value: document.getElementById('question').value,
-    //             text: document.getElementById('question').options[document.getElementById('question').selectedIndex].text
-    //         },
-    //         method: {
-    //             value: document.getElementById('method').value,
-    //             text: document.getElementById('method').options[document.getElementById('method').selectedIndex].text
-    //         },
-    //         reponse: document.getElementById('reponse').value,
-    //         note: {
-    //             value: document.getElementById('note').value,
-    //             text: document.getElementById('note').options[document.getElementById('note').selectedIndex].text
-    //         },
-    //         commentaire: document.getElementById('commentaire').value,
-    //         etablissements: []
-    //     };
-
-    //     document.querySelectorAll('.etablissement-checkbox:checked').forEach(etab => {
-    //         formData.etablissements.push(etab.value);
-    //     });
-
-    //     const tbody = document.getElementById('table-body');
-    //     const newRow = document.createElement('tr');
-    //     newRow.innerHTML = `
-    //     <td><input type="checkbox" onchange="updateDeleteButton()"></td>
-    //     <td>${formData.domaine.text}</td>
-    //     <td>${formData.contenu.text}</td>
-    //     <td>${formData.question.text}</td>
-    //     <td>${formData.method.text}</td>
-    //     <td>${formData.reponse}</td>
-    //     <td>${formData.note.text}</td>
-
-    //     <td>${formData.etablissements.join(', ')}</td>
-    //      <td>${formData.commentaire}</td>
-    //     <td>
-    //         <button class="btn btn-sm btn-danger" onclick="deleteRow(this)">
-    //             <i class="bi bi-trash"></i> Supprimer
-    //         </button>
-    //     </td>
-    // `;
-    //     tbody.appendChild(newRow);
-
-    //     document.getElementById('data-form').reset();
-    //     showTable();
-    //     showSuccessAlert('Données enregistrées avec succès');
-    // }
+   
 
     function handleSubmit(event) {
         event.preventDefault();
