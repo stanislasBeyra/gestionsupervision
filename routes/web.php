@@ -16,11 +16,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
+Route::get('/Mdbcode',function(){
+    return view('Mdbcode');
+});
 
-Route::get('{page}',[HomeController::class,'getpage'])->name('name.page');
+Route::get('dashboard',function(){
+return view('dashboard');
+});
+
+// Route::get('{page}',[HomeController::class,'getpage'])->name('name.page');
+
+Route::get('{page}',[HomeController::class,'pageviews'])->name('name.page');
 
 
 Route::get('/nomm',[FormSelectedController::class,'getDomaines']);

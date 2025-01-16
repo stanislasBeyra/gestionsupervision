@@ -20,11 +20,41 @@ class HomeController extends Controller
                 case 'outildesupervision':
                     return view('pages.outildesupervision');
 
-                    case'lessupervisee':
-                        return view('pages.lessupervisee');
+                case 'lessupervisee':
+                    return view('pages.lessupervisee');
 
-                        case 'synthesesupervision':
-                            return view('pages.synthesesupervision');
+                case 'synthesesupervision':
+                    return view('pages.synthesesupervision');
+            }
+        } catch (Throwable $t) {
+            Log::info($t);
+        }
+    }
+
+    public function pageviews($page)
+    {
+        try {
+            switch ($page) {
+                case 'dashboard':
+                    return view('dashboard');
+
+                case 'created':
+                    return view('newpages.creationdesupervision');
+
+                case 'etablissementsanitaire':
+                    return view('newpages.etablissementsanitaire');
+
+                case 'identifiantsuperviser':
+                    return view('newpages.identifiantsuperviser');
+
+                case 'idenfiantsuperviseurs':
+                    return view('newpages.idenfiantsuperviseurs');
+                    
+                    case'synthesesupervision':
+                        return view('newpages.synthesesupervision');
+
+                        case 'problemeprioritaire':
+                            return view('newpages.problemeprioritaire');
             }
         } catch (Throwable $t) {
             Log::info($t);
