@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 17 fév. 2025 à 15:58
+-- Généré le : lun. 17 fév. 2025 à 17:06
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -496,6 +496,7 @@ CREATE TABLE `notes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `note_name` varchar(255) NOT NULL,
   `value` decimal(8,2) NOT NULL,
+  `points_disponible` decimal(18,2) NOT NULL DEFAULT 4.00,
   `active` tinyint(4) NOT NULL DEFAULT 1,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -506,10 +507,10 @@ CREATE TABLE `notes` (
 -- Déchargement des données de la table `notes`
 --
 
-INSERT INTO `notes` (`id`, `note_name`, `value`, `active`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Pas satisfaisant', 0.00, 1, NULL, '2025-02-11 18:14:37', '2025-02-11 18:14:37'),
-(2, 'Besoin d\'amélioration', 1.00, 1, NULL, '2025-02-11 18:14:37', '2025-02-11 18:14:37'),
-(3, 'Satisfaisant', 2.00, 1, NULL, '2025-02-11 18:14:37', '2025-02-11 18:14:37');
+INSERT INTO `notes` (`id`, `note_name`, `value`, `points_disponible`, `active`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Pas satisfaisant', 0.00, 4.00, 1, NULL, '2025-02-11 18:14:37', '2025-02-11 18:14:37'),
+(2, 'Besoin d\'amélioration', 1.00, 4.00, 1, NULL, '2025-02-11 18:14:37', '2025-02-11 18:14:37'),
+(3, 'Satisfaisant', 2.00, 4.00, 1, NULL, '2025-02-11 18:14:37', '2025-02-11 18:14:37');
 
 -- --------------------------------------------------------
 
@@ -675,6 +676,7 @@ CREATE TABLE `supervisions` (
   `methode` varchar(255) NOT NULL,
   `reponse` text NOT NULL,
   `note` decimal(8,2) NOT NULL,
+  `points_disponible` decimal(18,2) NOT NULL DEFAULT 4.00,
   `commentaire` text NOT NULL,
   `etablissements` longtext NOT NULL,
   `active` tinyint(4) NOT NULL DEFAULT 1,
@@ -688,38 +690,41 @@ CREATE TABLE `supervisions` (
 -- Déchargement des données de la table `supervisions`
 --
 
-INSERT INTO `supervisions` (`id`, `domaine`, `contenu`, `question`, `methode`, `reponse`, `note`, `commentaire`, `etablissements`, `active`, `type`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Informatique', 'Audit des systèmes', 'Quels logiciels sont utilisés ?', 'Entretien', 'Logiciels standards identifiés', 15.75, 'Examen des licences en cours', 'Université de Paris', 1, 0, NULL, '2025-02-13 22:09:12', '2025-02-13 22:09:12'),
-(2, '18', '79', '231', '1', 'qwerty', 3.00, 'mnbv', 'Hotital General MTN', 1, 0, NULL, '2025-02-13 23:58:41', '2025-02-13 23:58:41'),
-(3, '17', '80', '149', '2', 'tete33', 2.00, '566', 'ECD', 1, 0, NULL, '2025-02-14 00:05:06', '2025-02-14 00:05:06'),
-(4, '17', '79', '171', '1', 'kjhgh', 2.00, 'kjhj', 'Hotipal General', 1, 0, NULL, '2025-02-14 00:12:27', '2025-02-14 00:12:27'),
-(5, '17', '79', '116', '1', 'mbbn', 2.00, 'kjhghj', 'ESPC', 1, 0, NULL, '2025-02-14 00:20:53', '2025-02-14 00:20:53'),
-(6, '17', '80', '73', '10', 'qwerty', 1.00, 'kjhgcfg', 'CHR', 1, 0, NULL, '2025-02-14 00:22:21', '2025-02-14 00:22:21'),
-(7, '16', '73', '145', '6', 'BeyraTeste', 2.00, 'Nouveau de hors line', 'ECD', 1, 0, NULL, '2025-02-14 00:26:01', '2025-02-14 00:26:01'),
-(8, '17', '73', '103', '6', 'oui oui', 1.00, 'nonon', 'ESPC', 1, 0, NULL, '2025-02-14 00:30:39', '2025-02-14 00:30:39'),
-(9, '17', '79', '169', '2', 'kjhghj', 3.00, ',jh', 'Hotipal General', 1, 0, NULL, '2025-02-14 00:34:07', '2025-02-14 00:34:07'),
-(10, '14', '77', '148', '3', 'obv', 2.00, 'obv testing', 'ECD', 1, 0, NULL, '2025-02-14 00:36:27', '2025-02-14 00:36:27'),
-(11, '16', '78', '80', '3', 'jhghj', 2.00, 'mjhghj', 'CHR', 1, 0, NULL, '2025-02-14 00:41:48', '2025-02-14 00:41:48'),
-(12, '16', '78', '230', '3', 'qwerty oui oui oui', 3.00, 'oui oui oui', 'Hotital General MTN', 1, 0, NULL, '2025-02-14 14:48:46', '2025-02-14 14:48:46'),
-(13, '16', '78', '229', '3', '.lkjhgfghjkl', 1.00, 'liuytrdfghjk', 'Hotital General MTN', 1, 0, NULL, '2025-02-14 14:50:01', '2025-02-14 14:50:01'),
-(14, '15', '76', '144', '4', ',kjhgfghjk', 2.00, ',kjhbnjk', 'ECD', 1, 0, NULL, '2025-02-14 14:50:01', '2025-02-14 14:50:01'),
-(15, '13', '77', '80', '4', 'mnhbgvcvbnm', 2.00, 'mjhgfghjk', 'CHR', 1, 0, NULL, '2025-02-14 14:50:01', '2025-02-14 14:50:01'),
-(16, '17', '79', '228', '2', 'qwerty', 2.00, 'hghu', 'Hotital General MTN', 1, 0, NULL, '2025-02-14 15:53:28', '2025-02-14 15:53:28'),
-(17, '16', '79', '232', '3', 'mnbvbnm', 2.00, 'mnbn', 'Hotital General MTN', 1, 0, NULL, '2025-02-15 23:13:47', '2025-02-15 23:13:47'),
-(18, '17', '78', '149', '3', 'nbvcx', 2.00, 'mnbv', 'ECD', 1, NULL, NULL, '2025-02-15 23:25:04', '2025-02-15 23:25:04'),
-(19, '14', '78', '146', '4', 'qwerty', 2.00, 'jhgffgh', 'ECD', 1, 1, NULL, '2025-02-15 23:29:12', '2025-02-15 23:29:12'),
-(20, '15', '77', '145', '1', 'nbvc', 2.00, 'mnbv', 'ECD', 1, 2, NULL, '2025-02-15 23:32:34', '2025-02-15 23:32:34'),
-(21, '16', '78', '230', '3', 'qwerty', 2.00, 'mjhgfdfg', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:34:39', '2025-02-16 19:34:39'),
-(22, '13', '74', '230', '3', 'mjhgfgh', 1.00, 'jhghj', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:34:39', '2025-02-16 19:34:39'),
-(23, '10', '72', '227', '5', 'qwerty', 2.00, 'mncv', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:34:39', '2025-02-16 19:34:39'),
-(24, '18', '78', '228', '2', 'qwerty oui oui oui', 2.00, 'jhgfgh', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:53:32', '2025-02-16 19:53:32'),
-(25, '17', '73', '227', '2', 'qwerty oui oui oui', 2.00, 'jhgfgh', 'Hotital General MTN', 1, 1, NULL, '2025-02-16 19:54:08', '2025-02-16 19:54:08'),
-(26, '17', '77', '148', '2', 'mnbv', 2.00, ',.kjhbv', 'ECD', 1, 2, NULL, '2025-02-16 20:21:20', '2025-02-16 20:21:20'),
-(27, '16', '78', '80', '3', 'qwerty oui oui oui', 1.00, 'mnbvbn', 'CHR', 1, 2, NULL, '2025-02-16 20:21:42', '2025-02-16 20:21:42'),
-(28, '14', '78', '145', '3', 'nbvvbn', 2.00, 'nbvbn', 'ECD', 1, 2, NULL, '2025-02-16 20:22:11', '2025-02-16 20:22:11'),
-(29, '16', '78', '147', '3', 'qwerty oui oui oui', 1.00, 'nbvbn', 'ECD', 1, 2, NULL, '2025-02-16 20:22:46', '2025-02-16 20:22:46'),
-(30, '15', '76', '148', '3', 'qwerty oui oui oui', 3.00, 'nbvcvb', 'ECD', 1, 1, NULL, '2025-02-16 20:25:41', '2025-02-16 20:25:41'),
-(31, '17', '79', '231', '2', 'gdg', 1.00, 'mnnm', 'Hotital General MTN', 1, 1, NULL, '2025-02-17 14:21:05', '2025-02-17 14:21:05');
+INSERT INTO `supervisions` (`id`, `domaine`, `contenu`, `question`, `methode`, `reponse`, `note`, `points_disponible`, `commentaire`, `etablissements`, `active`, `type`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, '15', 'Audit des systèmes', 'Quels logiciels sont utilisés ?', 'Entretien', 'Logiciels standards identifiés', 15.75, 4.00, 'Examen des licences en cours', 'Université de Paris', 1, 0, NULL, '2025-02-13 22:09:12', '2025-02-13 22:09:12'),
+(2, '18', '79', '231', '1', 'qwerty', 3.00, 4.00, 'mnbv', 'Hotital General MTN', 1, 0, NULL, '2025-02-13 23:58:41', '2025-02-13 23:58:41'),
+(3, '17', '80', '149', '2', 'tete33', 2.00, 4.00, '566', 'ECD', 1, 0, NULL, '2025-02-14 00:05:06', '2025-02-14 00:05:06'),
+(4, '17', '79', '171', '1', 'kjhgh', 2.00, 4.00, 'kjhj', 'Hotipal General', 1, 0, NULL, '2025-02-14 00:12:27', '2025-02-14 00:12:27'),
+(5, '17', '79', '116', '1', 'mbbn', 2.00, 4.00, 'kjhghj', 'ESPC', 1, 0, NULL, '2025-02-14 00:20:53', '2025-02-14 00:20:53'),
+(6, '17', '80', '73', '10', 'qwerty', 1.00, 4.00, 'kjhgcfg', 'CHR', 1, 0, NULL, '2025-02-14 00:22:21', '2025-02-14 00:22:21'),
+(7, '16', '73', '145', '6', 'BeyraTeste', 2.00, 4.00, 'Nouveau de hors line', 'ECD', 1, 0, NULL, '2025-02-14 00:26:01', '2025-02-14 00:26:01'),
+(8, '17', '73', '103', '6', 'oui oui', 1.00, 4.00, 'nonon', 'ESPC', 1, 0, NULL, '2025-02-14 00:30:39', '2025-02-14 00:30:39'),
+(9, '17', '79', '169', '2', 'kjhghj', 3.00, 4.00, ',jh', 'Hotipal General', 1, 0, NULL, '2025-02-14 00:34:07', '2025-02-14 00:34:07'),
+(10, '14', '77', '148', '3', 'obv', 2.00, 4.00, 'obv testing', 'ECD', 1, 0, NULL, '2025-02-14 00:36:27', '2025-02-14 00:36:27'),
+(11, '16', '78', '80', '3', 'jhghj', 2.00, 4.00, 'mjhghj', 'CHR', 1, 0, NULL, '2025-02-14 00:41:48', '2025-02-14 00:41:48'),
+(12, '16', '78', '230', '3', 'qwerty oui oui oui', 3.00, 4.00, 'oui oui oui', 'Hotital General MTN', 1, 0, NULL, '2025-02-14 14:48:46', '2025-02-14 14:48:46'),
+(13, '16', '78', '229', '3', '.lkjhgfghjkl', 1.00, 4.00, 'liuytrdfghjk', 'Hotital General MTN', 1, 0, NULL, '2025-02-14 14:50:01', '2025-02-14 14:50:01'),
+(14, '15', '76', '144', '4', ',kjhgfghjk', 2.00, 4.00, ',kjhbnjk', 'ECD', 1, 0, NULL, '2025-02-14 14:50:01', '2025-02-14 14:50:01'),
+(15, '13', '77', '80', '4', 'mnhbgvcvbnm', 2.00, 4.00, 'mjhgfghjk', 'CHR', 1, 0, NULL, '2025-02-14 14:50:01', '2025-02-14 14:50:01'),
+(16, '17', '79', '228', '2', 'qwerty', 2.00, 4.00, 'hghu', 'Hotital General MTN', 1, 0, NULL, '2025-02-14 15:53:28', '2025-02-14 15:53:28'),
+(17, '16', '79', '232', '3', 'mnbvbnm', 2.00, 4.00, 'mnbn', 'Hotital General MTN', 1, 0, NULL, '2025-02-15 23:13:47', '2025-02-15 23:13:47'),
+(18, '17', '78', '149', '3', 'nbvcx', 2.00, 4.00, 'mnbv', 'ECD', 1, NULL, NULL, '2025-02-15 23:25:04', '2025-02-15 23:25:04'),
+(19, '14', '78', '146', '4', 'qwerty', 2.00, 4.00, 'jhgffgh', 'ECD', 1, 1, NULL, '2025-02-15 23:29:12', '2025-02-15 23:29:12'),
+(20, '15', '77', '145', '1', 'nbvc', 2.00, 4.00, 'mnbv', 'ECD', 1, 2, NULL, '2025-02-15 23:32:34', '2025-02-15 23:32:34'),
+(21, '16', '78', '230', '3', 'qwerty', 2.00, 4.00, 'mjhgfdfg', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:34:39', '2025-02-16 19:34:39'),
+(22, '13', '74', '230', '3', 'mjhgfgh', 1.00, 4.00, 'jhghj', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:34:39', '2025-02-16 19:34:39'),
+(23, '10', '72', '227', '5', 'qwerty', 2.00, 4.00, 'mncv', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:34:39', '2025-02-16 19:34:39'),
+(24, '18', '78', '228', '2', 'qwerty oui oui oui', 2.00, 4.00, 'jhgfgh', 'Hotital General MTN', 1, 2, NULL, '2025-02-16 19:53:32', '2025-02-16 19:53:32'),
+(25, '17', '73', '227', '2', 'qwerty oui oui oui', 2.00, 4.00, 'jhgfgh', 'Hotital General MTN', 1, 1, NULL, '2025-02-16 19:54:08', '2025-02-16 19:54:08'),
+(26, '17', '77', '148', '2', 'mnbv', 2.00, 4.00, ',.kjhbv', 'ECD', 1, 2, NULL, '2025-02-16 20:21:20', '2025-02-16 20:21:20'),
+(27, '16', '78', '80', '3', 'qwerty oui oui oui', 1.00, 4.00, 'mnbvbn', 'CHR', 1, 2, NULL, '2025-02-16 20:21:42', '2025-02-16 20:21:42'),
+(28, '14', '78', '145', '3', 'nbvvbn', 2.00, 4.00, 'nbvbn', 'ECD', 1, 2, NULL, '2025-02-16 20:22:11', '2025-02-16 20:22:11'),
+(29, '16', '78', '147', '3', 'qwerty oui oui oui', 1.00, 4.00, 'nbvbn', 'ECD', 1, 2, NULL, '2025-02-16 20:22:46', '2025-02-16 20:22:46'),
+(30, '15', '76', '148', '3', 'qwerty oui oui oui', 3.00, 4.00, 'nbvcvb', 'ECD', 1, 1, NULL, '2025-02-16 20:25:41', '2025-02-16 20:25:41'),
+(31, '17', '79', '231', '2', 'gdg', 1.00, 4.00, 'mnnm', 'Hotital General MTN', 1, 1, NULL, '2025-02-17 14:21:05', '2025-02-17 14:21:05'),
+(32, '18', '80', '150', '2', 'sdfxd', 2.00, 4.00, 'sdas', 'ECD', 1, 2, NULL, '2025-02-17 15:50:37', '2025-02-17 15:50:37'),
+(33, '16', '80', '149', '3', 'xsd', 2.00, 4.00, 'af', 'ECD', 1, 1, NULL, '2025-02-17 15:54:20', '2025-02-17 15:54:20'),
+(34, '5', '79', '80', '6', 'bgvgh', 3.00, 4.00, 'gvgh', 'CHR', 1, 1, NULL, '2025-02-17 16:00:10', '2025-02-17 16:00:10');
 
 -- --------------------------------------------------------
 
@@ -946,7 +951,7 @@ ALTER TABLE `superviseurs`
 -- AUTO_INCREMENT pour la table `supervisions`
 --
 ALTER TABLE `supervisions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT pour la table `syntheses`
