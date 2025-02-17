@@ -281,6 +281,7 @@
                                 <input type="checkbox" id="selectAll" onchange="toggleAllCheckboxes(this)">
                             </th>
                             <th scope="col">#ID</th>
+                            <th scope="col">Date d'ajout</th>
                             <th scope="col">Établissement</th>
                             <th scope="col">Domaine</th>
                             <th scope="col">Contenu</th>

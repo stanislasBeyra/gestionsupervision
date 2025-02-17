@@ -62,4 +62,6 @@ class SyntheseController extends Controller
             ], 500);
         }
     }
+
+    
 }

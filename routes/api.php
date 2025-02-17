@@ -89,6 +89,7 @@ Route::prefix('supervision')->group(function () {
         Route::get('/environnementElement','getEnvironnementElement');
         Route::get('/competanceElement','getCompetanceElement');
         Route::post('save', 'saveSupervision');
+        Route::get('synthese','getsynthese');
         Route::post('update', 'updateSupervision');
         Route::post('delete', 'deleteSupervision');
     });

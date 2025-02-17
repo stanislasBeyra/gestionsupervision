@@ -242,4 +242,131 @@ class SupervisionsController extends Controller
             ], 500);
         }
     }
+    public function getsynthese()
+{
+    try {
+        // Récupération des données avec les relations
+        $data = Supervision::with(['domaines:id,name_domaine'])
+            ->select('points_disponible', 'note', 'domaine')
+            ->get();
+
+        // Grouper les données par domaine
+        $grouped = $data->groupBy(function ($item) {
+            return $item->domaines->name_domaine ?? 'Non défini';
+        });
+
+        // Calculer les synthèses par domaine
+        $synthese = $grouped->map(function ($items, $domaine) {
+            $points_disponibles = $items->sum('points_disponible');
+            $points_obtenus = $items->sum('note');
+            
+            return [
+                'domaine' => $domaine,
+                'points_disponibles' => (float) $points_disponibles,
+                'points_obtenus' => (float) $points_obtenus,
+                'percentage' => $points_disponibles > 0 ? 
+                    round(($points_obtenus / $points_disponibles) * 100, 2) : 0
+            ];
+        })->values();
+
+        // Calculer le total
+        $total_points_disponibles = $synthese->sum('points_disponibles');
+        $total_points_obtenus = $synthese->sum('points_obtenus');
+        
+        // Ajouter le total à la synthèse
+        $synthese->push([
+            'domaine' => 'TOTAL',
+            'points_disponibles' => (float) $total_points_disponibles,
+            'points_obtenus' => (float) $total_points_obtenus,
+            'percentage' => $total_points_disponibles > 0 ? 
+                round(($total_points_obtenus / $total_points_disponibles) * 100, 2) : 0
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'synthese' => $synthese
+        ]);
+
+    } catch (Throwable $t) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Une erreur est survenue',
+            'error' => $t->getMessage()
+        ], 500);
+    }
+}
+    
+
+    public function getsyntheses()
+{
+    try {
+        $query = Supervision::query();
+        
+        // Récupérer les domaines uniques avec leurs relations
+        $domaines = $query->with('domaines')->distinct()->pluck('domaine');
+        
+        // Initialiser le tableau de résultats
+        $synthese = [];
+
+        foreach ($domaines as $domaine) {
+            // Récupérer les supervisions pour le domaine actuel
+            $supervisions = $query->where('domaine', $domaine)
+                                ->with('domaines')
+                                ->get();
+            
+            if ($supervisions->isNotEmpty()) {
+                // Calculer les points disponibles et obtenus pour le domaine
+                $points_disponibles = $supervisions->sum('points_disponibles');
+                $points_obtenus = $supervisions->sum('points_obtenus');
+                
+                // Calculer le pourcentage pour le domaine avec vérification de division par zéro
+                $percentage = $points_disponibles > 0 ? ($points_obtenus / $points_disponibles) * 100 : 0;
+                
+                // Récupérer le nom du domaine depuis la relation
+                $nomDomaine = $supervisions->first()->domaines ? 
+                             $supervisions->first()->domaines->name_domaine : 
+                             $domaine;
+                
+                // Ajouter les résultats au tableau de synthèse
+                $synthese[] = [
+                    'domaine' => $nomDomaine,
+                    'points_disponibles' => $points_disponibles,
+                    'points_obtenus' => $points_obtenus,
+                    'percentage' => round($percentage, 2)
+                ];
+            }
+        }
+        
+        if (!empty($synthese)) {
+            // Calculer le total des points disponibles et obtenus
+            $total_points_disponibles = array_sum(array_column($synthese, 'points_disponibles'));
+            $total_points_obtenus = array_sum(array_column($synthese, 'points_obtenus'));
+            
+            // Calculer le pourcentage total avec vérification de division par zéro
+            $total_percentage = $total_points_disponibles > 0 ? 
+                              ($total_points_obtenus / $total_points_disponibles) * 100 : 
+                              0;
+            
+            // Ajouter les totaux à la synthèse
+            $synthese[] = [
+                'domaine' => 'TOTAL',
+                'points_disponibles' => $total_points_disponibles,
+                'points_obtenus' => $total_points_obtenus,
+                'percentage' => round($total_percentage, 2)
+            ];
+        }
+        
+        return response()->json([
+            'success' => true,
+            'synthese' => $synthese
+        ]);
+        
+    } catch (Throwable $t) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Une erreur est survenue',
+            'error' => $t->getMessage()
+        ], 500);
+    }
+}
 }
