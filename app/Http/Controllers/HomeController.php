@@ -55,6 +55,11 @@ class HomeController extends Controller
 
                         case 'problemeprioritaire':
                             return view('newpages.problemeprioritaire');
+                            case 'environnementElement':
+                                return view('newpages.environnementElement');
+                                
+                                case'conpetanceElement':
+                                    return view('newpages.conpetanceElement');
             }
         } catch (Throwable $t) {
             Log::info($t);

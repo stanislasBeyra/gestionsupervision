@@ -24,8 +24,8 @@
                 <div class="collapse" id="supervisionSubmenu" aria-expanded="false">
                     <div class="submenu-collapse mt-2">
                         <a href="/created" class="submenu-item mb-2">Vue d'ensemble</a>
-                        <a href="#" class="submenu-item mb-2">Element d'environment</a>
-                        <a href="#" class="submenu-item">Element de competance</a>
+                        <a href="/environnementElement" class="submenu-item mb-2">Element d'environment</a>
+                        <a href="/conpetanceElement" class="submenu-item">Element de competance</a>
                     </div>
                 </div>
             </div>

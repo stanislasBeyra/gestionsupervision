@@ -10,25 +10,46 @@ class Supervision extends Model
 {
     use HasFactory, SoftDeletes;
 
+
     protected $fillable = [
         'domaine',
-        'domaine_text',
         'contenu',
-        'contenu_text',
         'question',
-        'question_text',
         'methode',
-        'methode_text',
         'reponse',
         'note',
-        'note_text',
         'commentaire',
         'etablissements',
-        'active'
+        'active',
+        'type'
     ];
 
     protected $casts = [
-        'etablissements' => 'array',
-        'active' => 'boolean'
+        'note' => 'decimal:2',
+        'active' => 'boolean',
     ];
+
+    public function domaines()
+    {
+        return $this->belongsTo(Domaine::class,'domaine');
+    }
+
+    
+
+    // Relation avec Questions associées
+    public function questions()
+    {
+        return $this->hasMany(Alluquestion::class,'id','question');
+    }
+
+    // Relation avec les commentaires
+    public function continues()
+    {
+        return $this->hasMany(Contenu::class,'id','contenu');
+    }
+
+    public function methodes()
+    {
+        return $this->hasMany(Methode::class,'id','methode');
+    }
 }

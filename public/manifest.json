@@ -1,0 +1,84 @@
+{
+    "name": "Gestion des Problèmes",
+    "short_name": "Problèmes",
+    "description": "Application de gestion des problèmes prioritaires",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "orientation": "portrait-primary",
+    "categories": ["productivity", "business"],
+    "lang": "fr-FR",
+    
+    "icons": [
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+
+    "shortcuts": [
+        {
+            "name": "Nouveau Problème",
+            "short_name": "Nouveau",
+            "description": "Créer un nouveau problème",
+            "url": "/?action=new",
+            "icons": [{ "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg", "sizes": "96x96" }]
+        },
+        {
+            "name": "Liste des Problèmes",
+            "short_name": "Liste",
+            "description": "Voir tous les problèmes",
+            "url": "/?view=list",
+            "icons": [{ "src": "https://i.pinimg.com/736x/bb/23/85/bb2385cbbd90e45e111b569e6ca996a9.jpg", "sizes": "96x96" }]
+        }
+    ],
+
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "apple-mobile-web-app-title": "Problèmes"
+}

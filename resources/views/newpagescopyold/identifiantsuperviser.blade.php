@@ -1,148 +1,36 @@
-@extends('layouts.master')
+@extends('layoutsapp.master')
 @section('title', 'Identification des supervisés')
 
 @section('content')
 <style>
-    /* :root {
-        --primary-gradient: linear-gradient(45deg, #e66a0a 0%, #17a204 100%);
-        --secondary-gradient: linear-gradient(45deg, #4a5568 0%, #2d3748 100%);
-        --warning-gradient: linear-gradient(45deg, #ed8936 0%, #dd6b20 100%);
-        --success-gradient: linear-gradient(45deg, #48bb78 0%, #2f855a 100%);
-        --hover-overlay: rgba(255, 255, 255, 0.1);
-    } */
-
-    :root {
-        --primary-gradient: linear-gradient(45deg, #2962ff 0%, #1976d2 100%);
-        --secondary-gradient: linear-gradient(45deg, #4a5568 0%, #2d3748 100%);
-        --warning-gradient: linear-gradient(45deg, #ed8936 0%, #dd6b20 100%);
-        --success-gradient: linear-gradient(45deg, #48bb78 0%, #2f855a 100%);
-        --hover-overlay: rgba(255, 255, 255, 0.1);
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .fade-in {
-        animation: fadeIn 0.5s ease-in forwards;
-    }
-
-    .fade-out {
-        animation: fadeOut 0.3s ease-out forwards;
-    }
-
-    .slide-up {
-        animation: slideUp 0.5s ease-out forwards;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-        }
-
-        to {
-            opacity: 0;
-        }
-    }
-
-    @keyframes slideUp {
-        from {
-            transform: translateY(50px);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    .btn-primary {
-        background: var(--primary-gradient);
-        border: none;
-    }
-
-    .btn-secondary {
-        background: var(--secondary-gradient);
-        border: none;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .supervision-card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-        border: none;
-        overflow: hidden;
-    }
-
-    .supervision-header {
-        background: var(--primary-gradient);
-        color: white;
-        padding: 1.5rem;
-    }
-
-    .table thead th {
-        background: var(--secondary-gradient);
-        color: white;
-        border: none;
-        padding: 1rem;
-    }
-
-    .table tbody td {
-        vertical-align: middle;
-    }
-
-    .form-control,
-    .form-select {
-        border: 2px solid #e2e8f0;
-        border-radius: 10px;
-        padding: 0.75rem;
-        transition: all 0.3s ease;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-        border-color: #e66a0a;
-        box-shadow: 0 0 0 0.2rem rgba(230, 106, 10, 0.25);
+    .card {
+        box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.05) !important;
     }
 </style>
 
 <div class="container-fluid mt-4">
     <!-- Section Tableau -->
     <div id="table-section" class="fade-in">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Liste des supervisés</h2>
-            <button type="button" class="btn btn-primary" onclick="showForm()">
-                <i class="bi bi-plus-circle"></i> Ajouter un supervisé
-            </button>
+    <div class="card">
+        <div class="card-header text-center py-3">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Liste des supervisés</h2>
+                <button type="button" class="btn btn-primary" onclick="showForm()">
+                    <i class="bi bi-plus-circle"></i> Ajouter un supervisé
+                </button>
+            </div>
         </div>
-
-        <div class="supervision-card">
+        <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered mb-0">
+                <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
-                            <th style="width: 5%">N°</th>
-                            <th style="width: 20%">Noms/prénoms</th>
-                            <th style="width: 20%">Fonction/Service</th>
-                            <th style="width: 15%">Phone</th>
-                            <th style="width: 25%">E-mail</th>
-                            <th style="width: 15%">Actions</th>
+                            <th scope="col">N°</th>
+                            <th scope="col">Noms/prénoms</th>
+                            <th scope="col">Fonction/Service</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="supervises-table">
@@ -152,15 +40,16 @@
             </div>
         </div>
     </div>
+    </div>
 
     <!-- Section Formulaire -->
-    <div id="form-section" class="hidden">
-        <div class="supervision-card slide-up">
-            <div class="supervision-header">
+    <div id="form-section" class="d-none">
+        <div class="card shadow-sm slide-up">
+            <div class="card-header bg-primary text-white">
                 <h4 class="mb-0">Ajouter/Modifier un supervisé</h4>
             </div>
 
-            <div class="card-body p-4">
+            <div class="card-body">
                 <form id="superviseForm" onsubmit="handleSubmit(event)">
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -203,13 +92,13 @@
     let editingRow = null;
 
     function showForm() {
-        document.getElementById('form-section').classList.remove('hidden');
-        document.getElementById('table-section').classList.add('hidden');
+        document.getElementById('form-section').classList.remove('d-none');
+        document.getElementById('table-section').classList.add('d-none');
     }
 
     function showTable() {
-        document.getElementById('form-section').classList.add('hidden');
-        document.getElementById('table-section').classList.remove('hidden');
+        document.getElementById('form-section').classList.add('d-none');
+        document.getElementById('table-section').classList.remove('d-none');
         document.getElementById('superviseForm').reset();
         editingRow = null;
     }
