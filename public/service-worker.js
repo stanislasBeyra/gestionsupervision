@@ -1,200 +1,78 @@
-// const CACHE_NAME = 'v1';
-// const urlsToCache = [
-//     '/',
-//     '/index.html',  // Page principale
-//     '/dashboard',  // Route Dashboard
-//     '/created',    // Route Vue d'ensemble
-//     '/environnementElement',  // Route Élément environnement
-//     '/conpetanceElement',  // Route Élément compétence
-//     '/etablissementsanitaire', // Route Établissement sanitaire
-//     '/identifiantsuperviser', // Route Identifiants supervisés
-//     '/idenfiantsuperviseurs',  // Route Identifiants superviseurs
-//     '/synthesesupervision',  // Route Synthèse supervision
-//     '/problemeprioritaire',  // Route Problèmes prioritaires
-//     '/css/app.css',  // CSS
-//     '/js/app.js',   // JavaScript
-//     '/icons/icon-192x192.png',  // Icône 192x192
-//     '/icons/icon-512x512.png',  // Icône 512x512
-//     // Ajoutez ici toutes les autres pages ou ressources nécessaires
-// ];
+const CACHE_NAME = 'Mtn-v1';
 
-// // Installation du service worker
-// self.addEventListener('install', (event) => {
-//     event.waitUntil(
-//         caches.open(CACHE_NAME)
-//             .then((cache) => {
-//                 console.log('Service Worker: Caching Files');
-//                 return cache.addAll(urlsToCache);
-//             })
-//     );
-// });
-
-// // Activation du service worker et nettoyage des vieux caches
-// self.addEventListener('activate', (event) => {
-//     const cacheWhitelist = [CACHE_NAME];
-//     event.waitUntil(
-//         caches.keys().then((cacheNames) => {
-//             return Promise.all(
-//                 cacheNames.map((cacheName) => {
-//                     if (!cacheWhitelist.includes(cacheName)) {
-//                         return caches.delete(cacheName);
-//                     }
-//                 })
-//             );
-//         })
-//     );
-// });
-
-// // Interception des requêtes et réponse depuis le cache ou réseau
-// self.addEventListener('fetch', (event) => {
-//     event.respondWith(
-//         caches.match(event.request)
-//             .then((cachedResponse) => {
-//                 // Si une ressource est trouvée dans le cache, la retourner
-//                 if (cachedResponse) {
-//                     return cachedResponse;
-//                 }
-//                 // Sinon, tenter de récupérer depuis le réseau
-//                 return fetch(event.request);
-//             })
-//     );
-// });
-
-
-const CACHE_NAME = 'v1';
-const urlsToCache = [
-    '/',
-    '/index.html',  // Page principale
-    '/dashboard',  // Route Dashboard
-    '/created',    // Route Vue d'ensemble
-    '/environnementElement',  // Route Élément environnement
-    '/conpetanceElement',  // Route Élément compétence
-    '/etablissementsanitaire', // Route Établissement sanitaire
-    '/identifiantsuperviser', // Route Identifiants supervisés
-    '/idenfiantsuperviseurs',  // Route Identifiants superviseurs
-    '/synthesesupervision',  // Route Synthèse supervision
-    '/problemeprioritaire',  // Route Problèmes prioritaires
-    '/css/app.css',  // Votre CSS personnalisé
-    '/js/app.js',   // Votre JS personnalisé
-    '/icons/icon-192x192.png',  // Icône 192x192
-    '/icons/icon-512x512.png',  // Icône 512x512
-    // Vous pouvez ajouter d'autres ressources ici si nécessaire
+const STATIC_RESOURCES = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icons/icon-144.png',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+  '/icons/maskable-192.png',
+  '/icons/maskable-512.png',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+  'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap',
+  'https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.umd.min.js'
 ];
 
-// Installation du service worker
+// Installation du Service Worker
 self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                console.log('Service Worker: Caching Files');
-                return cache.addAll(urlsToCache);
-            })
-    );
+  event.waitUntil(
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      await cache.addAll(STATIC_RESOURCES);
+      await self.skipWaiting();
+    })()
+  );
 });
 
-// Activation du service worker et nettoyage des vieux caches
+// Activation du Service Worker
 self.addEventListener('activate', (event) => {
-    const cacheWhitelist = [CACHE_NAME];
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (!cacheWhitelist.includes(cacheName)) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
+  event.waitUntil(
+    (async () => {
+      // Nettoyage des anciens caches
+      const keys = await caches.keys();
+      await Promise.all(
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
         })
-    );
+      );
+      await self.clients.claim();
+    })()
+  );
 });
 
-// Interception des requêtes et réponse depuis le cache ou réseau
+// Stratégie de cache : Network First avec fallback sur le cache
 self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request)
-            .then((cachedResponse) => {
-                // Si la ressource est dans le cache, la retourner
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
+  if (event.request.method !== 'GET') return;
 
-                // Si la ressource n'est pas dans le cache, essayer de la récupérer depuis le réseau
-                return fetch(event.request).catch(() => {
-                    // Si hors ligne, retourner un fallback
-                    if (event.request.url.includes('.html')) {
-                        return caches.match('/index.html');  // Fallback page
-                    }
-
-                    if (event.request.url.includes('.png') || event.request.url.includes('.jpg')) {
-                        return caches.match('/icons/icon-192x192.png');  // Fallback image
-                    }
-                });
-            })
-    );
+  event.respondWith(
+    (async () => {
+      try {
+        // On essaie d'abord avec le réseau
+        const networkResponse = await fetch(event.request);
+        const cache = await caches.open(CACHE_NAME);
+        
+        // On met en cache la nouvelle réponse
+        cache.put(event.request, networkResponse.clone());
+        
+        return networkResponse;
+      } catch (error) {
+        // En cas d'erreur réseau, on utilise le cache
+        const cachedResponse = await caches.match(event.request);
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+        
+        // Si la ressource n'est pas dans le cache et que c'est une navigation
+        if (event.request.mode === 'navigate') {
+          return caches.match('/');
+        }
+        
+        throw error;
+      }
+    })()
+  );
 });
-
- 
-
-
-
-
-// const CACHE_NAME = 'v1-cache';
-// const CACHE_URLS = [
-//     '/', 
-//     '/index.html', 
-//     '/css/app.css',
-//     '/js/app.js',
-//     '/icons/icon-192x192.png',
-//     '/icons/icon-512x512.png',
-//     '/favicon.ico'
-// ];
-
-// // Installation du Service Worker et mise en cache des ressources
-// self.addEventListener('install', (event) => {
-//     console.log('Service Worker: Installation');
-
-//     // Installation et ajout des ressources dans le cache
-//     event.waitUntil(
-//         caches.open(CACHE_NAME)
-//             .then((cache) => {
-//                 console.log('Service Worker: Mise en cache des ressources');
-//                 return cache.addAll(CACHE_URLS);
-//             })
-//     );
-// });
-
-// // Activation du Service Worker
-// self.addEventListener('activate', (event) => {
-//     console.log('Service Worker: Activation');
-//     // Supprimez les anciens caches si nécessaire
-//     event.waitUntil(
-//         caches.keys().then((cacheNames) => {
-//             return Promise.all(
-//                 cacheNames.map((cacheName) => {
-//                     if (cacheName !== CACHE_NAME) {
-//                         console.log('Service Worker: Suppression du cache obsolète', cacheName);
-//                         return caches.delete(cacheName);
-//                     }
-//                 })
-//             );
-//         })
-//     );
-// });
-
-// // Gestion des requêtes réseau (fetch) pour servir les fichiers depuis le cache
-// self.addEventListener('fetch', (event) => {
-//     console.log('Service Worker: Interception de la requête', event.request.url);
-    
-//     event.respondWith(
-//         caches.match(event.request)
-//             .then((cachedResponse) => {
-//                 // Si la requête est dans le cache, on la retourne
-//                 if (cachedResponse) {
-//                     console.log('Service Worker: Réponse depuis le cache', event.request.url);
-//                     return cachedResponse;
-//                 }
-//                 // Sinon, on fait une requête réseau normale
-//                 return fetch(event.request);
-//             })
-//     );
-// });

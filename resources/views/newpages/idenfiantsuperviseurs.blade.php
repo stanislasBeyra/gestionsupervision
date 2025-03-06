@@ -28,6 +28,18 @@
             </div>
         </div>
 
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" id="search-supervises" class="form-control"
+                        placeholder="Rechercher un superviseurs...">
+                    <span class="input-group-text bg-primary">
+                        <i class="fas fa-search text-white"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
 
             <div class="card-body">

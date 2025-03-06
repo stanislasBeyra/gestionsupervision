@@ -151,7 +151,7 @@
 
             // Fermer l'offcanvas sur mobile quand un lien est cliqué
             const offcanvasLinks = document.querySelectorAll('#sidebarMenu .nav-link');
-            const offcanvas = new bootstrap.Offcanvas(document.getElementById('sidebarMenu'));
+            const offcanvas = new mdb.Offcanvas(document.getElementById('sidebarMenu'));
             offcanvasLinks.forEach(link => {
                 link.addEventListener('click', function (e) {
                     offcanvas.hide();

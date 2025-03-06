@@ -1,4 +1,3 @@
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,17 +9,17 @@
     <!-- PWA méta tags -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#3b82f6">
-    
-    <!-- iOS méta tags -->
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="application-name" content="Problèmes">
     <meta name="apple-mobile-web-app-title" content="Problèmes">
-    
-    <!-- iOS icônes -->
-    <link rel="apple-touch-icon" href="/icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167x167.png">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="msapplication-navbutton-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -29,8 +28,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.1.0/mdb.min.css" rel="stylesheet">
 
     <style>
-       body {
-            background-color:#FBFBFB;
+        body {
+            background-color: #FBFBFB;
         }
 
         /* button{
@@ -41,9 +40,11 @@
             main {
                 padding-left: 240px;
             }
+
             #sidebarMenu {
                 display: block !important;
             }
+
             .offcanvas {
                 display: none;
             }
@@ -64,6 +65,7 @@
             .sidebar {
                 display: none;
             }
+
             #sidebarMenu {
                 display: none !important;
             }
@@ -115,7 +117,7 @@
         }
 
         .submenu-item:hover {
-            background-color: rgba(0,0,0,0.05);
+            background-color: rgba(0, 0, 0, 0.05);
             color: #1266f1;
         }
 
@@ -139,7 +141,7 @@
         }
 
         .submenu-toggle:hover {
-            background-color: rgba(0,0,0,0.05);
+            background-color: rgba(0, 0, 0, 0.05);
             color: #1266f1;
         }
 
