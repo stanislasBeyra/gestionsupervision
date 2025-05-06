@@ -7,10 +7,10 @@
     <title>@yield('title', 'Application')</title>
 
     <!-- PWA méta tags -->
-    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <!-- <link rel="manifest" href="{{ asset('manifest.json') }}"> -->
     <meta name="theme-color" content="#3b82f6">
 
-    <link rel="manifest" href="/manifest.json">
+    <!-- <link rel="manifest" href="/manifest.json"> -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Problèmes">

@@ -47,7 +47,7 @@ class HomeController extends Controller
                 case 'identifiantsuperviser':
                     return view('newpages.identifiantsuperviser');
 
-                case 'idenfiantsuperviseurs':
+                case 'identifiantsuperviseurs':
                     return view('newpages.idenfiantsuperviseurs');
                     
                     case'synthesesupervision':

@@ -266,7 +266,8 @@
                     <button type="button" class="btn btn-outline-success" onclick="exportToExcel()">
                         <i class="bi bi-file-excel me-2"></i>Exporter en Excel
                     </button>
-                    <button class="btn bg-primary text-white" id="toggleFormButton" onclick="showForm()">
+                    
+                    <button type="button" class="btn btn-primary" id="toggleFormButton" onclick="showForm()">
                     <i class="fas fa-plus-circle me-2"></i>Nouvelle Suppervision
                     </button>
                 </div>

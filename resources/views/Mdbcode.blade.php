@@ -331,7 +331,7 @@
                                 <a href="#" class="submenu-item">Annuel</a>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
