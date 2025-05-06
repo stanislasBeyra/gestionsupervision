@@ -2,163 +2,170 @@
 
 @section('title', 'Dashboard')
 
-@section('content')
+@section('styles')
 <style>
-    .card {
-    box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.05) !important; /* Ombre très légère */
-}
+    /* Style de centrage total */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
+    .full-height-centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        overflow: hidden;
+        position: relative;
+    }
 
-   
+    /* Animations SVG */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translate3d(0, -100%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    @keyframes neonPulse {
+        0%, 100% {
+            text-shadow: 
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #ff00de,
+                0 0 40px #ff00de,
+                0 0 50px #ff00de,
+                0 0 60px #ff00de,
+                0 0 70px #ff00de;
+        }
+        50% {
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #ff00de,
+                0 0 20px #ff00de,
+                0 0 25px #ff00de,
+                0 0 35px #ff00de,
+                0 0 40px #ff00de;
+        }
+    }
+
+    @keyframes backgroundMove {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .welcome-text {
+        animation: 
+            fadeInDown 1.5s ease-out, 
+            neonPulse 3s ease-in-out infinite;
+        transform-origin: center;
+        transition: all 0.3s ease;
+    }
+
+    .welcome-text:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Effet particules en arrière-plan */
+    .bg-particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+
+    .particle {
+        position: absolute;
+        background: rgba(255,255,255,0.5);
+        border-radius: 50%;
+        animation: particleMove linear infinite;
+    }
 </style>
-<section>
-    <div class="row">
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div class="align-self-center">
-                            <i class="fas fa-pencil-alt text-info fa-3x"></i>
-                        </div>
-                        <div class="text-end">
-                            <h3>278</h3>
-                            <p class="mb-0">New Posts</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div class="align-self-center">
-                            <i class="far fa-comment-alt text-warning fa-3x"></i>
-                        </div>
-                        <div class="text-end">
-                            <h3>156</h3>
-                            <p class="mb-0">New Comments</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div class="align-self-center">
-                            <i class="fas fa-chart-line text-success fa-3x"></i>
-                        </div>
-                        <div class="text-end">
-                            <h3>64.89 %</h3>
-                            <p class="mb-0">Bounce Rate</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div class="align-self-center">
-                            <i class="fas fa-map-marker-alt text-danger fa-3x"></i>
-                        </div>
-                        <div class="text-end">
-                            <h3>423</h3>
-                            <p class="mb-0">Total Visits</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div>
-                            <h3 class="text-danger">278</h3>
-                            <p class="mb-0">New Projects</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-rocket text-danger fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div>
-                            <h3 class="text-success">156</h3>
-                            <p class="mb-0">New Clients</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="far fa-user text-success fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div>
-                            <h3 class="text-warning">64.89 %</h3>
-                            <p class="mb-0">Conversion Rate</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-chart-pie text-warning fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12 mb-4">
-            <div class="card border-0">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between px-md-1">
-                        <div>
-                            <h3 class="text-info">423</h3>
-                            <p class="mb-0">Support Tickets</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="far fa-life-ring text-info fa-3x"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+@endsection
 
-</section>
-<!-- Graphiques -->
-<div class="row g-4">
-    <div class="col-12 col-lg-6">
-        <div class="card border-0">
-            <div class="card-header border-0 bg-white">
-                <!-- <h5 class="card-title mb-0">Histogramme des ventes</h5> -->
-            </div>
-            <div class="card-body">
-                <canvas id="barChart" height="300"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-lg-6">
-        <div class="card border-0">
-            <div class="card-header border-0 bg-white">
-                <!-- <h5 class="card-title mb-0">Répartition des catégories</h5> -->
-            </div>
-            <div class="card-body">
-                <canvas id="pieChart" height="300"></canvas>
-            </div>
-        </div>
-    </div>
+@section('content')
+<div class="full-height-centered">
+    <!-- Conteneur des particules en arrière-plan -->
+    <div class="bg-particles" id="particlesContainer"></div>
+
+    <!-- SVG Bienvenue centré -->
+    <svg width="80%" height="200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bienvenue">
+        <text x="50%" y="50%" 
+              text-anchor="middle" 
+              dominant-baseline="middle"
+              font-family="Arial, Helvetica, sans-serif" 
+              font-size="100" 
+              class="welcome-text" 
+              fill="#2f18de">Bienvenue</text>
+    </svg>
 </div>
+
+
+<script>
+    // Animation des particules en arrière-plan
+    function createParticles() {
+        const container = document.getElementById('particlesContainer');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            // Taille aléatoire
+            const size = Math.random() * 5 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            // Position aléatoire
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+
+            // Animation personnalisée
+            particle.style.animationDuration = `${Math.random() * 10 + 5}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+
+            // Direction et vitesse aléatoires
+            particle.style.animation = `particleMove ${Math.random() * 20 + 10}s linear infinite`;
+
+            container.appendChild(particle);
+        }
+    }
+
+    // Animation de déplacement des particules
+    const particleMoveKeyframes = `
+        @keyframes particleMove {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(${Math.random() * 200 - 100}vw, ${Math.random() * 200 - 100}vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    `;
+
+    // Ajouter les keyframes dynamiques
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = particleMoveKeyframes;
+    document.head.appendChild(styleSheet);
+
+    // Créer les particules au chargement
+    document.addEventListener('DOMContentLoaded', createParticles);
+</script>
 @endsection
