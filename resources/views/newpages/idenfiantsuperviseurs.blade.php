@@ -532,7 +532,7 @@
         showForm() {
             document.getElementById('form-section')?.classList.remove('d-none');
             document.getElementById('table-section')?.classList.add('d-none');
-            document.getElementById('formTitle').textContent = this.editingRow ? 'Modifier un supervisé' : 'Nouveau supervisé';
+            document.getElementById('formTitle').textContent = this.editingRow ? 'Modifier un superviseur' : 'Nouveau superviseur';
         },
 
         showTable() {
