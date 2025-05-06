@@ -266,7 +266,7 @@
                     <button type="button" class="btn btn-outline-success" onclick="exportToExcel()">
                         <i class="bi bi-file-excel me-2"></i>Exporter en Excel
                     </button>
-                    
+
                     <button type="button" class="btn btn-primary" id="toggleFormButton" onclick="showForm()">
                     <i class="fas fa-plus-circle me-2"></i>Nouvelle Suppervision
                     </button>
@@ -300,7 +300,7 @@
                         <tbody id="table-body">
                         </tbody>
                     </table>
-                   
+
                 </div>
                 <div id="pagination-container" class="mt-3"></div>
             </div>
@@ -316,7 +316,7 @@
                     <h2 class="mb-1" id="formTitle">Nouvelle Supervision</h2>
                     <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouvelle Supervision</p>
                 </div>
-                <button class="btn bg-primary text-white" id="toggleListButton" onclick="showTable()">
+                <button class="btn btn-secondary" id="toggleListButton" onclick="showTable()">
                     <i class="fas fa-arrow-left me-2"></i>Retour à la liste
                 </button>
             </div>
@@ -394,7 +394,7 @@
                                 </select>
                             </div>
 
-                            
+
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Note Obtenue</label>
@@ -510,7 +510,7 @@
             toast.innerHTML = `
             <div class="d-flex">
                 <div class="toast-body">${message}</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" 
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
                         onclick="this.parentElement.parentElement.remove()"></button>
             </div>
         `;
@@ -730,7 +730,7 @@
         static currentPage = 1;
         static paginationInfo = null;
 
-        
+
 
         static async loadSupervisions(page = 1) {
             try {

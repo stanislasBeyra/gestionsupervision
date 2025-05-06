@@ -136,7 +136,7 @@
                     <h2 class="mb-1" id="formTitle">Nouvelle Etablissement</h2>
                     <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouvelle Etablissement</p>
                 </div>
-                <button class="btn bg-primary text-white" id="toggleListButton" onclick="showTable()">
+                <button class="btn btn-secondary" id="toggleListButton" onclick="showTable()">
                     <i class="fas fa-arrow-left me-2"></i>Retour à la liste
                 </button>
             </div>
@@ -302,7 +302,7 @@
             toast.innerHTML = `
             <div class="d-flex">
                 <div class="toast-body">${message}</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" 
+                <button type="button" class="btn-close btn-close-white me-2 m-auto"
                         onclick="this.parentElement.parentElement.remove()"></button>
             </div>
         `;

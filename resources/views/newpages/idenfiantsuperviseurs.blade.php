@@ -1,5 +1,5 @@
 @extends('layoutsapp.master')
-@section('title', 'Identification des supervisés')
+@section('title', 'Identification des superviseurs')
 
 @section('content')
 <style>
@@ -32,7 +32,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <input type="text" id="search-supervises" class="form-control"
-                        placeholder="Rechercher un superviseurs...">
+                        placeholder="Rechercher un superviseur...">
                     <span class="input-group-text bg-primary">
                         <i class="fas fa-search text-white"></i>
                     </span>
@@ -77,9 +77,9 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-1" id="formTitle">Nouveau superviseur</h2>
-                    <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouvel superviseur</p>
+                    <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouveau superviseur</p>
                 </div>
-                <button class="btn bg-primary text-white" id="toggleListButton" onclick="showTable()">
+                <button class="btn btn-secondary" id="toggleListButton" onclick="showTable()">
                     <i class="fas fa-arrow-left me-2"></i>Retour à la liste
                 </button>
             </div>
@@ -766,7 +766,7 @@
     window.exportToExcel = () => SuperviseManager.exportToExcel();
     window.SuperviseManager = SuperviseManager; // Pour l'accès aux fonctions depuis les événements onclick
 </script>
-<!-- 
+<!--
 <script>
     let superviseCount = 0;
     let editingRow = null;

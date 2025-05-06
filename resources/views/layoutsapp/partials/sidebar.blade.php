@@ -16,11 +16,11 @@
                     </a>
                 </div>
 
-                
+
 
                 <!-- Menu Analytics Mobile -->
                 <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect" 
+                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
                          data-target="analyticsSubmenuMobile">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-tools fa-fw me-3"></i>
@@ -41,7 +41,7 @@
 
                 <!-- Menu Supervision Mobile -->
                 <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect" 
+                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
                          data-target="supervisionSubmenuMobile">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-desktop fa-fw me-3"></i>
@@ -77,9 +77,9 @@
 
         <!-- Footer fixe en bas avec bouton de téléchargement -->
         <div class="border-top mt-2 p-3 bg-light">
-            <a href="#" class="btn btn-secondary w-100 d-flex align-items-center justify-content-center shadow-sm no-blue-effect" id="downloadBtn" style="font-size: 0.7rem; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">
+            <a href="{{ asset('files/rapport.docx') }}" download class="btn-download id="downloadBtn" style="font-size: 0.7rem; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">
                 <i class="fas fa-download me-2"></i>
-                Télécharger les données
+                Télécharger le ficher word
             </a>
         </div>
     </div>
@@ -99,11 +99,11 @@
                     </a>
                 </div>
 
-                
+
 
                 <!-- Menu Analytics -->
                 <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect" 
+                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
                          data-target="analyticsSubmenu">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-tools fa-fw me-3"></i>
@@ -124,7 +124,7 @@
 
                 <!-- Menu Supervision -->
                 <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect" 
+                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
                          data-target="supervisionSubmenu">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-desktop fa-fw me-3"></i>
@@ -160,9 +160,9 @@
 
         <!-- Bouton de téléchargement fixé en bas -->
         <div class="border-top mt-2 p-2 bg-light">
-            <a href="#" class="btn btn-sm btn-secondary w-100 d-flex align-items-center justify-content-center shadow-sm no-blue-effect" id="sidebarDownloadBtn" style="font-size: 0.7rem; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">
-                <i class="fas fa-download me-1"></i>
-                Télécharger les données
+        <a href="{{ asset('files/rapport.docx') }}" download class="btn-download" id="downloadBtn" style="font-size: 0.7rem; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">
+                <i class="fas fa-download me-2"></i>
+                Télécharger le ficher word
             </a>
         </div>
     </div>
@@ -232,7 +232,7 @@
     background-color: transparent !important;
 }
 
-.no-blue-effect:hover, 
+.no-blue-effect:hover,
 .no-blue-effect:focus,
 .no-blue-effect:active,
 .no-blue-effect.active {
@@ -243,9 +243,9 @@
 }
 
 /* Override specific MDB blue color */
-.list-group-item, 
-.list-group-item-action, 
-.list-group-item:hover, 
+.list-group-item,
+.list-group-item-action,
+.list-group-item:hover,
 .list-group-item:focus,
 .list-group-item.active,
 .list-group-item-action:hover,
@@ -276,6 +276,21 @@
     background-color: transparent !important;
     color: inherit !important;
 }
+
+.btn-download {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2f18de;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-download:hover {
+    background-color: #1a0dab;
+}
 </style>
 
 <!-- JavaScript for custom collapse implementation with animations -->
@@ -287,12 +302,12 @@ document.addEventListener('DOMContentLoaded', function() {
             el.classList.remove('collapse');
         });
     }
-    
+
     // Implementation of custom collapse behavior
     document.querySelectorAll('.custom-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
-            
+
             // Remove active class from all elements
             document.querySelectorAll('.custom-toggle').forEach(t => {
                 if (t !== this && t.classList.contains('active')) {
@@ -304,39 +319,39 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             });
-            
+
             // Toggle active state for this element
             this.classList.toggle('active');
-            
+
             // Toggle collapse
             const targetId = this.getAttribute('data-target');
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
                 targetElement.classList.toggle('show');
             }
-            
+
             // Remove classes that might add blue effect
             this.classList.remove('bg-primary', 'bg-info', 'text-white', 'active');
         });
     });
-    
+
     // Function to remove blue effects
     function removeBlueEffects() {
         // Remove classes that add blue effects
         document.querySelectorAll('*').forEach(el => {
-            if (el.classList.contains('bg-primary') || 
-                el.classList.contains('bg-info') || 
+            if (el.classList.contains('bg-primary') ||
+                el.classList.contains('bg-info') ||
                 el.classList.contains('blue') ||
                 el.classList.contains('active-menu-item')) {
                 el.classList.remove('bg-primary', 'bg-info', 'blue', 'active-menu-item');
             }
         });
     }
-    
+
     // Run periodically to ensure blue effects are removed
     removeBlueEffects();
     setInterval(removeBlueEffects, 100);
-    
+
     // Intercept events that might add blue effect classes
     document.addEventListener('click', function() {
         setTimeout(removeBlueEffects, 10);

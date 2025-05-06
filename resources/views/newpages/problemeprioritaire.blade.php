@@ -95,7 +95,7 @@
                 <h2 class="mb-1" id="form-title">Nouveau problème</h2>
                 <p class="text-muted mb-0" id="form-subtitle">Ajouter un nouveau problème prioritaire</p>
             </div>
-            <button class="btn bg-primary text-white" onclick="showTable()">
+            <button class="btn btn-secondary" onclick="showTable()">
                 <i class="fas fa-arrow-left me-2"></i>Retour à la liste
             </button>
         </div>
@@ -235,7 +235,7 @@
 </style>
 
  <!--  a utiliser pour editer et supprimer -->
-<!-- 
+<!--
 <td>
     <div class="btn-group btn-group-sm">
         <button type="button" class="btn btn-link text-warning"
@@ -725,7 +725,7 @@
                 <td>${safeText(probleme.acteurs)}</td>
                 <td>${safeText(probleme.ressources)}</td>
                 <td>${this.formatDate(probleme.delai)}</td>
-                
+
             </tr>
         `;
         },

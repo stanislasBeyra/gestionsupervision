@@ -141,9 +141,9 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-1" id="formTitle">Nouveau supervisé</h2>
-                    <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouvel supervisé</p>
+                    <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouveau supervisé</p>
                 </div>
-                <button class="btn bg-primary text-white" id="toggleListButton" onclick="showTable()">
+                <button class="btn btn-secondary" id="toggleListButton" onclick="showTable()">
                     <i class="fas fa-arrow-left me-2"></i>Retour à la liste
                 </button>
             </div>

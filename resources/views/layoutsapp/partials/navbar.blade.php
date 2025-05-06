@@ -31,17 +31,14 @@
                 <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
                     role="button" data-mdb-dropdown-init aria-expanded="false">
                     <i class="fas fa-bell"></i>
-                    <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                    <!-- <span class="badge rounded-pill badge-notification bg-danger">1</span> -->
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <!-- <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="#">Some news</a></li>
                     <li><a class="dropdown-item" href="#">Another news</a></li>
                     <li><a class="dropdown-item" href="#">Something else</a></li>
-                </ul>
+                </ul> -->
             </li>
-
-            
-            
 
             <!-- Avatar -->
             <li class="nav-item dropdown">
@@ -50,11 +47,11 @@
                     <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
                         height="22" alt="" loading="lazy" />
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <!-- <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="#">Mon profil</a></li>
                     <li><a class="dropdown-item" href="#">Paramètres</a></li>
                     <li><a class="dropdown-item" href="#">Déconnexion</a></li>
-                </ul>
+                </ul> -->
             </li>
         </ul>
     </div>
