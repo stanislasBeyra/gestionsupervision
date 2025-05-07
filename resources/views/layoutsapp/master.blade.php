@@ -28,7 +28,7 @@
 
     @include('layoutsapp.partials.script')
 </body>
-<!-- <script>
+<script>
     // Variable globale pour stocker l'événement d'installation
     let deferredPrompt = null;
 
@@ -259,7 +259,7 @@
 
         await diagnosticPWA();
     });
-</script> -->
+</script>
 
 
 </html>

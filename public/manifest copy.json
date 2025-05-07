@@ -62,7 +62,7 @@
         "short_name": "Problèmes",
         "description": "Accéder aux problèmes prioritaires",
         "url": "/problemeprioritaire",
-        "icons": [{ "src": "/icons/icon-144.jpg", "sizes": "192x192" }]
+        "icons": [{ "src": "/icons/warning.png", "sizes": "192x192" }]
       }
     ],
     "screenshots": [
@@ -74,7 +74,7 @@
         "label": "Dashboard de l'application de supervision"
       },
       {
-        "src": "/icons/icon-144.jpg",
+        "src": "/screenshots/mobile.png",
         "sizes": "750x1334",
         "type": "image/png",
         "form_factor": "narrow",
