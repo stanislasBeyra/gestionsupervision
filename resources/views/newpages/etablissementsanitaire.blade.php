@@ -78,15 +78,15 @@
         <div class="row mb-4">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div>
-                    <h2 class="mb-1">Liste des etablissements sanitaires</h2>
-                    <p class="text-muted mb-0">Aperçu de la vue des etablissements sanitaires</p>
+                    <h2 class="mb-1">Liste des établissements sanitaires</h2>
+                    <p class="text-muted mb-0">Aperçu de la vue des établissements sanitaires</p>
                 </div>
                 <div class="d-flex gap-2">
                     <button type="button" class="btn btn-outline-success" onclick="exportToExcel()">
                         <i class="bi bi-file-excel me-2"></i>Exporter en Excel
                     </button>
                     <button type="button" class="btn btn-primary  ripple-surface" onclick="showForm()">
-                    <i class="fas fa-plus-circle me-2"></i> Nouvelle établissement
+                    <i class="fas fa-plus-circle me-2"></i> Nouvel établissement
                     </button>
                 </div>
             </div>
@@ -113,7 +113,7 @@
                                 <th>Date début</th>
                                 <th>Date fin</th>
                                 <th>Responsable</th>
-                                <th>Contact</th>
+                                <th>Téléphone</th>
                                 <th>Email</th>
                                 <th>Actions</th>
                             </tr>
@@ -133,8 +133,8 @@
         <div class="row mb-4">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div>
-                    <h2 class="mb-1" id="formTitle">Nouvelle Etablissement</h2>
-                    <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouvelle Etablissement</p>
+                    <h2 class="mb-1" id="formTitle">Nouvel Etablissement</h2>
+                    <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouvel Etablissement</p>
                 </div>
                 <button class="btn btn-secondary" id="toggleListButton" onclick="showTable()">
                     <i class="fas fa-arrow-left me-2"></i>Retour à la liste
@@ -173,10 +173,13 @@
                             <label class="form-label select-label">Catégorie de l'établissement</label>
                             <select class="select form-control" name="categorie_etablissement" id="categorie_etablissement" required>
                                 <option value="">Sélectionnez une catégorie</option>
-                                <option value="Hôpital">Hôpital</option>
-                                <option value="Centre de santé">Centre de santé</option>
-                                <option value="Clinique">Clinique</option>
-                                <option value="Dispensaire">Dispensaire</option>
+                                <option value="CHR">CHR</option>
+                                <option value="HÔPITAL GENERAL">HÔPITAL GENERAL</option>
+                                <option value="CENTRE SANTÉ URBAIN">CENTRE SANTÉ URBAIN</option>
+                                <option value="FSU">FSU</option>
+                                <option value="FSU COM">FSU COM</option>
+                                <option value="CENTRE SANTE RURAL">CENTRE SANTÉ RURAL</option>
+                                <option value="DISPENSAIRE RURAL">DISPENSAIRE RURAL</option>
                             </select>
                         </div>
 

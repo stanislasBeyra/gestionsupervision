@@ -50,7 +50,7 @@
                                 <th scope="col">N°</th>
                                 <th scope="col">Noms/prénoms</th>
                                 <th scope="col">Fonction/Service</th>
-                                <th scope="col">Phone</th>
+                                <th scope="col">Téléphone</th>
                                 <th scope="col">E-mail</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -102,7 +102,7 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Phone</label>
+                            <label class="form-label">Téléphone</label>
                             <input type="tel" class="form-control" name="phone" required>
                         </div>
 
