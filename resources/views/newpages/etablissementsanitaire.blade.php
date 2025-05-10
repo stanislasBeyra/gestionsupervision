@@ -168,7 +168,6 @@
                                 <label class="form-label">Établissement Sanitaire</label>
                             </div>
                         </div>
-
                         <div class="col-md-6 mb-4">
                             <label class="form-label select-label">Catégorie de l'établissement</label>
                             <select class="select form-control" name="categorie_etablissement" id="categorie_etablissement" required>
