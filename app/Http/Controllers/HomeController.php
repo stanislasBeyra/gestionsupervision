@@ -13,6 +13,7 @@ class HomeController extends Controller
     {
         try {
             switch ($page) {
+                
                 case 'index':
                     return view('welcome');
                 case 'supervision':
@@ -35,6 +36,10 @@ class HomeController extends Controller
     {
         try {
             switch ($page) {
+                case 'register':
+                    return view('auth.register');
+                case 'login':
+                    return view('auth.login');
                 case 'dashboard':
                     return view('dashboard');
 
@@ -49,17 +54,17 @@ class HomeController extends Controller
 
                 case 'identifiantsuperviseurs':
                     return view('newpages.idenfiantsuperviseurs');
-                    
-                    case'synthesesupervision':
-                        return view('newpages.synthesesupervision');
 
-                        case 'problemeprioritaire':
-                            return view('newpages.problemeprioritaire');
-                            case 'environnementElement':
-                                return view('newpages.environnementElement');
-                                
-                                case'conpetanceElement':
-                                    return view('newpages.conpetanceElement');
+                case 'synthesesupervision':
+                    return view('newpages.synthesesupervision');
+
+                case 'problemeprioritaire':
+                    return view('newpages.problemeprioritaire');
+                case 'environnementElement':
+                    return view('newpages.environnementElement');
+
+                case 'conpetanceElement':
+                    return view('newpages.conpetanceElement');
             }
         } catch (Throwable $t) {
             Log::info($t);

@@ -10,58 +10,57 @@ use Throwable;
 class EtablissementController extends Controller
 {
 
-    // public function getEtablissements()
-    // {
-    //     try {
-    //         $etablissements = Etablissement::orderBy('id', 'desc')->get();
 
-    //         return response()->json([
-    //             'success' => true,
-    //             'data' => $etablissements
-    //         ], 200);
-    //     } catch (Throwable $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Une erreur est survenue lors de la récupération des établissements.',
-    //             'error' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
-
+    public function statistiqueselements()
+    {
+        try {
+            $etablissements = Etablissement::count();
+            return response()->json([
+                'success' => true,
+                'data' => $etablissements
+            ], 200);
+        } catch (Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des établissements.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function getEtablissements(Request $request)
-{
-    try {
-        $query = Etablissement::query();
+    {
+        try {
+            $query = Etablissement::query();
 
-        // Récupération du mot-clé de recherche depuis la requête
-        $search = $request->input('search');
+            // Récupération du mot-clé de recherche depuis la requête
+            $search = $request->input('search');
 
-        if ($search) {
-            $query->where('direction_regionale', 'LIKE', "%{$search}%")
-                ->orWhere('district_sanitaire', 'LIKE', "%{$search}%")
-                ->orWhere('etablissement_sanitaire', 'LIKE', "%{$search}%")
-                ->orWhere('categorie_etablissement', 'LIKE', "%{$search}%")
-                ->orWhere('code_etablissement', 'LIKE', "%{$search}%")
-                ->orWhere('responsable', 'LIKE', "%{$search}%")
-                ->orWhere('telephone', 'LIKE', "%{$search}%")
-                ->orWhere('email', 'LIKE', "%{$search}%");
+            if ($search) {
+                $query->where('direction_regionale', 'LIKE', "%{$search}%")
+                    ->orWhere('district_sanitaire', 'LIKE', "%{$search}%")
+                    ->orWhere('etablissement_sanitaire', 'LIKE', "%{$search}%")
+                    ->orWhere('categorie_etablissement', 'LIKE', "%{$search}%")
+                    ->orWhere('code_etablissement', 'LIKE', "%{$search}%")
+                    ->orWhere('responsable', 'LIKE', "%{$search}%")
+                    ->orWhere('telephone', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            }
+
+            $etablissements = $query->orderBy('id', 'desc')->paginate(8);
+
+            return response()->json([
+                'success' => true,
+                'data' => $etablissements
+            ], 200);
+        } catch (Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des établissements.',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        $etablissements = $query->orderBy('id', 'desc')->paginate(8);
-
-        return response()->json([
-            'success' => true,
-            'data' => $etablissements
-        ], 200);
-    } catch (Throwable $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Une erreur est survenue lors de la récupération des établissements.',
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
 
 
 

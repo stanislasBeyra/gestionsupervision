@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Connexion - Design Innovant</title>
+    <title>Inscription - Design Innovant</title>
     <!-- MDB CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -18,7 +18,7 @@
             font-family: 'Roboto', sans-serif;
         }
         
-        .login-container {
+        .register-container {
             animation: slideInUp 0.8s ease-out;
         }
         
@@ -63,12 +63,12 @@
             z-index: 1;
         }
         
-        .login-header {
+        .register-header {
             text-align: center;
             margin-bottom: 2rem;
         }
         
-        .login-icon {
+        .register-icon {
             width: 80px;
             height: 80px;
             background: linear-gradient(135deg, #474849 0%, #131314 100%);
@@ -94,7 +94,7 @@
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
         }
         
-        .btn-login {
+        .btn-register {
             background: linear-gradient(135deg, #474849 0%, #131314 100%);
             border: none;
             border-radius: 30px;
@@ -106,25 +106,7 @@
             overflow: hidden;
         }
         
-        .btn-login::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .btn-login:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        
-        .btn-login:hover {
+        .btn-register:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
@@ -135,66 +117,20 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-        
-        .social-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .social-btn:hover {
-            transform: translateY(-3px);
-        }
-        
-        .divider {
-            text-align: center;
-            margin: 2rem 0;
-            position: relative;
-        }
-        
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e0e0e0;
-        }
-        
-        .divider span {
-            background: white;
-            padding: 0 1rem;
-            position: relative;
-            color: #666;
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body>
-    <div class="container login-container">
+    <div class="container register-container">
         <div class="row justify-content-center">
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-body p-5">
-                        <div class="login-header">
-                            <div class="login-icon">
-                                <i class="fas fa-user fa-2x text-white"></i>
+                        <div class="register-header">
+                            <div class="register-icon">
+                                <i class="fas fa-user-plus fa-2x text-white"></i>
                             </div>
-                            <h2 class="fw-bold mb-0">Connexion</h2>
-                            <p class="text-muted">Bienvenue ! Connectez-vous à votre compte</p>
+                            <h2 class="fw-bold mb-0">Inscription</h2>
+                            <p class="text-muted">Créez votre compte en quelques étapes</p>
                         </div>
                         
                         <!-- Alertes d'erreur -->
@@ -206,7 +142,15 @@
                             </div>
                         </div>
                         
-                        <form id="loginForm">
+                        <form id="registerForm">
+                            <!-- Nom -->
+                            <div class="form-outline" data-mdb-input-init>
+                                <input type="text" id="name" class="form-control form-control-lg" required>
+                                <label class="form-label" for="name">
+                                    <i class="fas fa-user me-2"></i>Nom complet
+                                </label>
+                            </div>
+                            
                             <!-- Email -->
                             <div class="form-outline" data-mdb-input-init>
                                 <input type="email" id="email" class="form-control form-control-lg" required>
@@ -223,42 +167,28 @@
                                 </label>
                             </div>
                             
-                            <!-- Remember me -->
-                            <div class="form-check mb-4">
-                                <input class="form-check-input" type="checkbox" id="remember">
-                                <label class="form-check-label" for="remember">
-                                    Se souvenir de moi
+                            <!-- Confirmation du mot de passe -->
+                            <div class="form-outline" data-mdb-input-init>
+                                <input type="password" id="password_confirmation" class="form-control form-control-lg" required>
+                                <label class="form-label" for="password_confirmation">
+                                    <i class="fas fa-lock me-2"></i>Confirmer le mot de passe
                                 </label>
                             </div>
                             
-                            <!-- Bouton de connexion -->
-                            <button type="submit" class="btn btn-primary btn-lg btn-block w-100 btn-login">
+                            <!-- Bouton d'inscription -->
+                            <button type="submit" class="btn btn-primary btn-lg btn-block w-100 btn-register">
                                 <span style="position: relative; z-index: 1;">
-                                    Se connecter <i class="fas fa-arrow-right ms-2"></i>
+                                    S'inscrire <i class="fas fa-arrow-right ms-2"></i>
                                 </span>
                             </button>
                             
-                            <!-- Mot de passe oublié -->
-                            <div class="text-center mt-3">
-                                <a href="#" class="text-decoration-none" style="color: #667eea;">
-                                    Mot de passe oublié ?
-                                </a>
+                            <!-- Lien vers la connexion -->
+                            <div class="text-center mt-4">
+                                <p class="mb-0">Déjà un compte ? 
+                                    <a href="/login" class="fw-bold" style="color: #764ba2;">Connectez-vous</a>
+                                </p>
                             </div>
                         </form>
-                        
-                        <!-- Divider -->
-                        <div class="divider">
-                            <span>OU</span>
-                        </div>
-                        
-                       
-                        
-                        <!-- Inscription -->
-                        <div class="text-center mt-4">
-                            <p class="mb-0">Pas encore de compte ? 
-                                <a href="/register" class="fw-bold" style="color: #764ba2;">Inscrivez-vous</a>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -289,70 +219,71 @@
             });
             
             // Gestion du formulaire
-            $('#loginForm').on('submit', function(e) {
+            $('#registerForm').on('submit', function(e) {
                 e.preventDefault();
                 
                 // Animation du bouton
-                const $btn = $('.btn-login');
+                const $btn = $('.btn-register');
                 const originalText = $btn.html();
-                $btn.html('<span class="spinner-border spinner-border-sm me-2"></span>Connexion...');
+                $btn.html('<span class="spinner-border spinner-border-sm me-2"></span>Inscription...');
                 $btn.prop('disabled', true);
                 
                 // Récupération des valeurs
+                const name = $('#name').val();
                 const email = $('#email').val();
                 const password = $('#password').val();
-                const remember = $('#remember').is(':checked');
+                const password_confirmation = $('#password_confirmation').val();
                 
-                // Simulation d'une requête AJAX
-                setTimeout(function() {
-                    // Validation simple
-                    if (!email || !password) {
-                        showError('Veuillez remplir tous les champs');
-                        $btn.html(originalText).prop('disabled', false);
-                        return;
-                    }
-                    
-                    if (!validateEmail(email)) {
-                        showError('Veuillez entrer une adresse email valide');
-                        $btn.html(originalText).prop('disabled', false);
-                        return;
-                    }
-                    
-                    // Ici, vous feriez normalement un appel AJAX réel
-                    $.ajax({
-                        url: '/login',
-                        method: 'POST',
-                        data: { email, password, remember },
-                        success: function(response) {
-                             console.log('response::::::::', response);
-                            if (response.status === 'success') {
-                                // Stockage du token dans le localStorage
-                                localStorage.setItem('auth_token', response.token);
-                                
-                                // Message de succès
-                                $btn.html('<i class="fas fa-check me-2"></i>Connexion réussie !');
-                                
-                                // Redirection après un court délai
-                                setTimeout(() => {
-                                    window.location.href = '/dashboard';
-                                }, 1000);
-                            }
-                        },
-                        error: function(xhr) {
-                            const response = xhr.responseJSON;
-                            showError(response.message || 'Une erreur est survenue');
-                            $btn.html(originalText).prop('disabled', false);
+                // Validation simple
+                if (!name || !email || !password || !password_confirmation) {
+                    showError('Veuillez remplir tous les champs');
+                    $btn.html(originalText).prop('disabled', false);
+                    return;
+                }
+                
+                if (!validateEmail(email)) {
+                    showError('Veuillez entrer une adresse email valide');
+                    $btn.html(originalText).prop('disabled', false);
+                    return;
+                }
+                
+                if (password !== password_confirmation) {
+                    showError('Les mots de passe ne correspondent pas');
+                    $btn.html(originalText).prop('disabled', false);
+                    return;
+                }
+                
+                // Envoi de la requête AJAX
+                $.ajax({
+                    url: '/register',
+                    method: 'POST',
+                    data: {
+                        name: name,
+                        email: email,
+                        password: password,
+                        password_confirmation: password_confirmation
+                    },
+                    success: function(response) {
+                        console.log('response::::::::', response);
+                        if (response.status === 'success') {
+                            // Stockage du token dans le localStorage
+                            localStorage.setItem('auth_token', response.token);
+                            
+                            // Message de succès
+                            $btn.html('<i class="fas fa-check me-2"></i>Inscription réussie !');
+                            
+                            // Redirection après un court délai
+                            setTimeout(() => {
+                                window.location.href = '/dashboard';
+                            }, 1000);
                         }
-                    });
-                    
-                    // Suppression du code de démo
-                    // $btn.html('<i class="fas fa-check me-2"></i>Connexion réussie !');
-                    // setTimeout(() => {
-                    //     alert('Connexion simulée réussie !');
-                    //     $btn.html(originalText).prop('disabled', false);
-                    // }, 1000);
-                    
-                }, 1500);
+                    },
+                    error: function(xhr) {
+                        const response = xhr.responseJSON;
+                        showError(response.message || 'Une erreur est survenue');
+                        $btn.html(originalText).prop('disabled', false);
+                    }
+                });
             });
             
             // Fonction pour afficher les erreurs
@@ -369,14 +300,7 @@
                 const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return re.test(email);
             }
-            
-            // Animations des boutons sociaux
-            $('.social-btn').on('mouseenter', function() {
-                $(this).css('box-shadow', '0 5px 15px rgba(0,0,0,0.2)');
-            }).on('mouseleave', function() {
-                $(this).css('box-shadow', 'none');
-            });
         });
     </script>
 </body>
-</html>
+</html> 

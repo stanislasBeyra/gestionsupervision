@@ -16,34 +16,51 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+// Routes publiques
 Route::get('/', function () {
-    return view('dashboard');
+    if (auth()->check()) {
+        return redirect('/dashboard');
+    }
+    return redirect('/login');
 });
 
-Route::get('/Mdbcode',function(){
-    return view('Mdbcode');
+// Routes d'authentification
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::get('dashboard',function(){
-return view('dashboard');
+// Routes protégées
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    Route::get('/profile', function() {
+        return view('profile.show');
+    })->name('profile');
+
+    Route::get('/dashboard', function() {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('/Mdbcode', function() {
+        return view('Mdbcode');
+    });
+
+    Route::get('{page}', [HomeController::class, 'pageviews'])->name('name.page');
+
+    // Routes pour les formulaires
+    Route::get('/nomm', [FormSelectedController::class, 'getDomaines']);
+    Route::get('/domaines', [FormSelectedController::class, 'getDomaines']);
+    Route::get('/contenus', [FormSelectedController::class, 'getContenus']);
+    Route::get('/questions', [FormSelectedController::class, 'getQuestions']);
+    Route::get('/methodes', [FormSelectedController::class, 'getMethodes']);
+    Route::get('/notes', [FormSelectedController::class, 'getNotes']);
+    Route::get('/all-selects', [FormSelectedController::class, 'getAllSelects']);
 });
 
-// Route::get('{page}',[HomeController::class,'getpage'])->name('name.page');
-
-Route::get('{page}',[HomeController::class,'pageviews'])->name('name.page');
-
-
-Route::get('/nomm',[FormSelectedController::class,'getDomaines']);
-Route::get('/domaines', [FormSelectedController::class, 'getDomaines']);
-Route::get('/contenus', [FormSelectedController::class, 'getContenus']);
-Route::get('/questions', [FormSelectedController::class, 'getQuestions']);
-Route::get('/methodes', [FormSelectedController::class, 'getMethodes']);
-Route::get('/notes', [FormSelectedController::class, 'getNotes']);
-
-// Route pour tout récupérer en une fois
-Route::get('/all-selects', [FormSelectedController::class, 'getAllSelects']);
-
-
+// Route du manifest (publique)
 Route::get('/manifest.json', function () {
     return response()->json([
         'name' => 'Supervision Sanitaire',
@@ -135,14 +152,3 @@ Route::get('/manifest.json', function () {
     ]);
 })->name('manifest');
 
-// Routes d'authentification
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::get('/login2',function () {
-    log::info('je suis ici');
-
-    return view('auth.login');
-});
-Route::post('/register', [AuthController::class, 'register']);

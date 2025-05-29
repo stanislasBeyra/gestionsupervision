@@ -13,6 +13,7 @@ use App\Http\Controllers\SuperviseurController;
 use App\Http\Controllers\SupervisionController;
 use App\Http\Controllers\SupervisionsController;
 use App\Http\Controllers\SyntheseController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -139,4 +140,10 @@ Route::prefix('supervisers')->group(function () {
         Route::get('', 'getSupervisers');
         Route::post('save', 'saveSuperviser');
     });
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'profileinfo']);
+    Route::put('/profile', [ProfileController::class, 'update']);
 });
