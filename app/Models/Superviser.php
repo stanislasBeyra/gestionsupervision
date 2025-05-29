@@ -11,9 +11,11 @@ class Superviser extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'firstname', 
+        'firstname',
         'lastname',
         'fonction',
+        'service',
+        'profession',
         'phone',
         'email',
     ];

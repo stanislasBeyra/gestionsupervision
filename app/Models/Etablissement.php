@@ -18,6 +18,7 @@ class Etablissement extends Model
         'categorie_etablissement',
         'code_etablissement',
         'periode',
+        'periodicite',
         'date_debut',
         'date_fin',
         'responsable',
@@ -25,5 +26,5 @@ class Etablissement extends Model
         'email',
     ];
 
-   
+
 }

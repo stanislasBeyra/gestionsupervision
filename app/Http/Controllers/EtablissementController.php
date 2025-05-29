@@ -75,6 +75,7 @@ class EtablissementController extends Controller
                 'categorie_etablissement' => 'required|string',
                 'code_etablissement' => 'required|string|unique:etablissements,code_etablissement',
                 'periode' => 'required|string|max:255',
+                'periodicite' => 'required|string|max:255',
                 'date_debut' => 'required|',
                 'date_fin' => 'required|',
                 'responsable' => 'required|string|max:255',

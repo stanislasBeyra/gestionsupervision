@@ -314,7 +314,7 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div>
                     <h2 class="mb-1" id="formTitle">Nouvelle Supervision</h2>
-                    <p class="text-muted mb-0" id="formSubtitle">Ajouter un nouvelle Supervision</p>
+                    <p class="text-muted mb-0" id="formSubtitle">Ajouter une nouvelle supervision</p>
                 </div>
                 <button class="btn btn-secondary" id="toggleListButton" onclick="showTable()">
                     <i class="fas fa-arrow-left me-2"></i>Retour à la liste
@@ -326,6 +326,7 @@
 
             <div class="card-body">
                 <form id="data-form" onsubmit="handleSubmit(event)">
+
                     <!-- Section Établissement -->
                     <div class="etablissement-section">
                         <h5 class="mb-4 fs-4">Sélection de l'établissement</h5>
@@ -336,30 +337,35 @@
                                     <span class="fw-bold">Hôpital Général MTN</span>
                                 </label>
                             </div>
+
                             <div class="col-md-2">
                                 <input type="radio" name="etablissement" id="etabECD" value="ECD" class="etablissement-radio" data-type="2" onchange="handleEtablissementChange()">
                                 <label for="etabECD" class="etablissement-label">
                                     <span class="fw-bold">ECD</span>
                                 </label>
                             </div>
+
                             <div class="col-md-2">
                                 <input type="radio" name="etablissement" id="etabCHR" value="CHR" class="etablissement-radio" data-type="3" onchange="handleEtablissementChange()">
                                 <label for="etabCHR" class="etablissement-label">
                                     <span class="fw-bold">CHR</span>
                                 </label>
                             </div>
+
                             <div class="col-md-3">
                                 <input type="radio" name="etablissement" id="etabESPC" value="ESPC" class="etablissement-radio" data-type="4" onchange="handleEtablissementChange()">
                                 <label for="etabESPC" class="etablissement-label">
                                     <span class="fw-bold">ESPC</span>
                                 </label>
                             </div>
+
                             <div class="col-md-3">
                                 <input type="radio" name="etablissement" id="etabHG" value="Hotipal General" class="etablissement-radio" data-type="5" onchange="handleEtablissementChange()">
                                 <label for="etabHG" class="etablissement-label">
                                     <span class="fw-bold">Hôpital Général</span>
                                 </label>
                             </div>
+
                         </div>
                     </div>
 
@@ -393,8 +399,6 @@
                                     <option value="">Sélectionnez une méthode</option>
                                 </select>
                             </div>
-
-
 
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Note Obtenue</label>

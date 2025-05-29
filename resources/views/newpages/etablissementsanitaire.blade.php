@@ -86,7 +86,7 @@
                         <i class="bi bi-file-excel me-2"></i>Exporter en Excel
                     </button>
                     <button type="button" class="btn btn-primary  ripple-surface" onclick="showForm()">
-                    <i class="fas fa-plus-circle me-2"></i> Nouvel établissement
+                        <i class="fas fa-plus-circle me-2"></i> Nouvel établissement
                     </button>
                 </div>
             </div>
@@ -110,6 +110,7 @@
                                 <th>Catégorie</th>
                                 <th>Code</th>
                                 <th>Période</th>
+                                <th>Périodicité</th>
                                 <th>Date début</th>
                                 <th>Date fin</th>
                                 <th>Responsable</th>
@@ -149,17 +150,52 @@
                 <form id="supervisionForm">
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <div class="form-outline">
-                                <input type="text" class="form-control" name="direction_regionale" id="direction_regionale" required>
-                                <label class="form-label">Direction Régionale</label>
-                            </div>
+                            <label class="form-label select-label">Direction Régionale</label>
+                            <select class="select form-control" name="direction_regionale" id="direction_regionale" required>
+                                <option value="">Sélectionnez une direction regionale</option>
+                                <option value="IRFCI">IRFCI</option>
+                                <option value="ABIDJAN 1">ABIDJAN 1</option>
+                                <option value="ABIDJAN 2">ABIDJAN 2</option>
+                                <option value="AGNEBY-TIASSA">AGNEBY-TIASSA</option>
+                                <option value="BAFING">BAFING</option>
+                                <option value="BAGOUE">BAGOUE</option>
+                                <option value="BELIER">BELIER</option>
+                                <option value="BERE">BERE</option>
+                                <option value="BOUNKANI">BOUNKANI</option>
+                                <option value="CAVALLY">CAVALLY</option>
+                                <option value="FOLON">FOLON</option>
+                                <option value="GBEKE">GBEKE</option>
+                                <option value="GBOKLE">GBOKLE</option>
+                                <option value="GONTOUGO">GONTOUGO</option>
+                                <option value="GRANDS PONTS">GRANDS PONTS</option>
+                                <option value="GUEMON">GUEMON</option>
+                                <option value="GÔH">GÔH</option>
+                                <option value="HAMBOL">HAMBOL</option>
+                                <option value="HAUT SASSANDRA">HAUT SASSANDRA</option>
+                                <option value="IFFOU"> IFFOU</option>
+                                <option value="INDENIE-DUABLIN">INDENIE-DUABLIN</option>
+                                <option value="KABADOUGOU">KABADOUGOU</option>
+                                <option value="LÔH-DJIBOUA">LÔH-DJIBOUA</option>
+                                <option value="LOH-DJIBOUA">LOH-DJIBOUA</option>
+                                <option value="MARAHOUE">MARAHOUÉ</option>
+                                <option value="ME">ME</option>
+                                <option value="MORONOU">MORONOU</option>
+                                <option value="N'ZI">N'ZI</option>
+                                <option value="NAWA">NAWA</option>
+                                <option value="PORO">PORO</option>
+                                <option value="SAN PEDRO">SAN PEDRO</option>
+                                <option value="SUD-COMOE">SUD-COMOE</option>
+                                <option value="TCHOLOGO">TCHOLOGO</option>
+                                <option value="TONKPI">TONKPI</option>
+                                <option value="WORODOUGOU">WORODOUGOU</option>
+                            </select>
                         </div>
 
                         <div class="col-md-6 mb-4">
-                            <div class="form-outline">
-                                <input type="text" class="form-control" name="district_sanitaire" id="district_sanitaire" required>
-                                <label class="form-label">District Sanitaire</label>
-                            </div>
+                            <label class="form-label select-label">District Sanitaire</label>
+                            <select class="select form-control" name="district_sanitaire" id="district_sanitaire" required>
+                                <option value="">Sélectionnez un District</option>
+                            </select>
                         </div>
 
                         <div class="col-md-6 mb-4">
@@ -172,13 +208,15 @@
                             <label class="form-label select-label">Catégorie de l'établissement</label>
                             <select class="select form-control" name="categorie_etablissement" id="categorie_etablissement" required>
                                 <option value="">Sélectionnez une catégorie</option>
-                                <option value="CHR">CHR</option>
-                                <option value="HÔPITAL GENERAL">HÔPITAL GENERAL</option>
+                                <option value="CENTRE SANTE RURAL">CENTRE SANTÉ RURAL</option>
                                 <option value="CENTRE SANTÉ URBAIN">CENTRE SANTÉ URBAIN</option>
+                                <option value="CENTRE SPECIALISÉ">CENTRE SPECIALISÉ</option>
+                                <option value="DISPENSAIRE RURAL">DISPENSAIRE RURAL</option>
+                                <option value="EPHD">ETABLISSEMENT PUBLIC HOSPITALIER DEPARTEMENTAL (HÔPITAL GENERAL)</option>
+                                <option value="EPHN">ETABLISSEMENT PUBLIC HOSPITALIER N (CHU ET INSTITUT)</option>
+                                <option value="EPHR">ETABLISSEMENT PUBLIC HOSPITALIER REGIONAL (CHR)</option>
                                 <option value="FSU">FSU</option>
                                 <option value="FSU COM">FSU COM</option>
-                                <option value="CENTRE SANTE RURAL">CENTRE SANTÉ RURAL</option>
-                                <option value="DISPENSAIRE RURAL">DISPENSAIRE RURAL</option>
                             </select>
                         </div>
 
@@ -190,10 +228,23 @@
                         </div>
 
                         <div class="col-md-6 mb-4">
-                            <div class="form-outline">
-                                <input type="text" class="form-control" name="periode" id="periode" required>
-                                <label class="form-label">Période supervisée</label>
+                            <label class="form-label">Période supervisée</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="periode" id="periode" placeholder="Sélectionnez une période" required readonly>
+                                <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
                             </div>
+                        </div>
+
+
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label select-label">Périodicité de la supervision</label>
+                            <select class="form-control" name="periodicite" id="periodicite" required>
+                                <option value="">Sélectionnez une période</option>
+                                <option value="Annuelle">Annuelle</option>
+                                <option value="Mensuelle">Mensuelle</option>
+                                <option value="Semestrielle">Semestrielle</option>
+                                <option value="Trimestrielle">Trimestrielle</option>
+                            </select>
                         </div>
 
                         <div class="col-md-6 mb-4">
@@ -526,6 +577,7 @@
             <td>${etablissement.categorie_etablissement}</td>
             <td>${etablissement.code_etablissement}</td>
             <td>${etablissement.periode}</td>
+            <td>${etablissement.periodicite}</td>
             <td>${this.formatDate(etablissement.date_debut)}</td>
             <td>${this.formatDate(etablissement.date_fin)}</td>
             <td>${etablissement.responsable}</td>
@@ -562,6 +614,7 @@
                 categorie_etablissement: formData.get('categorie_etablissement'),
                 code_etablissement: codeEtablissement,
                 periode: formData.get('periode'),
+                periodicite: formData.get('periodicite'),
                 date_debut: formData.get('date_debut'),
                 date_fin: formData.get('date_fin'),
                 responsable: formData.get('responsable'),
@@ -743,6 +796,77 @@
             console.error('Erreur lors de l\'initialisation:', error);
             AlertManager.showError('Erreur lors du chargement initial des données');
         }
+    });
+
+    // Initialisation de Flatpickr pour la période supervisée
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#periode", {
+            locale: "fr",
+            mode: "range",
+            dateFormat: "Y-m-d",
+            allowInput: true,
+            altInput: true,
+            altFormat: "d/m/Y",
+        });
+    });
+
+    // Afficher le district sanitaire en fonction de la direction régionale sélectionnée
+    const directionToDistricts = {
+        "IRFCI": ["IRF ADZOPE", "IRF MANIKRO"],
+        "ABIDJAN 1": ["ABOBO EST", "ABOBO OUEST", "ANYAMA", "YOPOUGON-EST", "YOPOUGON-OUEST SONGON"],
+        "ABIDJAN 2": ["ADJAME-PLATEAU-ATTECOUBE", "COCODY BINGERVILLE", "KOUMASSI", "TREICHVILLE-MARCORY"],
+        "AGNEBY-TIASSA": ["AGBOVILLE", "SIKENSI", "TIASSALE"],
+        "BAFING": ["KORO", "OUANINOU", "TOUBA"],
+        "BAGOUE": ["BOUNDIALI", "KOUTO", "TENGRELA"],
+        "BELIER": ["DIDIEVI", "TIEBISSOU", "TOUMODI", "YAMOUSSOUKRO"],
+        "BERE": ["DIANRA", "KOUNAHIRI", "MANKONO"],
+        "BOUNKANI": ["BOUNA", "DOROPO", "NASSIAN", "TEHINI"],
+        "CAVALLY": ["BLOLEQUIN", "GUIGLO", "TAI", "TOULEPLEU"],
+        "FOLON": ["KANIASSO", "MINIGNAN"],
+        "GBEKE": ["BECOMI", "BOTRO", "BOUAKE NORD-EST", "BOUAKE NORD-OUEST", "BOUAKE-SUD", "SAKASSOU"],
+        "GBOKLE": ["FRESCO", "SASSANDRA"],
+        "GONTOUGO": ["BONDOUKOU", "KOUN-FAO", "SANDEGUE", "TANDA", "TRANSUA"],
+        "GRANDS PONTS": ["DABOU", "GRAND-LAHOU", "JACQUEVILLE"],
+        "GUEMON": ["BANGOLO", "DUEKOUE", "KOUIBLY"],
+        "GÔH": ["GAGNOA 1", "GAGNOA 2", "OUUME"],
+        "HAMBOL": ["DABAKALA", "KATIOLA", "NIAKARAMADOUGOU"],
+        "HAUT SASSANDRA": ["DALOA", "ISSIA", "VAVOUA", "ZOUKOUGBEU"],
+        "IFFOU": ["DAOUKRO", "MBAHIAKRO", "PRIKRO"],
+        "INDENIE-DUABLIN": ["ABENGOUROU", "AGNIBILEKROU", "BETTIE"],
+        "KABADOUGOU": ["MADINANI", "ODIENNE"],
+        "LÔH-DJIBOUA": ["DIVO", "GUITRY", "LAKOTA"],
+        "MARAHOUE": ["BOUAFLE", "SIN-FRA", "ZUENOULA"],
+        "ME": ["ADZOPE", "AKOUPE", "ALEPE", " YAKASSE-ATTOBROU"],
+        "MORONOU": ["ARRAH", "BONGOUANOU", "M'BATTO"],
+        "N'ZI": ["BOCANDA", "DIMBOKRO", "KOUASSI KOUASSIKRO"],
+        "NAWA": ["BUYO", "GUEYO", "MEAGUI", "SOUBRE"],
+        "PORO": ["DIKODOUGOU", "KORHOGO 1", "KORHOGO 2", "M'BENGUE", "SINEMATIALI"],
+        "SAN PEDRO": ["SAN PEDRO", "TABOU"],
+        "SUD-COMOE": ["ABOISSO", "ADIAKE", "GRAND-BASSAM", "TIAPOUM"],
+        "TCHOLOGO": ["FERKESSEDOUGOU", "KONG", "OUANGOLODOUGOU"],
+        "TONKPI": ["BIANKOUMA", "DANANE", "MAN", "ZOUAN-HOUNIEN"],
+        "WORODOUGOU": ["KANI", "SEGUELA"]
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const directionSelect = document.getElementById("direction_regionale");
+        const districtSelect = document.getElementById("district_sanitaire");
+
+        directionSelect.addEventListener("change", function() {
+            const selectedDirection = this.value;
+
+            // Réinitialiser les options
+            districtSelect.innerHTML = '<option value="">Sélectionnez un District</option>';
+
+            if (directionToDistricts[selectedDirection]) {
+                directionToDistricts[selectedDirection].forEach(function(district) {
+                    const option = document.createElement("option");
+                    option.value = district;
+                    option.textContent = district;
+                    districtSelect.appendChild(option);
+                });
+            }
+        });
     });
 </script>
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class SuperviseurController extends Controller
-{  
+{
 
 
     // public function getSuperviseurs()
@@ -29,7 +29,7 @@ class SuperviseurController extends Controller
 {
     try {
         $search = $request->input('search', '');
-       
+
 
         $superviseurs = Superviseur::where('firstname', 'LIKE', "%{$search}%")
             ->orWhere('fonction', 'LIKE', "%{$search}%")
@@ -65,6 +65,8 @@ class SuperviseurController extends Controller
             $validated = $request->validate([
                 'firstname' => 'required|string|max:255',
                 'fonction' => 'required|string|max:255',
+                'service' => 'required|string|max:255',
+                'profession' => 'required|string|max:255',
                 'phone' => 'required|string|max:15',
                 'email' => 'required|email|max:255|unique:superviseurs,email',
             ]);

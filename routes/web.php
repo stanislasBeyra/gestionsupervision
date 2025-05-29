@@ -3,6 +3,7 @@
 use App\Http\Controllers\FormSelectedController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,3 +134,15 @@ Route::get('/manifest.json', function () {
         'prefer_related_applications' => false
     ]);
 })->name('manifest');
+
+// Routes d'authentification
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/login2',function () {
+    log::info('je suis ici');
+
+    return view('auth.login');
+});
+Route::post('/register', [AuthController::class, 'register']);

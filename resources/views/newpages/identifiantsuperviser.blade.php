@@ -114,7 +114,9 @@
                             <tr>
                                 <th scope="col">N°</th>
                                 <th scope="col">Noms/prénoms</th>
-                                <th scope="col">Fonction/Service</th>
+                                <th scope="col">Fonction</th>
+                                <th scope="col">Service</th>
+                                <th scope="col">Profession</th>
                                 <th scope="col">Téléphone</th>
                                 <th scope="col">E-mail</th>
                                 <th scope="col">Actions</th>
@@ -160,8 +162,18 @@
                         </div>
 
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Fonction/Service</label>
+                            <label class="form-label">Fonction</label>
                             <input type="text" class="form-control" name="fonction" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Service</label>
+                            <input type="text" class="form-control" name="service" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Profession</label>
+                            <input type="text" class="form-control" name="profession" required>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -374,6 +386,8 @@
                 const apiData = {
                     firstname: formData.nom_prenom,
                     fonction: formData.fonction,
+                    service: formData.service,
+                    profession: formData.profession,
                     phone: formData.phone,
                     email: formData.email
                 };
@@ -417,6 +431,8 @@
                 const supervise = {
                     firstname: formData.nom_prenom,
                     fonction: formData.fonction,
+                    service: formData.service,
+                    profession: formData.profession,
                     phone: formData.phone,
                     email: formData.email,
                     id: Date.now(),
@@ -496,6 +512,8 @@
             <td>${index + 1}</td>
             <td>${supervise.firstname || ''}${isOffline ? ' <span class="badge badge-warning">Hors ligne</span>' : ''}</td>
             <td>${supervise.fonction || ''}</td>
+            <td>${supervise.service || ''}</td>
+            <td>${supervise.profession || ''}</td>
             <td>${supervise.phone || ''}</td>
             <td>${supervise.email || ''}</td>
             <td>
@@ -619,6 +637,8 @@
             form.elements['fonction'].value = cells[2].textContent.trim();
             form.elements['phone'].value = cells[3].textContent.trim();
             form.elements['email'].value = cells[4].textContent.trim();
+            form.elements['service'].value = cells[5].textContent.trim();
+            form.elements['profession'].value = cells[6].textContent.trim();
 
             if (row.dataset.id) {
                 form.dataset.editId = row.dataset.id;
