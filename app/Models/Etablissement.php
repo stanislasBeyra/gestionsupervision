@@ -12,6 +12,8 @@ class Etablissement extends Model
 
 
     protected $fillable = [
+        //ajout de user_id pour la relation avec l'utilisateur
+        'user_id',
         'direction_regionale',
         'district_sanitaire',
         'etablissement_sanitaire',

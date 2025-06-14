@@ -212,9 +212,9 @@
                                 <option value="CENTRE SANTÉ URBAIN">CENTRE SANTÉ URBAIN</option>
                                 <option value="CENTRE SPECIALISÉ">CENTRE SPECIALISÉ</option>
                                 <option value="DISPENSAIRE RURAL">DISPENSAIRE RURAL</option>
-                                <option value="EPHD">ETABLISSEMENT PUBLIC HOSPITALIER DEPARTEMENTAL (HÔPITAL GENERAL)</option>
-                                <option value="EPHN">ETABLISSEMENT PUBLIC HOSPITALIER N (CHU ET INSTITUT)</option>
-                                <option value="EPHR">ETABLISSEMENT PUBLIC HOSPITALIER REGIONAL (CHR)</option>
+                                <option value="EPHD">ETABLISSEMENT PUBLIC HOSPITALIER DEPARTEMENTAL (EPHD)-(HÔPITAL GENERAL)</option>
+                                <option value="EPHN">ETABLISSEMENT PUBLIC HOSPITALIER NATIONAL (EPHN)-(CHU ET INSTITUT)</option>
+                                <option value="EPHR">ETABLISSEMENT PUBLIC HOSPITALIER REGIONAL (EPHR)-(CHR)</option>
                                 <option value="FSU">FSU</option>
                                 <option value="FSU COM">FSU COM</option>
                             </select>
@@ -309,7 +309,8 @@
     // Points d'accès de l'API
     const API_ENDPOINTS = {
         GET_ETABLISSEMENTS: '/api/etablissements',
-        SAVE_ETABLISSEMENT: '/api/etablissements/save'
+        SAVE_ETABLISSEMENT: '/api/etablissements/save',
+        DELETE_ETABLISSEMENT: '/api/etablissements/delete'
     };
 
     // Clés de stockage local

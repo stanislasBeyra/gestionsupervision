@@ -11,6 +11,7 @@ class Probleme extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'probleme',
         'causes',
         'actions',

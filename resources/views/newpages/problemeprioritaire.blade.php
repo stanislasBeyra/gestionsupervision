@@ -308,6 +308,7 @@
         editingId: null,
         isOnline: navigator.onLine,
         isSyncing: false,
+        isSubmitting: false, // Ajouté pour éviter les doubles soumissions
 
         init() {
             NotificationManager.init();
@@ -541,7 +542,14 @@
 
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalBtnContent = submitBtn.innerHTML;
-            submitBtn.disabled = true;
+
+            // Empêcher double soumission
+            if (this.isSubmitting) {
+                return;
+            }
+            this.isSubmitting = true;
+
+            submitBtn.disabled = true; // Désactiver le bouton immédiatement
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Traitement...';
 
             try {
@@ -590,13 +598,12 @@
                 console.error('Erreur:', error);
                 NotificationManager.show(error.message || 'Erreur lors de l\'enregistrement', 'danger');
             } finally {
-                submitBtn.disabled = false;
+                this.isSubmitting = false; // Réinitialiser le drapeau
+                submitBtn.disabled = false; // Réactiver le bouton
                 submitBtn.innerHTML = originalBtnContent;
                 form.classList.remove('was-validated');
             }
         },
-
-
 
         saveOffline(formData) {
             try {
@@ -730,8 +737,6 @@
         `;
         },
 
-
-
         formatDate(date) {
             if (!date) return '';
 
@@ -791,7 +796,7 @@
             // Bouton Previous
             paginationHTML += `
             <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="EtablissementManager.loadEtablissements(${currentPage - 1})" ${currentPage === 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>
+                <a class="page-link" href="#" onclick="ProblemeManager.loadProblemes(${currentPage - 1})" ${currentPage === 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -803,7 +808,7 @@
                     const pageNum = parseInt(link.label);
                     paginationHTML += `
                     <li class="page-item ${link.active ? 'active' : ''}">
-                        <a class="page-link" href="#" onclick="EtablissementManager.loadEtablissements(${pageNum})">
+                        <a class="page-link" href="#" onclick="ProblemeManager.loadProblemes(${pageNum})">
                             ${link.label}
                         </a>
                     </li>
@@ -814,7 +819,7 @@
             // Bouton Next
             paginationHTML += `
             <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="EtablissementManager.loadEtablissements(${currentPage + 1})" ${currentPage === lastPage ? 'tabindex="-1" aria-disabled="true"' : ''}>
+                <a class="page-link" href="#" onclick="ProblemeManager.loadProblemes(${currentPage + 1})" ${currentPage === lastPage ? 'tabindex="-1" aria-disabled="true"' : ''}>
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -918,7 +923,7 @@
             this.isOnline = true;
             this.updateConnectionStatus();
             NotificationManager.show('Connexion rétablie', 'success');
-            this.syncOfflineData();
+            this.syncPendingProblems(); // Correction : appel syncPendingProblems au lieu de syncOfflineData qui n'existe pas
         },
 
         handleOffline() {
@@ -982,13 +987,6 @@
     window.showForm = () => ProblemeManager.showForm();
     window.showTable = () => ProblemeManager.showTable();
     window.exportToCSV = () => ProblemeManager.exportToCSV();
-
-    // Initialisation au chargement de la page
-    document.addEventListener('DOMContentLoaded', () => {
-        ProblemeManager.init();
-    });
-    // Exposer les fonctions nécessaires globalement
-    window.ProblemeManager = ProblemeManager;
 
     // Initialisation au chargement de la page
     document.addEventListener('DOMContentLoaded', () => {

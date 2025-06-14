@@ -12,6 +12,7 @@ class Supervision extends Model
 
 
     protected $fillable = [
+        'user_id',
         'domaine',
         'contenu',
         'question',
@@ -34,7 +35,7 @@ class Supervision extends Model
         return $this->belongsTo(Domaine::class,'domaine');
     }
 
-    
+
 
     // Relation avec Questions associées
     public function questions()

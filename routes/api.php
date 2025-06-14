@@ -84,18 +84,6 @@ Route::prefix('methodes')->group(function () {
     });
 });
 
-Route::prefix('supervision')->group(function () {
-    Route::controller(SupervisionsController::class)->group(function () {
-        Route::get('', 'getSupervision');
-        Route::get('/environnementElement','getEnvironnementElement');
-        Route::get('/competanceElement','getCompetanceElement');
-        Route::post('save', 'saveSupervision');
-        Route::get('synthese','getsynthese');
-        Route::post('update', 'updateSupervision');
-        Route::post('delete', 'deleteSupervision');
-    });
-});
-
 
 Route::prefix('note')->group(function () {
     Route::controller(NoteController::class)->group(function () {
@@ -113,34 +101,54 @@ Route::prefix('syntheses')->group(function () {
     });
 });
 
-Route::prefix('problemes')->group(function () {
 
-    Route::controller(ProblemeController::class)->group(function () {
-        Route::get('', 'getProbleme');
-        Route::post('save', 'saveProbleme');
+// modificaction d'ajoute de middleware pour la route etablissements
+Route::middleware(['web', 'auth'])->group(function () {
+
+    Route::prefix('etablissements')->group(function () {
+        Route::controller(EtablissementController::class)->group(function () {
+            Route::get('', 'getEtablissements');
+            Route::post('save', 'saveEtablissement');
+            Route::get('countEtablissement', 'countEtablissement');
+        });
     });
+
+    Route::prefix('supervisers')->group(function () {
+        Route::controller(SuperviserController::class)->group(function () {
+            Route::get('', 'getSupervisers');
+            Route::post('save', 'saveSuperviser');
+        });
+    });
+
+    Route::prefix('superviseurs')->group(function () {
+        Route::controller(SuperviseurController::class)->group(function () {
+            Route::get('', 'getSuperviseurs');
+            Route::post('save', 'saveSuperviseur');
+        });
+    });
+
+    Route::prefix('problemes')->group(function () {
+
+        Route::controller(ProblemeController::class)->group(function () {
+            Route::get('', 'getProbleme');
+            Route::post('save', 'saveProbleme');
+        });
+    });
+
+    Route::prefix('supervision')->group(function () {
+        Route::controller(SupervisionsController::class)->group(function () {
+            Route::get('', 'getSupervision');
+            Route::get('/environnementElement','getEnvironnementElement');
+            Route::get('/competanceElement','getCompetanceElement');
+            Route::post('save', 'saveSupervision');
+            Route::get('synthese','getsynthese');
+            Route::post('update', 'updateSupervision');
+            Route::post('delete', 'deleteSupervision');
+        });
+    });
+
 });
 
-Route::prefix('etablissements')->group(function () {
-    Route::controller(EtablissementController::class)->group(function () {
-        Route::get('', 'getEtablissements');
-        Route::post('save', 'saveEtablissement');
-    });
-});
-
-Route::prefix('superviseurs')->group(function () {
-    Route::controller(SuperviseurController::class)->group(function () {
-        Route::get('', 'getSuperviseurs');
-        Route::post('save', 'saveSuperviseur');
-    });
-});
-
-Route::prefix('supervisers')->group(function () {
-    Route::controller(SuperviserController::class)->group(function () {
-        Route::get('', 'getSupervisers');
-        Route::post('save', 'saveSuperviser');
-    });
-});
 
 Route::middleware('auth:sanctum')->group(function () {
     // Profile routes

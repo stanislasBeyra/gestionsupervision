@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Probleme;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -29,20 +30,40 @@ class ProblemeController extends Controller
     try {
         // Récupération des paramètres de recherche et de pagination
         $search = $request->input('search', ''); // Le terme de recherche
+
+        // Vérifier si l'utilisateur est authentifié
+        if (!auth()->check()) {
+            Log::error('Utilisateur non authentifié');
+            return response()->json([
+                'success' => false,
+                'message' => 'Utilisateur non authentifié'
+            ], 401);
+        }
+
+        $userId = auth()->id();
+        Log::info('User ID:', ['user_id' => $userId]);
+
+        $query = Probleme::query();
         $perPage = $request->input('per_page', 10); // Nombre d'éléments par page, valeur par défaut = 10
 
-        // Recherche des problèmes avec le terme 'search' sur les colonnes pertinentes
-        $probleme = Probleme::when($search, function ($query, $search) {
-            return $query->where('probleme', 'like', "%$search%")
-                         ->orWhere('causes', 'like', "%$search%")
-                         ->orWhere('actions', 'like', "%$search%")
-                         ->orWhere('sources', 'like', "%$search%")
-                         ->orWhere('acteurs', 'like', "%$search%")
-                         ->orWhere('ressources', 'like', "%$search%")
-                         ->orWhere('delai', 'like', "%$search%");
-        })
-        ->orderBy('id', 'desc') // Trie par ID en ordre décroissant
-        ->paginate(5); // Pagination avec le nombre d'éléments par page
+        // Appliquer les conditions de recherche
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('probleme', 'LIKE', "%{$search}%")
+                    ->orWhere('causes', 'LIKE', "%{$search}%")
+                    ->orWhere('actions', 'LIKE', "%{$search}%")
+                    ->orWhere('sources', 'LIKE', "%{$search}%")
+                    ->orWhere('acteurs', 'LIKE', "%{$search}%")
+                    ->orWhere('ressources', 'LIKE', "%{$search}%")
+                    ->orWhere('delai', 'like', "%$search%");
+            });
+        }
+
+        // Filtrer par user_id
+        $query->where('user_id', $userId);
+
+        // Exécuter la requête
+        $probleme = $query->orderBy('id', 'desc')->paginate(5);
 
         // Retourner les résultats paginés
         return response()->json([
@@ -71,9 +92,11 @@ class ProblemeController extends Controller
                 'acteurs' => 'required|string',
                 'ressources' => 'required|string',
                 'delai' => 'required|string',
-            ]); 
+            ]);
 
+            $validated['user_id'] = auth()->user()->id;
             $probleme = Probleme::create($validated);
+            Log::info('Nouveau problème ajouté', ['probleme' => $probleme]);
 
             return response()->json([
                 'success' => true,
