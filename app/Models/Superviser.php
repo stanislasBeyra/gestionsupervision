@@ -11,6 +11,7 @@ class Superviser extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'firstname',
         'lastname',
         'fonction',

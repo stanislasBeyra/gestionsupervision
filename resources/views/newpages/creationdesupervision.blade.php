@@ -250,6 +250,22 @@
         box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.05) !important;
     }
 </style>
+<style>
+.method-checkboxes {
+    background-color: #fff;
+}
+.method-checkboxes label {
+    display: block;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+.method-checkboxes input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+.method-checkboxes label:hover {
+    background-color: #f8f9fa;
+}
+</style>
 <section class="mb-4">
     <!-- Section Table -->
     <div id="table-section" class="fade-in">
@@ -331,38 +347,67 @@
                     <div class="etablissement-section">
                         <h5 class="mb-4 fs-4">Sélection de l'établissement</h5>
                         <div class="row g-3">
+
                             <div class="col-md-2">
-                                <input type="radio" name="etablissement" id="etabHGMTN" value="Hotital General MTN" class="etablissement-radio" data-type="1" onchange="handleEtablissementChange()">
-                                <label for="etabHGMTN" class="etablissement-label">
-                                    <span class="fw-bold">Hôpital Général MTN</span>
+                                <input type="radio" name="etablissement" id="etabCSR" value="CENTRE DE SANTÉ RURAL" class="etablissement-radio" data-type="1" onchange="handleEtablissementChange()">
+                                <label for="etabCSR" class="etablissement-label">
+                                    <span class="fw-bold">CENTRE DE SANTÉ RURAL</span>
                                 </label>
                             </div>
 
                             <div class="col-md-2">
-                                <input type="radio" name="etablissement" id="etabECD" value="ECD" class="etablissement-radio" data-type="2" onchange="handleEtablissementChange()">
-                                <label for="etabECD" class="etablissement-label">
-                                    <span class="fw-bold">ECD</span>
+                                <input type="radio" name="etablissement" id="etabCSU" value="CENTRE DE SANTÉ URBAIN" class="etablissement-radio" data-type="2" onchange="handleEtablissementChange()">
+                                <label for="etabCSU" class="etablissement-label">
+                                    <span class="fw-bold">CENTRE DE SANTÉ URBAIN</span>
                                 </label>
                             </div>
 
                             <div class="col-md-2">
-                                <input type="radio" name="etablissement" id="etabCHR" value="CHR" class="etablissement-radio" data-type="3" onchange="handleEtablissementChange()">
-                                <label for="etabCHR" class="etablissement-label">
-                                    <span class="fw-bold">CHR</span>
+                                <input type="radio" name="etablissement" id="CS" value="CENTRE SPECIALISÉ" class="etablissement-radio" data-type="3" onchange="handleEtablissementChange()">
+                                <label for="CS" class="etablissement-label">
+                                    <span class="fw-bold">CENTRE SPECIALISÉ</span>
                                 </label>
                             </div>
 
                             <div class="col-md-3">
-                                <input type="radio" name="etablissement" id="etabESPC" value="ESPC" class="etablissement-radio" data-type="4" onchange="handleEtablissementChange()">
-                                <label for="etabESPC" class="etablissement-label">
-                                    <span class="fw-bold">ESPC</span>
+                                <input type="radio" name="etablissement" id="etabDR" value="DISPENSAIRE RURAL" class="etablissement-radio" data-type="4" onchange="handleEtablissementChange()">
+                                <label for="etabDR" class="etablissement-label">
+                                    <span class="fw-bold">DISPENSAIRE RURAL</span>
                                 </label>
                             </div>
 
                             <div class="col-md-3">
-                                <input type="radio" name="etablissement" id="etabHG" value="Hotipal General" class="etablissement-radio" data-type="5" onchange="handleEtablissementChange()">
-                                <label for="etabHG" class="etablissement-label">
-                                    <span class="fw-bold">Hôpital Général</span>
+                                <input type="radio" name="etablissement" id="etabEPHD" value="EPHD" class="etablissement-radio" data-type="5" onchange="handleEtablissementChange()">
+                                <label for="etabEPHD" class="etablissement-label">
+                                    <span class="fw-bold">ETABLISSEMENT PUBLIC HOSPITALIER DEPARTEMENTAL</span>
+                                </label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabEPHN" value="EPHN" class="etablissement-radio" data-type="6" onchange="handleEtablissementChange()">
+                                <label for="etabEPHN" class="etablissement-label">
+                                    <span class="fw-bold">ETABLISSEMENT PUBLIC HOSPITALIER NATIONAL</span>
+                                </label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabEPHR" value="EPHR" class="etablissement-radio" data-type="7" onchange="handleEtablissementChange()">
+                                <label for="etabEPHR" class="etablissement-label">
+                                    <span class="fw-bold">ETABLISSEMENT PUBLIC HOSPITALIER REGiONAL</span>
+                                </label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabFSU" value="FSU" class="etablissement-radio" data-type="8" onchange="handleEtablissementChange()">
+                                <label for="etabFSU" class="etablissement-label">
+                                    <span class="fw-bold">FSU</span>
+                                </label>
+                            </div>
+
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabFSU COM" value="FSU COM" class="etablissement-radio" data-type="9" onchange="handleEtablissementChange()">
+                                <label for="etabFSU COM" class="etablissement-label">
+                                    <span class="fw-bold">FSU COM</span>
                                 </label>
                             </div>
 
@@ -394,10 +439,14 @@
                             </div>
 
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Méthode</label>
-                                <select id="method" name="method" class="form-select" required disabled>
-                                    <option value="">Sélectionnez une méthode</option>
-                                </select>
+                                <label class="form-label">Méthode(s)</label>
+                                <div class="method-checkboxes border rounded p-3" style="max-height: 200px; overflow-y: auto;">
+
+                                    <hr>
+                                    <div id="methodList">
+                                        <!-- Les méthodes seront ajoutées ici dynamiquement -->
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-6 mb-3">
@@ -453,7 +502,8 @@
         METHODES: '/api/methodes',
         NOTES: '/api/note',
         SUPERVISIONS: '/api/supervision',
-        SAVESUPERVISONS: '/api/supervision/save'
+        SAVESUPERVISONS: '/api/supervision/save',
+        DELETESUPERVISION: '/api/supervision/delete'
     };
 
     // Clés de stockage local
@@ -470,11 +520,15 @@
 
     // Types d'établissements
     const ETABLISSEMENT_TYPES = {
-        'Hotital General MTN': 1,
-        'ECD': 2,
-        'CHR': 3,
-        'ESPC': 4,
-        'Hotipal General': 5
+        'CENTRE DE SANTÉ RURAL': 1,
+        'CENTRE DE SANTÉ URBAIN': 2,
+        'CENTRE SPECIALISÉ': 3,
+        'DISPENSAIRE RURAL': 4,
+        'EPHD': 5,
+        'EPHN': 6,
+        'EPHR': 7,
+        'FSU': 8,
+        'FSU COM': 9
     };
 
     // Cache global pour les questions
@@ -616,6 +670,27 @@
 
         static async loadSelectData(endpoint, selectId, defaultText = "Sélectionnez une option", etablissementType = null) {
             try {
+                if (selectId === 'method') {
+                    const methodList = document.getElementById('methodList');
+                    if (!methodList) throw new Error('Élément methodList non trouvé');
+
+                    const response = await this.fetchData(endpoint);
+                    const items = response.data || [];
+
+                    methodList.innerHTML = items.map(item => `
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input method-checkbox"
+                                id="method_${item.id}"
+                                name="method[]"
+                                value="${item.id}">
+                            <label class="form-check-label" for="method_${item.id}">
+                                ${item.methode_name}
+                            </label>
+                        </div>
+                    `).join('');
+                    return;
+                }
+
                 const select = document.getElementById(selectId);
                 if (!select) throw new Error(`Élément select avec l'ID ${selectId} non trouvé`);
 
@@ -650,13 +725,6 @@
                         });
                         break;
 
-                    case 'method':
-                        items = response.data || [];
-                        items.forEach(item => {
-                            select.innerHTML += `<option value="${item.id}">${item.methode_name}</option>`;
-                        });
-                        break;
-
                     case 'note':
                         items = response.data || [];
                         items.forEach(item => {
@@ -671,6 +739,14 @@
                 AlertManager.showError(`Erreur lors du chargement des données pour ${selectId}`);
                 console.error(error);
             }
+        }
+
+        // Fonction pour sélectionner/désélectionner toutes les méthodes
+        static toggleAllMethods(source) {
+            const methodCheckboxes = document.querySelectorAll('.method-checkbox');
+            methodCheckboxes.forEach(checkbox => {
+                checkbox.checked = source.checked;
+            });
         }
     }
 
@@ -855,6 +931,16 @@
             row.setAttribute('data-id', supervision.id);
 
             const getSelectText = (selectId, value) => {
+                if (selectId === 'method' && value) {
+                    // Pour les méthodes multiples
+                    const methodIds = value.split(',');
+                    const methodNames = methodIds.map(id => {
+                        const methodLabel = document.querySelector(`label[for="method_${id.trim()}"]`);
+                        return methodLabel ? methodLabel.textContent.trim() : id;
+                    });
+                    return methodNames.join(', ');
+                }
+
                 const select = document.getElementById(selectId);
                 if (select) {
                     const option = select.querySelector(`option[value="${value}"]`);
@@ -895,14 +981,22 @@
                 return;
             }
 
+            // Récupérer toutes les méthodes sélectionnées
+            const selectedMethods = Array.from(document.querySelectorAll('.method-checkbox:checked')).map(cb => cb.value);
+
+            if (selectedMethods.length === 0) {
+                AlertManager.showError('Veuillez sélectionner au moins une méthode');
+                return;
+            }
+
             const formData = {
                 id: Date.now(),
                 etablissements: etablissement.value,
-                type:document.getElementById('type').value,
+                type: document.getElementById('type').value,
                 domaine: document.getElementById('domaine').value,
                 contenu: document.getElementById('contenu').value,
                 question: document.getElementById('question').value,
-                methode: document.getElementById('method').value,
+                methode: selectedMethods.join(','), // Joindre les méthodes avec une virgule
                 reponse: document.getElementById('reponse').value,
                 note: document.getElementById('note').value,
                 commentaire: document.getElementById('commentaire').value,
@@ -920,24 +1014,40 @@
                         body: JSON.stringify(formData)
                     });
 
-                    if (!response.ok) throw new Error('Erreur lors de l\'enregistrement');
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'Erreur lors de l\'enregistrement');
+                    }
+
+                    // Si l'enregistrement est réussi
                     AlertManager.showSuccess('Données enregistrées avec succès');
+
+                    // Réinitialiser le formulaire
+                    document.getElementById('data-form').reset();
+                    document.querySelectorAll('.method-checkbox').forEach(cb => cb.checked = false);
+
+                    // Retourner à la liste et rafraîchir les données
+                    NavigationManager.showTable();
+                    await this.loadSupervisions();
                 } else {
-
+                    // Mode hors ligne
                     CacheManager.addPendingSupervision(formData);
-
-
-
                     AlertManager.showSuccess('Données sauvegardées localement - En attente de synchronisation');
+
+                    // Réinitialiser le formulaire
+                    document.getElementById('data-form').reset();
+                    document.querySelectorAll('.method-checkbox').forEach(cb => cb.checked = false);
+
+                    // Retourner à la liste et rafraîchir les données
+                    NavigationManager.showTable();
+                    await this.loadSupervisions();
                 }
-
-                document.getElementById('data-form').reset();
-                NavigationManager.showTable();
-                await this.loadSupervisions();
-
             } catch (error) {
                 console.error('Erreur lors de l\'enregistrement:', error);
-                AlertManager.showError('Erreur lors de l\'enregistrement');
+                AlertManager.showError(error.message || 'Erreur lors de l\'enregistrement');
+                // Ne pas réinitialiser le formulaire en cas d'erreur
+                return;
             }
         }
 
@@ -1013,34 +1123,45 @@
 
             try {
                 if (navigator.onLine) {
-                    const response = await fetch(`${API_ENDPOINTS.SUPERVISIONS}/delete/${id}`, {
-                        method: 'DELETE',
+                    const response = await fetch(`${API_ENDPOINTS.SUPERVISIONS}/delete`, {
+                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
-                        }
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify({ id: parseInt(id) })
                     });
 
-                    if (!response.ok) throw new Error('Erreur lors de la suppression');
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'Erreur lors de la suppression');
+                    }
+
+                    // Si la suppression est réussie
+                    row.remove();
+                    this.updateDeleteButton();
+                    AlertManager.showSuccess('Élément supprimé avec succès');
+
+                    // Rafraîchir la liste des supervisions
+                    await this.loadSupervisions();
+                } else {
+                    // En mode hors ligne, supprimer uniquement du cache
+                    const pendingSupervisions = CacheManager.getPendingSupervisions();
+                    const updatedPending = pendingSupervisions.filter(sup => sup.id !== parseInt(id));
+                    CacheManager.set(STORAGE_KEYS.PENDING_SUPERVISIONS, updatedPending);
+
+                    const cachedData = CacheManager.get(STORAGE_KEYS.SUPERVISIONS) || [];
+                    const updatedCache = cachedData.filter(sup => sup.id !== parseInt(id));
+                    CacheManager.set(STORAGE_KEYS.SUPERVISIONS, updatedCache);
+
+                    row.remove();
+                    this.updateDeleteButton();
+                    AlertManager.showSuccess('Élément supprimé avec succès (mode hors ligne)');
                 }
-
-                // Supprimer des supervisions en attente si présent
-                const pendingSupervisions = CacheManager.getPendingSupervisions();
-                const updatedPending = pendingSupervisions.filter(sup => sup.id !== parseInt(id));
-                CacheManager.set(STORAGE_KEYS.PENDING_SUPERVISIONS, updatedPending);
-
-                // Supprimer du cache principal
-                const cachedData = CacheManager.get(STORAGE_KEYS.SUPERVISIONS) || [];
-                const updatedCache = cachedData.filter(sup => sup.id !== parseInt(id));
-                CacheManager.set(STORAGE_KEYS.SUPERVISIONS, updatedCache);
-
-                row.remove();
-                this.updateDeleteButton();
-                AlertManager.showSuccess('Élément supprimé avec succès');
-
             } catch (error) {
                 console.error('Erreur lors de la suppression:', error);
-                AlertManager.showError('Erreur lors de la suppression');
+                AlertManager.showError(error.message || 'Erreur lors de la suppression');
             }
         }
 

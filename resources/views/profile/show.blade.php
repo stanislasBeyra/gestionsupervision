@@ -227,10 +227,10 @@
                                 <i class="fas fa-camera fa-sm"></i>
                             </div>
                         </div>
-                        <h2 class="profile-name" id="profileName">Jean Didier Stanislas</h2>
-                        <p class="profile-email" id="profileEmail">jean.didier@example.com</p>
+                        <h2 class="profile-name" id="profileName"></h2>
+                        <p class="profile-email" id="profileEmail"></p>
 
-                        <div class="stats-container">
+                        <!-- <div class="stats-container">
                             <div class="stat-item">
                                 <span class="stat-number">12</span>
                                 <span class="stat-label">superviseurs</span>
@@ -243,7 +243,7 @@
                                 <span class="stat-number">5</span>
                                 <span class="stat-label">elements de d'ensemnle</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="profile-body">
@@ -521,10 +521,10 @@
             // Charger les données du profil
             function loadProfile() {
                 // Simulation de chargement des données
-                $('#profileName').text('Jean Didier Stanislas');
-                $('#profileEmail').text('jean.didier@example.com');
-                $('#name').val('Jean Didier Stanislas');
-                $('#email').val('jean.didier@example.com');
+                $('#profileName').text('');
+                $('#profileEmail').text('');
+                $('#name').val('');
+                $('#email').val('');
 
                 // Réinitialiser MDB
                 document.querySelectorAll('.form-outline').forEach((formOutline) => {

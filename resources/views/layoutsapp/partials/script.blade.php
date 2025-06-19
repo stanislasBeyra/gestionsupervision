@@ -72,72 +72,8 @@
     </script>
     
     <script>
-        // Configuration du graphique en barres
-        const barCtx = document.getElementById('barChart').getContext('2d');
-        new Chart(barCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai'],
-                datasets: [{
-                    label: "Nombre d'incidents",
-                    data: [18, 14, 16, 12, 15],
-                    backgroundColor: '#3B82F6',
-                    borderColor: '#3B82F6',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            drawBorder: false
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Configuration du graphique circulaire
-        const pieCtx = document.getElementById('pieChart').getContext('2d');
-        new Chart(pieCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Opérationnel', 'En maintenance', 'Hors service'],
-                datasets: [{
-                    data: [60, 25, 15],
-                    backgroundColor: ['#4CAF50', '#FFA726', '#EF5350'],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 20
-                        }
-                    }
-                }
-            }
-        });
-
+      
+      
         // Script pour gérer l'état actif des liens dans la sidebar et l'offcanvas
         document.addEventListener('DOMContentLoaded', function () {
             // Gestion des liens de la sidebar

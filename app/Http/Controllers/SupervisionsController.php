@@ -15,6 +15,18 @@ class SupervisionsController extends Controller
         try {
             $query = Supervision::query();
 
+        // Vérifier si l'utilisateur est authentifié
+        if (!auth()->check()) {
+            Log::error('Utilisateur non authentifié');
+            return response()->json([
+                'success' => false,
+                'message' => 'Utilisateur non authentifié'
+            ], 401);
+        }
+
+        $userId = auth()->id();
+        Log::info('User ID:', ['user_id' => $userId]);
+
             // Si un mot-clé de recherche est passé dans la requête
             if ($request->has('search') && $request->search) {
                 $search = $request->search;
@@ -29,6 +41,7 @@ class SupervisionsController extends Controller
                 });
             }
 
+            $query->where('user_id', $userId);
             // Applique un tri par ID décroissant
             $supervisions = $query->orderBy('id', 'desc')->paginate(8);
 
@@ -50,6 +63,19 @@ class SupervisionsController extends Controller
     {
         try {
             $query = Supervision::query();
+
+            // Vérifier si l'utilisateur est authentifié
+        if (!auth()->check()) {
+            Log::error('Utilisateur non authentifié');
+            return response()->json([
+                'success' => false,
+                'message' => 'Utilisateur non authentifié'
+            ], 401);
+        }
+
+        $userId = auth()->id();
+        Log::info('User ID:', ['user_id' => $userId]);
+
             $query->with(['domaines','questions','continues','methodes']);
             // Filtrer par type = 1
             $query->where('type', 1);
@@ -68,6 +94,7 @@ class SupervisionsController extends Controller
                 });
             }
 
+            $query->where('user_id', $userId);
             // Applique un tri par ID décroissant
             $supervisions = $query->orderBy('id', 'desc')->paginate(8);
 
@@ -90,6 +117,17 @@ class SupervisionsController extends Controller
     {
         try {
             $query = Supervision::query();
+            // Vérifier si l'utilisateur est authentifié// Vérifier si l'utilisateur est authentifié
+        if (!auth()->check()) {
+            Log::error('Utilisateur non authentifié');
+            return response()->json([
+                'success' => false,
+                'message' => 'Utilisateur non authentifié'
+            ], 401);
+        }
+
+        $userId = auth()->id();
+        Log::info('User ID:', ['user_id' => $userId]);
 
             $query->with(['domaines','questions','continues','methodes']);
 
@@ -110,6 +148,7 @@ class SupervisionsController extends Controller
                 });
             }
 
+            $query->where('user_id', $userId);
             // Applique un tri par ID décroissant
             $supervisions = $query->orderBy('id', 'desc')->paginate(8);
 
@@ -148,6 +187,7 @@ class SupervisionsController extends Controller
 
         try {
             $supervision = Supervision::create([
+                'user_id' => auth()->id(),
                 'domaine' => $validated['domaine'],
                 'contenu' => $validated['contenu'],
                 'question' => $validated['question'],
@@ -259,12 +299,12 @@ class SupervisionsController extends Controller
         $synthese = $grouped->map(function ($items, $domaine) {
             $points_disponibles = $items->sum('points_disponible');
             $points_obtenus = $items->sum('note');
-            
+
             return [
                 'domaine' => $domaine,
                 'points_disponibles' => (float) $points_disponibles,
                 'points_obtenus' => (float) $points_obtenus,
-                'percentage' => $points_disponibles > 0 ? 
+                'percentage' => $points_disponibles > 0 ?
                     round(($points_obtenus / $points_disponibles) * 100, 2) : 0
             ];
         })->values();
@@ -272,13 +312,13 @@ class SupervisionsController extends Controller
         // Calculer le total
         $total_points_disponibles = $synthese->sum('points_disponibles');
         $total_points_obtenus = $synthese->sum('points_obtenus');
-        
+
         // Ajouter le total à la synthèse
         $synthese->push([
             'domaine' => 'TOTAL',
             'points_disponibles' => (float) $total_points_disponibles,
             'points_obtenus' => (float) $total_points_obtenus,
-            'percentage' => $total_points_disponibles > 0 ? 
+            'percentage' => $total_points_disponibles > 0 ?
                 round(($total_points_obtenus / $total_points_disponibles) * 100, 2) : 0
         ]);
 
@@ -295,16 +335,16 @@ class SupervisionsController extends Controller
         ], 500);
     }
 }
-    
+
 
     public function getsyntheses()
 {
     try {
         $query = Supervision::query();
-        
+
         // Récupérer les domaines uniques avec leurs relations
         $domaines = $query->with('domaines')->distinct()->pluck('domaine');
-        
+
         // Initialiser le tableau de résultats
         $synthese = [];
 
@@ -313,20 +353,20 @@ class SupervisionsController extends Controller
             $supervisions = $query->where('domaine', $domaine)
                                 ->with('domaines')
                                 ->get();
-            
+
             if ($supervisions->isNotEmpty()) {
                 // Calculer les points disponibles et obtenus pour le domaine
                 $points_disponibles = $supervisions->sum('points_disponibles');
                 $points_obtenus = $supervisions->sum('points_obtenus');
-                
+
                 // Calculer le pourcentage pour le domaine avec vérification de division par zéro
                 $percentage = $points_disponibles > 0 ? ($points_obtenus / $points_disponibles) * 100 : 0;
-                
+
                 // Récupérer le nom du domaine depuis la relation
-                $nomDomaine = $supervisions->first()->domaines ? 
-                             $supervisions->first()->domaines->name_domaine : 
+                $nomDomaine = $supervisions->first()->domaines ?
+                             $supervisions->first()->domaines->name_domaine :
                              $domaine;
-                
+
                 // Ajouter les résultats au tableau de synthèse
                 $synthese[] = [
                     'domaine' => $nomDomaine,
@@ -336,17 +376,17 @@ class SupervisionsController extends Controller
                 ];
             }
         }
-        
+
         if (!empty($synthese)) {
             // Calculer le total des points disponibles et obtenus
             $total_points_disponibles = array_sum(array_column($synthese, 'points_disponibles'));
             $total_points_obtenus = array_sum(array_column($synthese, 'points_obtenus'));
-            
+
             // Calculer le pourcentage total avec vérification de division par zéro
-            $total_percentage = $total_points_disponibles > 0 ? 
-                              ($total_points_obtenus / $total_points_disponibles) * 100 : 
+            $total_percentage = $total_points_disponibles > 0 ?
+                              ($total_points_obtenus / $total_points_disponibles) * 100 :
                               0;
-            
+
             // Ajouter les totaux à la synthèse
             $synthese[] = [
                 'domaine' => 'TOTAL',
@@ -355,12 +395,12 @@ class SupervisionsController extends Controller
                 'percentage' => round($total_percentage, 2)
             ];
         }
-        
+
         return response()->json([
             'success' => true,
             'synthese' => $synthese
         ]);
-        
+
     } catch (Throwable $t) {
         return response()->json([
             'success' => false,

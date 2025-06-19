@@ -25,32 +25,61 @@ class SuperviserController extends Controller
     // }
 
     public function getSupervisers(Request $request)
-{
-    try {
-        $search = $request->input('search', '');
+    {
+        try {
+            $search = $request->input('search', '');
+            
+            // Vérifier si l'utilisateur est authentifié
+            if (!auth()->check()) {
+                Log::error('Utilisateur non authentifié');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Utilisateur non authentifié'
+                ], 401);
+            }
 
+            $userId = auth()->id();
+            Log::info('User ID:', ['user_id' => $userId]);
 
-        $superviseurs = Superviser::where('firstname', 'LIKE', "%{$search}%")
-            ->orWhere('fonction', 'LIKE', "%{$search}%")
-            ->orWhere('service', 'LIKE', "%{$search}%")
-            ->orWhere('profession', 'LIKE', "%{$search}%")
-            ->orWhere('phone', 'LIKE', "%{$search}%")
-            ->orWhere('email', 'LIKE', "%{$search}%")
-            ->orderBy('id', 'desc')
-            ->paginate(8);
+            $query = Superviser::query();
+            
+            // Appliquer les conditions de recherche
+            if (!empty($search)) {
+                $query->where(function($q) use ($search) {
+                    $q->where('firstname', 'LIKE', "%{$search}%")
+                        ->orWhere('fonction', 'LIKE', "%{$search}%")
+                        ->orWhere('service', 'LIKE', "%{$search}%")
+                        ->orWhere('profession', 'LIKE', "%{$search}%")
+                        ->orWhere('phone', 'LIKE', "%{$search}%")
+                        ->orWhere('email', 'LIKE', "%{$search}%");
+                });
+            }
 
-        return response()->json([
-            'success' => true,
-            'superviseur' => $superviseurs
-        ]);
-    } catch (Throwable $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Une erreur est survenue lors de la récupération des supervisers.',
-            'error' => $e->getMessage()
-        ], 500);
+            // Filtrer par user_id
+            $query->where('user_id', $userId);
+            
+            // Exécuter la requête
+            $superviseurs = $query->orderBy('id', 'desc')->paginate(8);
+            
+            Log::info('Requête SQL:', ['sql' => $query->toSql(), 'bindings' => $query->getBindings()]);
+            Log::info('Superviseurs trouvés:', ['count' => $superviseurs->total()]);
+
+            return response()->json([
+                'success' => true,
+                'superviseur' => $superviseurs
+            ]);
+        } catch (Throwable $e) {
+            Log::error('Erreur dans getSupervisers:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la récupération des supervisers.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
-}
 
     public function saveSuperviser(Request $request)
     {
@@ -66,6 +95,7 @@ class SuperviserController extends Controller
                 'email' => 'required|email|max:255|unique:superviseurs,email',
             ]);
 
+            $validated['user_id'] = auth()->user()->id;
             $superviseur = Superviser::create($validated);
 
             return response()->json([
@@ -100,7 +130,7 @@ class SuperviserController extends Controller
             ], 500);
         }
     }
-    
+
     public function updateSuperviser(Request $request, $id)
     {
         try {
