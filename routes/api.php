@@ -5,6 +5,7 @@ use App\Http\Controllers\ContenuController;
 use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\FormSelectedController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MethodeController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProblemeController;
@@ -154,4 +155,18 @@ Route::middleware('auth:sanctum')->group(function () {
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'profileinfo']);
     Route::put('/profile', [ProfileController::class, 'update']);
+});
+
+// Statistiques du dashboard (routes API)
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/dashboard/etablissements/count', [HomeController::class, 'getEtablissementCount']);
+    Route::get('/dashboard/supervisions/count', [HomeController::class, 'getSupervisionCount']);
+    Route::get('/dashboard/superviseurs/count', [HomeController::class, 'getSuperviseurCount']);
+    Route::get('/dashboard/supervisers/count', [HomeController::class, 'getSuperviserCount']);
+    Route::get('/dashboard/problemes/count', [HomeController::class, 'getProblemeCount']);
+    Route::get('/dashboard/competance-elements/count', [HomeController::class, 'getCompetanceElementCount']);
+    Route::get('/dashboard/environnement-elements/count', [HomeController::class, 'getEnvironnementElementCount']);
+    Route::get('/dashboard/supervisions/stats-by-month', [HomeController::class, 'getSupervisionStatsByMonth']);
+    Route::get('/dashboard/supervisions/stats-by-week', [HomeController::class, 'getSupervisionStatsByWeek']);
+    Route::get('/dashboard/supervisions/stats-current-week-by-day', [HomeController::class, 'getSupervisionStatsCurrentWeekByDay']);
 });
