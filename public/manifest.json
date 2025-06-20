@@ -1,6 +1,6 @@
 {
     "name": "Supervision Sanitaire",
-    "short_name": "SupSan",
+    "short_name": "INFAS MTN",
     "description": "Application de supervision des établissements sanitaires et gestion des problèmes prioritaires",
     "start_url": "/dashboard",
     "display": "standalone",
