@@ -227,83 +227,12 @@
             </div>
         </div>
         <div class="row mt-5 row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <!-- USAID -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/usaidT.png') }}" class="img-fluid" alt="Logo USAID">
-                    </div>
-                </div>
-            </div>
-            <!-- Anesvad -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/anesvadT.png') }}" class="img-fluid" alt="Logo Anesvad">
-                    </div>
-                </div>
-            </div>
-            <!-- Coptiment -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/coptimentT.png') }}" class="img-fluid" alt="Logo Coptiment">
-                    </div>
-                </div>
-            </div>
-            <!-- Hope Rises -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/hoperisesT.png') }}" class="img-fluid" alt="Logo Hope Rises">
-                    </div>
-                </div>
-            </div>
-            <!-- PNEL -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/pnelT.png') }}" class="img-fluid" alt="Logo PNEL">
-                    </div>
-                </div>
-            </div>
-            <!-- PNETHA -->
+
+        <!-- PNETHA -->
             <div class="col">
                 <div class="card h-100 logo-card">
                     <div class="card-body">
                         <img src="{{ asset('images/pnethaT.png') }}" class="img-fluid" alt="Logo PNETHA">
-                    </div>
-                </div>
-            </div>
-            <!-- PNEVG -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/pnevgT.png') }}" class="img-fluid" alt="Logo PNEVG">
-                    </div>
-                </div>
-            </div>
-            <!-- PNLMNCP -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/pnlmtncpT.png') }}" class="img-fluid" alt="Logo PNLMNCP">
-                    </div>
-                </div>
-            </div>
-            <!-- PNLUB -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/pnlubT.png') }}" class="img-fluid" alt="Logo PNLUB">
-                    </div>
-                </div>
-            </div>
-            <!-- IRFCI -->
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/irfciT.png') }}" class="img-fluid" alt="Logo IRFCI">
                     </div>
                 </div>
             </div>
@@ -315,19 +244,101 @@
                     </div>
                 </div>
             </div>
+
+            <!-- PNEL 1er plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/pnelT.png') }}" class="img-fluid" alt="Logo PNEL">
+                    </div>
+                </div>
+            </div>
+            <!-- PNEVG 1er plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/pnevgT.png') }}" class="img-fluid" alt="Logo PNEVG">
+                    </div>
+                </div>
+            </div>
+            <!-- PNLMNCP 1er plan -->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/pnlmtncpT.png') }}" class="img-fluid" alt="Logo PNLMNCP">
+                    </div>
+                </div>
+            </div>
+            <!-- PNLUB 1er plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/pnlubT.png') }}" class="img-fluid" alt="Logo PNLUB">
+                    </div>
+                </div>
+            </div>
+            <!-- PNETHA 1er plan -->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/PNETHA.jpeg') }}" class="img-fluid" alt="Logo PNETHA">
+                    </div>
+                </div>
+            </div>
+            <!-- INFAS 1er plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/infas2.png') }}" class="img-fluid" alt="Logo FOLLEREAU">
+                    </div>
+                </div>
+            </div>
+
+            <!-- USAID 2e plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/usaidT.png') }}" class="img-fluid" alt="Logo USAID">
+                    </div>
+                </div>
+            </div>
+            <!-- Anesvad 2e plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/anesvadT.png') }}" class="img-fluid" alt="Logo Anesvad">
+                    </div>
+                </div>
+            </div>
+            <!-- Coptiment 2e plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/coptimentT.png') }}" class="img-fluid" alt="Logo Coptiment">
+                    </div>
+                </div>
+            </div>
+            <!-- Hope Rises 2e plan-->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/hoperisesT.png') }}" class="img-fluid" alt="Logo Hope Rises">
+                    </div>
+                </div>
+            </div>
+            <!-- IRFCI -->
+            <div class="col">
+                <div class="card h-100 logo-card">
+                    <div class="card-body">
+                        <img src="{{ asset('images/irfciT.png') }}" class="img-fluid" alt="Logo IRFCI">
+                    </div>
+                </div>
+            </div>
             <!-- FOLLEREAU -->
             <div class="col">
                 <div class="card h-100 logo-card">
                     <div class="card-body">
                         <img src="{{ asset('images/follT.png') }}" class="img-fluid" alt="Logo FOLLEREAU">
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100 logo-card">
-                    <div class="card-body">
-                        <img src="{{ asset('images/infas2.png') }}" class="img-fluid" alt="Logo FOLLEREAU">
                     </div>
                 </div>
             </div>

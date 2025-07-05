@@ -7,8 +7,8 @@
     <title>@yield('title', 'Application')</title>
 
     <!-- PWA méta tags -->
-    <!-- <link rel="manifest" href="{{ asset('manifest.json') }}"> -->
-    <!-- <link rel="manifest" href="{{ route('manifest') }}"> -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}"> 
+     {{-- <link rel="manifest" href="{{ route('manifest') }}"> --}}
     <meta name="theme-color" content="#3b82f6">
 
     <!-- <link rel="manifest" href="/manifest.json"> -->
