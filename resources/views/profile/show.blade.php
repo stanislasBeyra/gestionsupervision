@@ -222,28 +222,17 @@
                 <div class="card profile-card">
                     <div class="profile-header">
                         <div class="profile-icon-container">
-                            <i class="fas fa-user profile-icon"></i>
-                            <div class="edit-icon" title="Changer l'icône">
+                            <div id="profileImageContainer">
+                                <img id="profileImage" src="" alt="Photo de profil" style="width: 100%; height: 100%; object-fit: cover; border-radius: 100%; display: none;">
+                                <i class="fas fa-user profile-icon" id="profileIcon"></i>
+                            </div>
+                            <div class="edit-icon" title="Changer l'image de profil" onclick="document.getElementById('profileImageInput').click();">
                                 <i class="fas fa-camera fa-sm"></i>
                             </div>
                         </div>
+                        <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
                         <h2 class="profile-name" id="profileName"></h2>
                         <p class="profile-email" id="profileEmail"></p>
-
-                        <!-- <div class="stats-container">
-                            <div class="stat-item">
-                                <span class="stat-number">12</span>
-                                <span class="stat-label">superviseurs</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">48</span>
-                                <span class="stat-label">elements d'environnement</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">5</span>
-                                <span class="stat-label">elements de d'ensemnle</span>
-                            </div>
-                        </div> -->
                     </div>
 
                     <div class="profile-body">
@@ -365,6 +354,19 @@
                             document.getElementById('name').value = user.name;
                             document.getElementById('email').value = user.email;
 
+                            // Afficher l'image de profil si elle existe
+                            const profileImage = document.getElementById('profileImage');
+                            const profileIcon = document.getElementById('profileIcon');
+                            
+                            if (user.profil_image) {
+                                profileImage.src = `/storage/${user.profil_image}`;
+                                profileImage.style.display = 'block';
+                                profileIcon.style.display = 'none';
+                            } else {
+                                profileImage.style.display = 'none';
+                                profileIcon.style.display = 'block';
+                            }
+
                             // Réinitialiser les form-outline
                             document.querySelectorAll('.form-outline').forEach((formOutline) => {
                                 new mdb.Input(formOutline).init();
@@ -375,6 +377,106 @@
                         showAlert('Erreur lors du chargement du profil', 'danger');
                     });
             }
+
+            // Gérer l'upload d'image de profil
+            document.getElementById('profileImageInput').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                // Vérifier le type de fichier
+                if (!file.type.startsWith('image/')) {
+                    showAlert('Veuillez sélectionner une image valide', 'danger');
+                    return;
+                }
+
+                // Vérifier la taille du fichier (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showAlert('L\'image ne doit pas dépasser 5MB', 'danger');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('profil_image', file);
+
+                // Afficher un indicateur de chargement
+                const editIcon = document.querySelector('.edit-icon');
+                const originalContent = editIcon.innerHTML;
+                editIcon.innerHTML = '<i class="fas fa-spinner fa-spin fa-sm"></i>';
+
+                fetch('/api/profile/upload-image', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                                                 if (data.status === 'success') {
+                             showAlert('Image de profil mise à jour avec succès !', 'success');
+                             
+                             // Mettre à jour l'affichage de l'image
+                             const profileImage = document.getElementById('profileImage');
+                             const profileIcon = document.getElementById('profileIcon');
+                             
+                             profileImage.src = `/storage/${data.data.profil_image}`;
+                             profileImage.style.display = 'block';
+                             profileIcon.style.display = 'none';
+                             
+                             // Mettre à jour la navbar
+                             updateNavbarProfileImage(data.data.profil_image);
+                         } else {
+                             showAlert(data.message || 'Erreur lors de l\'upload de l\'image', 'danger');
+                         }
+                     })
+                     .catch(error => {
+                         showAlert('Erreur lors de l\'upload de l\'image', 'danger');
+                     })
+                     .finally(() => {
+                         editIcon.innerHTML = originalContent;
+                         // Réinitialiser l'input file
+                         e.target.value = '';
+                     });
+             });
+
+             // Fonction pour mettre à jour la navbar
+             function updateNavbarProfileImage(imagePath) {
+                 const navbarProfileImage = document.getElementById('navbarProfileImage');
+                 const navbarProfileIcon = document.getElementById('navbarProfileIcon');
+                 
+                 if (imagePath) {
+                     if (navbarProfileImage) {
+                         navbarProfileImage.src = `/storage/${imagePath}`;
+                         navbarProfileImage.style.display = 'block';
+                     } else {
+                         // Créer l'élément image s'il n'existe pas
+                         const newImage = document.createElement('img');
+                         newImage.src = `/storage/${imagePath}`;
+                         newImage.alt = 'Photo de profil';
+                         newImage.className = 'rounded-circle';
+                         newImage.width = 32;
+                         newImage.height = 32;
+                         newImage.style = 'object-fit: cover;';
+                         newImage.id = 'navbarProfileImage';
+                         
+                         const dropdownToggle = document.querySelector('.nav-link.dropdown-toggle');
+                         dropdownToggle.innerHTML = '';
+                         dropdownToggle.appendChild(newImage);
+                     }
+                     
+                     if (navbarProfileIcon) {
+                         navbarProfileIcon.style.display = 'none';
+                     }
+                 } else {
+                     if (navbarProfileImage) {
+                         navbarProfileImage.style.display = 'none';
+                     }
+                     if (navbarProfileIcon) {
+                         navbarProfileIcon.style.display = 'block';
+                     }
+                 }
+             }
 
             // Gérer la soumission du formulaire
             document.getElementById('profileForm').addEventListener('submit', function (e) {
@@ -431,134 +533,5 @@
             loadProfile();
         });
     </script>
-    {{--
-    <script>
-        $(document).ready(function () {
-            // Fonction pour afficher les alertes
-            function showAlert(message, type = 'success') {
-                const alertContainer = $('#alertContainer');
-                const alert = alertContainer.find('.alert');
-
-                $('#alertMessage').text(message);
-                alert.removeClass('alert-success alert-danger alert-warning')
-                    .addClass(`alert-${type}`);
-
-                // Changer l'icône selon le type
-                const icon = alert.find('i').first();
-                icon.removeClass();
-                switch (type) {
-                    case 'success':
-                        icon.addClass('fas fa-check-circle me-2');
-                        break;
-                    case 'danger':
-                        icon.addClass('fas fa-exclamation-circle me-2');
-                        break;
-                    case 'warning':
-                        icon.addClass('fas fa-exclamation-triangle me-2');
-                        break;
-                }
-
-                alertContainer.fadeIn();
-
-                setTimeout(() => {
-                    alertContainer.fadeOut();
-                }, 5000);
-            }
-
-            // Validation de la force du mot de passe
-            $('#new_password').on('input', function () {
-                const password = $(this).val();
-                const strength = $('#passwordStrength');
-
-                if (password.length === 0) {
-                    strength.hide();
-                    return;
-                }
-
-                strength.show();
-
-                if (password.length < 6) {
-                    strength.removeClass().addClass('password-strength strength-weak');
-                } else if (password.length < 10 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-                    strength.removeClass().addClass('password-strength strength-medium');
-                } else {
-                    strength.removeClass().addClass('password-strength strength-strong');
-                }
-            });
-
-            // Gestion du changement d'icône
-            $('.edit-icon').on('click', function () {
-                const icons = ['fa-user', 'fa-user-tie', 'fa-user-ninja', 'fa-user-astronaut', 'fa-user-secret', 'fa-user-graduate'];
-                const currentIcon = $('.profile-icon');
-                const currentClass = icons.find(icon => currentIcon.hasClass(icon));
-                const currentIndex = icons.indexOf(currentClass);
-                const nextIndex = (currentIndex + 1) % icons.length;
-
-                currentIcon.removeClass(currentClass).addClass(icons[nextIndex]);
-
-                // Animation de rotation
-                $('.profile-icon-container').css('transform', 'rotate(360deg)');
-                setTimeout(() => {
-                    $('.profile-icon-container').css('transform', 'rotate(0deg)');
-                }, 300);
-            });
-
-            // Validation des erreurs
-            function showValidationErrors(errors) {
-                $('.invalid-feedback').text('');
-                $('.form-control').removeClass('is-invalid');
-
-                Object.keys(errors).forEach(field => {
-                    const input = $(`#${field}`);
-                    const errorDiv = $(`#${field}Error`);
-                    if (input.length && errorDiv.length) {
-                        input.addClass('is-invalid');
-                        errorDiv.text(errors[field][0]);
-                    }
-                });
-            }
-
-            // Charger les données du profil
-            function loadProfile() {
-                // Simulation de chargement des données
-                $('#profileName').text('');
-                $('#profileEmail').text('');
-                $('#name').val('');
-                $('#email').val('');
-
-                // Réinitialiser MDB
-                document.querySelectorAll('.form-outline').forEach((formOutline) => {
-                    new mdb.Input(formOutline).update();
-                });
-            }
-
-            // Gestion du formulaire
-            $('#profileForm').on('submit', function (e) {
-                e.preventDefault();
-
-                const button = $('#updateButton');
-                const originalHtml = button.html();
-                button.prop('disabled', true)
-                    .html('<span class="spinner-border spinner-border-sm me-2"></span>Mise à jour...');
-
-                // Simulation de la mise à jour
-                setTimeout(() => {
-                    showAlert('Profil mis à jour avec succès !', 'success');
-
-                    // Mettre à jour les informations affichées
-                    $('#profileName').text($('#name').val());
-                    $('#profileEmail').text($('#email').val());
-
-                    // Réinitialiser les mots de passe
-                    $('#current_password, #new_password, #new_password_confirmation').val('');
-                    $('#passwordStrength').hide();
-
-                    button.prop('disabled', false).html(originalHtml);
-                }, 2000);
-            });
-
-            // Charger le profil au démarrage
-            loadProfile();
-        });
-    </script> --}}
+    
 @endsection

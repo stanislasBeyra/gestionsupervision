@@ -28,17 +28,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
                     id="navbarDropdownMenuLink" role="button" data-mdb-dropdown-init aria-expanded="false">
-                    @if(auth()->user()->profil_image)
-                        <img src="{{ asset('storage/' . auth()->user()->profil_image) }}" 
-                             alt="Photo de profil" 
-                             class="rounded-circle" 
-                             width="32" 
-                             height="32" 
-                             style="object-fit: cover;"
-                             id="navbarProfileImage">
-                    @else
-                        <i class="fas fa-user-circle fa-lg text-primary" id="navbarProfileIcon"></i>
-                    @endif
+                    <i class="fas fa-user-circle fa-lg"></i>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">

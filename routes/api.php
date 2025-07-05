@@ -155,6 +155,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'profileinfo']);
     Route::put('/profile', [ProfileController::class, 'update']);
+    Route::post('/profile/upload-image', [ProfileController::class, 'uploadImage']);
 });
 
 // Statistiques du dashboard (routes API)
