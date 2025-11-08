@@ -52,7 +52,8 @@
         display: flex;
         gap: 12px;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
     }
 
     /* Cards */
@@ -422,7 +423,8 @@
 
         .header-actions {
             order: 2 !important;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             width: 100%;
             margin-top: 0 !important;
             gap: 8px;
@@ -525,33 +527,30 @@
         <!-- Desktop Table View -->
         <div class="table-wrapper">
             <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            <input type="checkbox" id="selectAll" onchange="toggleAllCheckboxes(this)">
-                        </th>
-                        <th scope="col">#ID</th>
-                        <th scope="col">Date d'ajout</th>
-                        <th scope="col">Établissement</th>
-                        <th scope="col" class="d-none d-lg-table-cell">Domaine</th>
-                        <th scope="col" class="d-none d-xl-table-cell">Contenu</th>
-                        <th scope="col" class="d-none d-xl-table-cell">Question PA</th>
-                        <th scope="col" class="d-none d-lg-table-cell">Méthode</th>
-                        <th scope="col" class="d-none d-xl-table-cell">Réponse</th>
-                        <th scope="col" class="d-none d-md-table-cell">Note Obtenue</th>
-                        <th scope="col" class="d-none d-xl-table-cell">Commentaires</th>
-                        <th scope="col" style="text-align: center; width: 100px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                </tbody>
-            </table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="selectAll" onchange="toggleAllCheckboxes(this)">
+                                </div>
+                            </th>
+                            <th>N°</th>
+                            <th>Date d'ajout</th>
+                            <th>Établissement</th>
+                            <th class="d-none d-md-table-cell">Domaine</th>
+                            <th class="d-none d-lg-table-cell">Note Obtenue</th>
+                            <th style="text-align: center; width: 60px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
         </div>
 
         <!-- Mobile Cards View -->
         <div class="mobile-cards" id="mobile-cards">
             <!-- Les cartes mobiles seront ajoutées ici -->
-        </div>
+            </div>
 
         <div id="empty-message" class="empty-state d-none">
             <i class="fas fa-clipboard"></i>
@@ -563,6 +562,25 @@
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer cette supervision ? Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Drawer pour les détails -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
@@ -690,28 +708,23 @@
         const getValue = (value) => value ?? '-';
 
         const row = document.createElement('tr');
-        row.style.cursor = 'pointer';
-        row.onclick = () => openDrawer(supervision);
         row.setAttribute('data-supervision', JSON.stringify(supervision));
+        row.setAttribute('data-id', supervision.id);
 
         row.innerHTML = `
-            <td onclick="event.stopPropagation()"><input type="checkbox" value="${supervision.id}"></td>
+            <td onclick="event.stopPropagation()">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="${supervision.id}">
+                </div>
+            </td>
             <td>${index + 1}</td>
             <td>${formatDate(supervision.created_at)}</td>
-            <td>${safeText(getValue(supervision.etablissements))}</td>
-            <td class="d-none d-lg-table-cell">${safeText(getValue(supervision.domaines?.name_domaine))}</td>
-            <td class="d-none d-xl-table-cell">${safeText(getValue(supervision.continues?.[0]?.name_contenu))}</td>
-            <td class="d-none d-xl-table-cell">${safeText(getValue(supervision.questions?.[0]?.name_question))}</td>
-            <td class="d-none d-lg-table-cell">${safeText(getValue(supervision.methodes?.[0]?.methode_name))}</td>
-            <td class="d-none d-xl-table-cell">${safeText(getValue(supervision.reponse))}</td>
-            <td class="d-none d-md-table-cell">${safeText(getValue(supervision.note))}</td>
-            <td class="d-none d-xl-table-cell">${safeText(getValue(supervision.commentaire))}</td>
+            <td style="cursor: pointer; color: var(--primary-color);" onclick="openDrawerFromRow(this.closest('tr'))">${safeText(getValue(supervision.etablissements))}</td>
+            <td class="d-none d-md-table-cell">${safeText(getValue(supervision.domaines?.name_domaine))}</td>
+            <td class="d-none d-lg-table-cell">${safeText(getValue(supervision.note))}</td>
             <td onclick="event.stopPropagation()">
-                <button class="btn btn-primary-custom btn-sm" onclick="viewSupervision(${supervision.id})">
+                <button class="btn btn-primary btn-sm" onclick="openDrawerFromRow(this.closest('tr'))" title="Voir détails">
                     <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-danger-custom btn-sm" onclick="deleteSupervision(${supervision.id})">
-                    <i class="fas fa-trash"></i>
                 </button>
             </td>
         `;
@@ -767,30 +780,30 @@
         let paginationHTML = `
             <nav aria-label="Pagination des supervisions">
                 <ul class="pagination pagination-circle justify-content-center">
-                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
                         <a class="page-link" href="#" onclick="fetchSupervisions(${currentPage - 1})" ${currentPage === 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>
                             <span aria-hidden="true">&laquo;</span>
                         </a>
-                    </li>
-        `;
+                </li>
+    `;
 
         for (let page = 1; page <= lastPage; page++) {
             paginationHTML += `
-                <li class="page-item ${page === currentPage ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="fetchSupervisions(${page})">${page}</a>
-                </li>
-            `;
+            <li class="page-item ${page === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="fetchSupervisions(${page})">${page}</a>
+            </li>
+        `;
         }
 
         paginationHTML += `
-                    <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
+                <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
                         <a class="page-link" href="#" onclick="fetchSupervisions(${currentPage + 1})" ${currentPage === lastPage ? 'tabindex="-1" aria-disabled="true"' : ''}>
                             <span aria-hidden="true">&raquo;</span>
                         </a>
-                    </li>
-                </ul>
-            </nav>
-        `;
+                </li>
+            </ul>
+        </nav>
+    `;
 
         paginationContainer.innerHTML = paginationHTML;
     }
@@ -850,6 +863,12 @@
                     <span class="drawer-value">${safeText(getValue(supervision.commentaire))}</span>
                 </div>
             </div>
+
+            <div class="d-flex gap-2 mt-4">
+                <button class="btn btn-danger" onclick="showDeleteModalFromDrawer('${supervision.id}')">
+                    <i class="fas fa-trash me-2"></i>Supprimer
+                </button>
+            </div>
         `;
 
         drawer.classList.add('open');
@@ -905,15 +924,15 @@
     function deleteSupervision(id) {
         if (!confirm('Voulez-vous vraiment supprimer cette supervision ?')) return;
 
-        fetch(`${API_ENDPOINTS.SUPERVISIONS}/${id}`, {
-                method: 'DELETE',
-                headers: {
+            fetch(`${API_ENDPOINTS.SUPERVISIONS}/${id}`, {
+                    method: 'DELETE',
+                    headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
                 if (data.success) {
                     NotificationManager.show('Supervision supprimée avec succès', 'success');
                     fetchSupervisions();

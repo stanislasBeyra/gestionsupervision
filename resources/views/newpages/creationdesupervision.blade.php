@@ -52,7 +52,8 @@
         display: flex;
         gap: 12px;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
     }
 
     /* Cards */
@@ -355,7 +356,8 @@
 
         .header-actions {
             order: 2 !important;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             width: 100%;
             margin-top: 0 !important;
             gap: 8px;
@@ -381,7 +383,7 @@
         }
 
         .header-actions .btn {
-            width: 100%;
+            flex: 1;
             padding: 12px 16px !important;
             font-size: 14px;
             justify-content: center !important;
@@ -560,7 +562,7 @@
         border: none;
         font-size: 24px;
         color: var(--text-secondary);
-        cursor: pointer;
+    cursor: pointer;
         padding: 0;
         width: 32px;
         height: 32px;
@@ -650,7 +652,8 @@
                     </button>
                     <button type="button" class="btn btn-primary-custom" onclick="showForm()">
                         <i class="fas fa-plus-circle"></i>
-                        <span>Nouvelle Supervision</span>
+                        <span class="d-none d-md-inline">Nouvelle Supervision</span>
+                        <span class="d-md-none">Nouvelle</span>
                     </button>
                 </div>
             </div>
@@ -660,35 +663,32 @@
             <!-- Desktop Table View -->
             <div class="table-wrapper">
                 <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input type="checkbox" id="selectAll" onchange="toggleAllCheckboxes(this)">
-                            </th>
-                            <th scope="col">#ID</th>
-                            <th scope="col">Date d'ajout</th>
-                            <th scope="col">Établissement</th>
-                            <th scope="col" class="d-none d-lg-table-cell">Domaine</th>
-                            <th scope="col" class="d-none d-xl-table-cell">Contenu</th>
-                            <th scope="col" class="d-none d-xl-table-cell">Question PA</th>
-                            <th scope="col" class="d-none d-lg-table-cell">Méthode</th>
-                            <th scope="col" class="d-none d-xl-table-cell">Réponse</th>
-                            <th scope="col" class="d-none d-md-table-cell">Note Obtenue</th>
-                            <th scope="col" class="d-none d-xl-table-cell">Commentaires</th>
-                            <th scope="col" style="text-align: center; width: 100px;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                    </tbody>
-                </table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="selectAll" onchange="toggleAllCheckboxes(this)">
+                                    </div>
+                                </th>
+                                <th>N°</th>
+                                <th>Date d'ajout</th>
+                                <th>Établissement</th>
+                                <th class="d-none d-md-table-cell">Domaine</th>
+                                <th class="d-none d-lg-table-cell">Note Obtenue</th>
+                                <th style="text-align: center; width: 60px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                        </tbody>
+                    </table>
             </div>
 
             <!-- Mobile Cards View -->
             <div class="mobile-cards" id="mobile-cards">
                 <!-- Les cartes mobiles seront ajoutées ici -->
-            </div>
+                </div>
 
-            <div id="pagination-container" class="mt-3"></div>
+                <div id="pagination-container" class="mt-3"></div>
         </div>
     </div>
 
@@ -697,7 +697,7 @@
         <div class="page-header">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start">
                 <div class="mb-3 mb-md-0">
-                    <h1 class="page-title" id="formTitle">Nouvelle Supervision</h1>
+                    <h1 class="page-title" id="formTitle">Nouvelle</h1>
                     <p class="page-subtitle" id="formSubtitle">Ajouter une nouvelle supervision</p>
                 </div>
                 <button class="btn btn-secondary-custom" onclick="showTable()">
@@ -707,136 +707,136 @@
         </div>
 
         <div class="content-card">
-            <form id="data-form" onsubmit="handleSubmit(event)">
-                <!-- Section Établissement -->
-                <div class="etablissement-section">
+                <form id="data-form" onsubmit="handleSubmit(event)">
+                    <!-- Section Établissement -->
+                    <div class="etablissement-section">
                     <h5>Sélection de l'établissement</h5>
-                    <div class="row g-3">
-                        <div class="col-md-2">
-                            <input type="radio" name="etablissement" id="etabCSR" value="CENTRE DE SANTÉ RURAL" class="etablissement-radio" data-type="1" onchange="handleEtablissementChange()">
-                            <label for="etabCSR" class="etablissement-label">
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                                <input type="radio" name="etablissement" id="etabCSR" value="CENTRE DE SANTÉ RURAL" class="etablissement-radio" data-type="1" onchange="handleEtablissementChange()">
+                                <label for="etabCSR" class="etablissement-label">
                                 <span>CENTRE DE SANTÉ RURAL</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-2">
-                            <input type="radio" name="etablissement" id="etabCSU" value="CENTRE DE SANTÉ URBAIN" class="etablissement-radio" data-type="2" onchange="handleEtablissementChange()">
-                            <label for="etabCSU" class="etablissement-label">
+                            <div class="col-md-2">
+                                <input type="radio" name="etablissement" id="etabCSU" value="CENTRE DE SANTÉ URBAIN" class="etablissement-radio" data-type="2" onchange="handleEtablissementChange()">
+                                <label for="etabCSU" class="etablissement-label">
                                 <span>CENTRE DE SANTÉ URBAIN</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-2">
-                            <input type="radio" name="etablissement" id="CS" value="CENTRE SPECIALISÉ" class="etablissement-radio" data-type="3" onchange="handleEtablissementChange()">
-                            <label for="CS" class="etablissement-label">
+                            <div class="col-md-2">
+                                <input type="radio" name="etablissement" id="CS" value="CENTRE SPECIALISÉ" class="etablissement-radio" data-type="3" onchange="handleEtablissementChange()">
+                                <label for="CS" class="etablissement-label">
                                 <span>CENTRE SPECIALISÉ</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-3">
-                            <input type="radio" name="etablissement" id="etabDR" value="DISPENSAIRE RURAL" class="etablissement-radio" data-type="4" onchange="handleEtablissementChange()">
-                            <label for="etabDR" class="etablissement-label">
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabDR" value="DISPENSAIRE RURAL" class="etablissement-radio" data-type="4" onchange="handleEtablissementChange()">
+                                <label for="etabDR" class="etablissement-label">
                                 <span>DISPENSAIRE RURAL</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-3">
-                            <input type="radio" name="etablissement" id="etabEPHD" value="EPHD" class="etablissement-radio" data-type="5" onchange="handleEtablissementChange()">
-                            <label for="etabEPHD" class="etablissement-label">
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabEPHD" value="EPHD" class="etablissement-radio" data-type="5" onchange="handleEtablissementChange()">
+                                <label for="etabEPHD" class="etablissement-label">
                                 <span>ETABLISSEMENT PUBLIC HOSPITALIER DEPARTEMENTAL</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-3">
-                            <input type="radio" name="etablissement" id="etabEPHN" value="EPHN" class="etablissement-radio" data-type="6" onchange="handleEtablissementChange()">
-                            <label for="etabEPHN" class="etablissement-label">
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabEPHN" value="EPHN" class="etablissement-radio" data-type="6" onchange="handleEtablissementChange()">
+                                <label for="etabEPHN" class="etablissement-label">
                                 <span>ETABLISSEMENT PUBLIC HOSPITALIER NATIONAL</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-3">
-                            <input type="radio" name="etablissement" id="etabEPHR" value="EPHR" class="etablissement-radio" data-type="7" onchange="handleEtablissementChange()">
-                            <label for="etabEPHR" class="etablissement-label">
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabEPHR" value="EPHR" class="etablissement-radio" data-type="7" onchange="handleEtablissementChange()">
+                                <label for="etabEPHR" class="etablissement-label">
                                 <span>ETABLISSEMENT PUBLIC HOSPITALIER REGiONAL</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-3">
-                            <input type="radio" name="etablissement" id="etabFSU" value="FSU" class="etablissement-radio" data-type="8" onchange="handleEtablissementChange()">
-                            <label for="etabFSU" class="etablissement-label">
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabFSU" value="FSU" class="etablissement-radio" data-type="8" onchange="handleEtablissementChange()">
+                                <label for="etabFSU" class="etablissement-label">
                                 <span>FSU</span>
-                            </label>
-                        </div>
+                                </label>
+                            </div>
 
-                        <div class="col-md-3">
-                            <input type="radio" name="etablissement" id="etabFSU COM" value="FSU COM" class="etablissement-radio" data-type="9" onchange="handleEtablissementChange()">
-                            <label for="etabFSU COM" class="etablissement-label">
+                            <div class="col-md-3">
+                                <input type="radio" name="etablissement" id="etabFSU COM" value="FSU COM" class="etablissement-radio" data-type="9" onchange="handleEtablissementChange()">
+                                <label for="etabFSU COM" class="etablissement-label">
                                 <span>FSU COM</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Autres champs du formulaire -->
-                <div id="form-fields" class="disabled-overlay">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <label class="form-label">Domaine</label>
-                            <select id="domaine" name="domaine" class="form-select" required disabled>
-                                <option value="">Sélectionnez un domaine</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Contenu</label>
-                            <select id="contenu" name="contenu" class="form-select" required disabled>
-                                <option value="">Sélectionnez un contenu</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Question</label>
-                            <select id="question" name="question" class="form-select" required disabled>
-                                <option value="">Sélectionnez une question</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Méthode(s)</label>
-                            <div class="method-checkboxes">
-                                <div id="methodList">
-                                    <!-- Les méthodes seront ajoutées ici dynamiquement -->
-                                </div>
+                                </label>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Autres champs du formulaire -->
+                    <div id="form-fields" class="disabled-overlay">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                                <label class="form-label">Domaine</label>
+                                <select id="domaine" name="domaine" class="form-select" required disabled>
+                                    <option value="">Sélectionnez un domaine</option>
+                                </select>
+                            </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Note Obtenue</label>
-                            <select id="note" name="note" class="form-select" required disabled>
-                                <option value="">Sélectionnez une note</option>
-                            </select>
-                        </div>
+                                <label class="form-label">Contenu</label>
+                                <select id="contenu" name="contenu" class="form-select" required disabled>
+                                    <option value="">Sélectionnez un contenu</option>
+                                </select>
+                            </div>
+
+                        <div class="col-md-6">
+                                <label class="form-label">Question</label>
+                                <select id="question" name="question" class="form-select" required disabled>
+                                    <option value="">Sélectionnez une question</option>
+                                </select>
+                            </div>
+
+                        <div class="col-md-6">
+                                <label class="form-label">Méthode(s)</label>
+                            <div class="method-checkboxes">
+                                    <div id="methodList">
+                                        <!-- Les méthodes seront ajoutées ici dynamiquement -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="col-md-6">
+                                <label class="form-label">Note Obtenue</label>
+                                <select id="note" name="note" class="form-select" required disabled>
+                                    <option value="">Sélectionnez une note</option>
+                                </select>
+                            </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Type</label>
                             <select id="type" name="type" class="form-select" required disabled>
                                 <option value="">Sélectionnez un type</option>
-                                <option value="1">Element d'environnement</option>
-                                <option value="2">Element de compétance</option>
-                            </select>
-                        </div>
+                                    <option value="1">Element d'environnement</option>
+                                    <option value="2">Element de compétance</option>
+                                </select>
+                            </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Réponse Constat</label>
+                                <label class="form-label">Réponse Constat</label>
                             <input type="text" id="reponse" name="reponse" class="form-control" required disabled>
-                        </div>
+                            </div>
 
                         <div class="col-md-6">
-                            <label class="form-label">Commentaires</label>
-                            <textarea id="commentaire" name="commentaire" class="form-control" rows="3" required disabled></textarea>
+                                <label class="form-label">Commentaires</label>
+                                <textarea id="commentaire" name="commentaire" class="form-control" rows="3" required disabled></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <button type="button" class="btn btn-secondary-custom" onclick="showTable()">
@@ -845,13 +845,32 @@
                     <button type="submit" class="btn btn-primary-custom">
                         <i class="fas fa-save me-2"></i>Enregistrer
                     </button>
-                </div>
-            </form>
+                    </div>
+                </form>
         </div>
     </div>
 
     <!-- Toast Container -->
     <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+    </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer cette supervision ? Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Drawer pour les détails -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
@@ -861,7 +880,7 @@
             <button class="drawer-close" onclick="closeDrawer()">
                 <i class="fas fa-times"></i>
             </button>
-        </div>
+    </div>
         <div class="drawer-body" id="drawerBody">
             <!-- Le contenu sera ajouté dynamiquement -->
         </div>
@@ -1321,25 +1340,22 @@
             // Ligne du tableau desktop
             const row = document.createElement('tr');
             row.setAttribute('data-id', supervision.id);
-            row.style.cursor = 'pointer';
-            row.onclick = () => this.openDrawer(supervision);
             row.setAttribute('data-supervision', JSON.stringify(supervision));
 
             row.innerHTML = `
-            <td onclick="event.stopPropagation()"><input type="checkbox" onchange="SupervisionManager.updateDeleteButton()"></td>
+            <td onclick="event.stopPropagation()">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" onchange="SupervisionManager.updateDeleteButton()">
+                </div>
+            </td>
             <td>${index + 1}</td>
             <td>${formatDate(supervision.created_at)}</td>
-            <td>${safeText(supervision.etablissements || '')}</td>
-            <td class="d-none d-lg-table-cell">${safeText(getSelectText('domaine', supervision.domaine) || supervision.domaine || '')}</td>
-            <td class="d-none d-xl-table-cell">${safeText(getSelectText('contenu', supervision.contenu) || supervision.contenu || '')}</td>
-            <td class="d-none d-xl-table-cell">${safeText(getSelectText('question', supervision.question) || supervision.question || '')}</td>
-            <td class="d-none d-lg-table-cell">${safeText(getSelectText('method', supervision.methode) || supervision.methode || '')}</td>
-            <td class="d-none d-xl-table-cell">${safeText(supervision.reponse || '')}</td>
-            <td class="d-none d-md-table-cell">${safeText(getSelectText('note', supervision.note) || supervision.note || '')}</td>
-            <td class="d-none d-xl-table-cell">${safeText(supervision.commentaire || '')}</td>
+            <td style="cursor: pointer; color: var(--primary-color);" onclick="SupervisionManager.openDrawerFromRow(this.closest('tr'))">${safeText(supervision.etablissements || '')}</td>
+            <td class="d-none d-md-table-cell">${safeText(getSelectText('domaine', supervision.domaine) || supervision.domaine || '')}</td>
+            <td class="d-none d-lg-table-cell">${safeText(getSelectText('note', supervision.note) || supervision.note || '')}</td>
             <td onclick="event.stopPropagation()">
-                <button class="btn btn-sm btn-danger" onclick="SupervisionManager.deleteRow(this)">
-                    <i class="fas fa-trash"></i> Supprimer
+                <button class="btn btn-primary btn-sm" onclick="SupervisionManager.openDrawerFromRow(this.closest('tr'))" title="Voir détails">
+                    <i class="fas fa-eye"></i>
                 </button>
             </td>
         `;
@@ -1386,6 +1402,18 @@
                 </div>
             `;
             mobileCards.appendChild(card);
+        }
+
+        static openDrawerFromRow(row) {
+            const supervisionData = row.getAttribute('data-supervision');
+            if (supervisionData) {
+                try {
+                    const supervision = JSON.parse(supervisionData);
+                    this.openDrawer(supervision);
+                } catch (e) {
+                    console.error('Erreur parsing:', e);
+                }
+            }
         }
 
         static openDrawer(supervision) {
@@ -1459,11 +1487,164 @@
                         <span class="drawer-value">${safeText(supervision.commentaire || 'N/A')}</span>
                     </div>
                 </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button class="btn btn-danger" onclick="SupervisionManager.showDeleteModalFromDrawer('${supervision.id}')">
+                        <i class="fas fa-trash me-2"></i>Supprimer
+                    </button>
+                </div>
             `;
 
             drawer.classList.add('open');
             overlay.classList.add('show');
             document.body.style.overflow = 'hidden';
+        }
+
+        static showDeleteModalFromDrawer(identifier) {
+            closeDrawer();
+            const modalElement = document.getElementById('deleteModal');
+            if (!modalElement) return;
+            
+            // Réutiliser l'instance existante ou en créer une nouvelle
+            let modal;
+            if (modalElement._mdbModal) {
+                modal = modalElement._mdbModal;
+            } else {
+                modal = new mdb.Modal(modalElement);
+                modalElement._mdbModal = modal;
+            }
+            
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            if (!confirmBtn) return;
+            
+            // Trouver la supervision et son ID
+            let supervisionId = null;
+            let supervision = null;
+            
+            const rows = document.querySelectorAll('#table-body tr');
+            for (const row of rows) {
+                const supervisionData = row.getAttribute('data-supervision');
+                if (supervisionData) {
+                    try {
+                        const sup = JSON.parse(supervisionData);
+                        if (sup.id && sup.id.toString() === identifier) {
+                            supervisionId = sup.id;
+                            supervision = sup;
+                            break;
+                        }
+                    } catch (e) {
+                        console.error('Erreur parsing:', e);
+                    }
+                }
+            }
+            
+            // Supprimer l'ancien gestionnaire d'événement
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            
+            // Ajouter le nouveau gestionnaire
+            newConfirmBtn.onclick = async () => {
+                if (!supervisionId) {
+                    // Pas d'ID, supprimer juste du DOM
+                    const cards = document.querySelectorAll('.mobile-card');
+                    const rows = document.querySelectorAll('#table-body tr');
+                    
+                    cards.forEach(card => {
+                        const cardId = card.getAttribute('data-id');
+                        if (cardId && cardId.toString() === identifier) {
+                            card.remove();
+                        }
+                    });
+                    
+                    rows.forEach(row => {
+                        const rowId = row.getAttribute('data-id');
+                        if (rowId && rowId.toString() === identifier) {
+                            row.remove();
+                        }
+                    });
+                    
+                    AlertManager.showSuccess('Supervision supprimée');
+                    modal.hide();
+                    return;
+                }
+                
+                // Supprimer via API
+                try {
+                    if (navigator.onLine) {
+                        const response = await fetch(`${API_ENDPOINTS.SUPERVISIONS}/delete`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: JSON.stringify({ id: parseInt(supervisionId) })
+                        });
+
+                        const data = await response.json();
+
+                        if (!response.ok || !data.success) {
+                            throw new Error(data.message || 'Erreur lors de la suppression');
+                        }
+
+                        // Supprimer du DOM
+                        const cards = document.querySelectorAll('.mobile-card');
+                        const rows = document.querySelectorAll('#table-body tr');
+                        
+                        cards.forEach(card => {
+                            const cardId = card.getAttribute('data-id');
+                            if (cardId && cardId.toString() === supervisionId.toString()) {
+                                card.remove();
+                            }
+                        });
+                        
+                        rows.forEach(row => {
+                            const rowId = row.getAttribute('data-id');
+                            if (rowId && rowId.toString() === supervisionId.toString()) {
+                                row.remove();
+                            }
+                        });
+
+                        AlertManager.showSuccess('Supervision supprimée avec succès');
+                        await this.loadSupervisions();
+                    } else {
+                        // Mode hors ligne
+                        const pendingSupervisions = CacheManager.getPendingSupervisions();
+                        const updatedPending = pendingSupervisions.filter(sup => sup.id !== parseInt(supervisionId));
+                        CacheManager.set(STORAGE_KEYS.PENDING_SUPERVISIONS, updatedPending);
+
+                        const cachedData = CacheManager.get(STORAGE_KEYS.SUPERVISIONS) || [];
+                        const updatedCache = cachedData.filter(sup => sup.id !== parseInt(supervisionId));
+                        CacheManager.set(STORAGE_KEYS.SUPERVISIONS, updatedCache);
+
+                        // Supprimer du DOM
+                        const cards = document.querySelectorAll('.mobile-card');
+                        const rows = document.querySelectorAll('#table-body tr');
+                        
+                        cards.forEach(card => {
+                            const cardId = card.getAttribute('data-id');
+                            if (cardId && cardId.toString() === supervisionId.toString()) {
+                                card.remove();
+                            }
+                        });
+                        
+                        rows.forEach(row => {
+                            const rowId = row.getAttribute('data-id');
+                            if (rowId && rowId.toString() === supervisionId.toString()) {
+                                row.remove();
+                            }
+                        });
+
+                        AlertManager.showSuccess('Supervision supprimée (mode hors ligne)');
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la suppression:', error);
+                    AlertManager.showError(error.message || 'Erreur lors de la suppression');
+                }
+                
+                modal.hide();
+            };
+            
+            modal.show();
         }
 
         static async handleSubmit(event) {

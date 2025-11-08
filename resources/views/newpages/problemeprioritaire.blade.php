@@ -53,7 +53,8 @@
         display: flex;
         gap: 12px;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
     }
 
     /* Cards */
@@ -325,7 +326,8 @@
 
         .header-actions {
             order: 2 !important;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             width: 100%;
             margin-top: 0 !important;
             gap: 8px;
@@ -351,7 +353,7 @@
         }
 
         .header-actions .btn {
-            width: 100%;
+            flex: 1;
             padding: 12px 16px !important;
             font-size: 14px;
             justify-content: center !important;

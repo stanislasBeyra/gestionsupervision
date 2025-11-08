@@ -53,7 +53,8 @@
         display: flex;
         gap: 12px;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
     }
 
     /* Cards */
@@ -138,6 +139,7 @@
     .btn-outline-success {
         border: 1px solid #10b981 !important;
         color: #10b981 !important;
+        background: transparent !important;
         border-radius: 8px !important;
         padding: 10px 20px !important;
         font-weight: 500 !important;
@@ -482,7 +484,8 @@
 
         .header-actions {
             order: 2 !important;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             width: 100%;
             margin-top: 0 !important;
             gap: 8px;

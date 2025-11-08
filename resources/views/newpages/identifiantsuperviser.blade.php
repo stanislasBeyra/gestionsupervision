@@ -49,7 +49,8 @@
         display: flex;
         gap: 12px;
         align-items: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
     }
 
     /* Cards */
@@ -565,7 +566,8 @@
 
         .header-actions {
             order: 2 !important;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             width: 100%;
             margin-top: 0 !important;
             gap: 8px;
@@ -591,7 +593,7 @@
         }
 
         .header-actions .btn {
-            width: 100%;
+            flex: 1;
             padding: 12px 16px !important;
             font-size: 14px;
             justify-content: center !important;
@@ -662,8 +664,10 @@
                     </button>
                     <button type="button" class="btn btn-primary-custom" onclick="showForm()">
                         <i class="fas fa-plus-circle"></i>
-                        <span>Ajouter un supervisé</span>
+                        <span class="d-none d-md-inline">Ajouter un supervisé</span>
+                        <span class="d-md-none">Ajouter</span>
                     </button>
+
                 </div>
             </div>
         </div>
@@ -671,42 +675,42 @@
         <div class="search-container">
             <div class="search-input-group">
                 <input type="text" id="search-supervises" class="form-control search-input"
-                    placeholder="Rechercher un supervisé...">
+                        placeholder="Rechercher un supervisé...">
+                </div>
             </div>
-        </div>
 
         <div class="content-card">
             <!-- Desktop Table View -->
             <div class="table-wrapper">
                 <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">N°</th>
-                            <th scope="col">Noms/prénoms</th>
-                            <th scope="col">Fonction</th>
+                        <thead>
+                            <tr>
+                                <th scope="col">N°</th>
+                                <th scope="col">Noms/prénoms</th>
+                                <th scope="col">Fonction</th>
                             <th scope="col" class="d-none d-lg-table-cell">Service</th>
                             <th scope="col" class="d-none d-xl-table-cell">Profession</th>
                             <th scope="col" class="d-none d-xl-table-cell">Téléphone</th>
                             <th scope="col" class="d-none d-xl-table-cell">E-mail</th>
                             <th scope="col" style="text-align: center; width: 100px;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="supervises-table">
-                        <!-- Les données seront ajoutées ici -->
-                    </tbody>
-                </table>
-            </div>
+                            </tr>
+                        </thead>
+                        <tbody id="supervises-table">
+                            <!-- Les données seront ajoutées ici -->
+                        </tbody>
+                    </table>
+                </div>
 
             <!-- Mobile Cards View -->
             <div class="mobile-cards" id="mobile-cards">
-            </div>
+                </div>
 
             <div id="empty-message" class="empty-state d-none">
                 <i class="fas fa-users"></i>
                 <p>Aucun supervisé enregistré</p>
             </div>
 
-            <div id="pagination-container"></div>
+                <div id="pagination-container"></div>
         </div>
     </div>
 
@@ -726,52 +730,52 @@
         </div>
 
         <div class="content-card">
-            <form id="superviseForm" onsubmit="handleSubmit(event)">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Noms/prénoms</label>
-                        <input type="text" class="form-control" name="nom_prenom" required>
-                    </div>
+                <form id="superviseForm" onsubmit="handleSubmit(event)">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Noms/prénoms</label>
+                            <input type="text" class="form-control" name="nom_prenom" required>
+                        </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Fonction</label>
-                        <input type="text" class="form-control" name="fonction" required>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fonction</label>
+                            <input type="text" class="form-control" name="fonction" required>
+                        </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Service</label>
-                        <input type="text" class="form-control" name="service" required>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Service</label>
+                            <input type="text" class="form-control" name="service" required>
+                        </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Profession</label>
-                        <input type="text" class="form-control" name="profession" required>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Profession</label>
+                            <input type="text" class="form-control" name="profession" required>
+                        </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Téléphone</label>
-                        <input type="tel" class="form-control" name="phone" required>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="tel" class="form-control" name="phone" required>
+                        </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">E-mail</label>
-                        <input type="email" class="form-control" name="email" required>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">E-mail</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
                     </div>
-                </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <button type="button" class="btn btn-secondary-custom" onclick="showTable()">
                         <i class="fas fa-times"></i>
                         <span>Annuler</span>
-                    </button>
+                        </button>
                     <button type="submit" class="btn btn-primary-custom">
                         <i class="fas fa-save"></i>
                         <span>Enregistrer</span>
-                    </button>
-                </div>
-            </form>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
     <!-- Modal de confirmation de suppression -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -780,10 +784,10 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-                </div>
+    </div>
                 <div class="modal-body">
                     <p>Êtes-vous sûr de vouloir supprimer ce supervisé ? Cette action est irréversible.</p>
-                </div>
+</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Annuler</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
@@ -862,8 +866,8 @@
             toastContainer.appendChild(toastElement);
             
             if (typeof mdb !== 'undefined' && mdb.Toast) {
-                const toast = new mdb.Toast(toastElement);
-                toast.show();
+            const toast = new mdb.Toast(toastElement);
+            toast.show();
             } else {
                 toastElement.classList.add('show');
             }
@@ -1010,7 +1014,7 @@
                 if (error.name === 'AbortError') {
                     NotificationManager.show('Délai d\'attente dépassé', 'warning');
                 } else {
-                    NotificationManager.show('Erreur de chargement', 'danger');
+                NotificationManager.show('Erreur de chargement', 'danger');
                 }
                 this.loadOfflineData();
             } finally {
@@ -1062,14 +1066,14 @@
 
                 // Vérifier si la réponse contient success: true ou si c'est un succès (200)
                 if (data.success !== false && (data.success === true || response.status === 200)) {
-                    return {
-                        success: true,
+                return {
+                    success: true,
                         message: data.message || 'Supervisé enregistré avec succès',
-                        data: {
-                            ...data.data,
-                            nom_prenom: data.data.firstname
-                        }
-                    };
+                    data: {
+                        ...data.data,
+                        nom_prenom: data.data.firstname
+                    }
+                };
                 } else {
                     throw new Error(data.message || 'Erreur de sauvegarde');
                 }
@@ -1540,7 +1544,7 @@
         },
 
         async deleteSupervise(button) {
-            const row = button.closest('tr');
+                    const row = button.closest('tr');
             const card = button.closest('.mobile-card');
             
             let superviseName = '';
@@ -1549,7 +1553,7 @@
 
             if (row) {
                 superviseName = row.cells[1].textContent.trim().replace('Hors ligne', '').trim();
-                if (row.dataset.offlineId) {
+                    if (row.dataset.offlineId) {
                     superviseId = row.dataset.offlineId;
                     isOffline = true;
                 } else if (row.dataset.id) {
@@ -1568,9 +1572,9 @@
             try {
                 if (isOffline) {
                     // Suppression locale
-                    const offlineSupervises = StorageManager.get('OFFLINE_SUPERVISES') || [];
+                        const offlineSupervises = StorageManager.get('OFFLINE_SUPERVISES') || [];
                     const filtered = offlineSupervises.filter(s => s.id.toString() !== superviseId.toString());
-                    StorageManager.set('OFFLINE_SUPERVISES', filtered);
+                        StorageManager.set('OFFLINE_SUPERVISES', filtered);
                     if (row) row.remove();
                     if (card) card.remove();
                     this.updateNumbers();
@@ -1604,8 +1608,8 @@
                     
                     NotificationManager.show(data.message || 'Supervisé supprimé avec succès', 'success');
                 }
-            } catch (error) {
-                console.error('Erreur lors de la suppression:', error);
+                } catch (error) {
+                    console.error('Erreur lors de la suppression:', error);
                 NotificationManager.show(error.message || 'Erreur lors de la suppression', 'danger');
             }
         },
@@ -1642,12 +1646,12 @@
                     form.elements['phone'].value = supervise.phone || '';
                     form.elements['email'].value = supervise.email || '';
 
-                    if (row.dataset.id) {
-                        form.dataset.editId = row.dataset.id;
+            if (row.dataset.id) {
+                form.dataset.editId = row.dataset.id;
                     } else if (row.dataset.offlineId) {
                         form.dataset.editId = row.dataset.offlineId;
-                    } else {
-                        delete form.dataset.editId;
+            } else {
+                delete form.dataset.editId;
                     }
                 } catch (e) {
                     console.error('Erreur parsing:', e);

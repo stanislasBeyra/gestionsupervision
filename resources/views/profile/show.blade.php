@@ -447,7 +447,8 @@
 
                 <button type="submit" class="btn btn-update hidden" id="updateButton">
                     <i class="fas fa-save"></i>
-                    <span>Enregistrer les modifications</span>
+                    <span class="d-none d-md-inline">Enregistrer les modifications</span>
+                    <span class="d-md-none">Enregistrer</span>
                 </button>
 
                 <button type="button" class="btn btn-cancel hidden" id="cancelButton">

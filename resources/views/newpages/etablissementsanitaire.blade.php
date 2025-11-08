@@ -50,7 +50,8 @@
             display: flex;
             gap: 12px;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
         }
 
         /* Cards */
@@ -158,6 +159,7 @@
         .btn-outline-success {
             border: 1px solid #10b981 !important;
             color: #10b981 !important;
+            background: transparent !important;
             border-radius: 8px !important;
             padding: 10px 20px !important;
             font-weight: 500 !important;
@@ -549,7 +551,8 @@
 
             .header-actions {
                 order: 2 !important;
-                flex-direction: column;
+                flex-direction: row;
+                flex-wrap: wrap;
                 width: 100%;
                 margin-top: 0 !important;
                 gap: 8px;
@@ -575,7 +578,7 @@
             }
 
             .header-actions .btn {
-                width: 100%;
+                flex: 1;
                 padding: 12px 16px !important;
                 font-size: 14px;
     }
@@ -868,7 +871,7 @@
     </div>
 </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 <script>
     const API_ENDPOINTS = {
