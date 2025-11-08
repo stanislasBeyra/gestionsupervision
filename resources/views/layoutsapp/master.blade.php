@@ -9,9 +9,7 @@
 
 
     <main style="margin-top: 58px">
-        <div class="container-fluid pt-4">
-            @yield('content')
-        </div>
+        @yield('content')
 
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
             <!-- Toast d'installation -->
@@ -39,7 +37,10 @@
 </body>
 <script>
     // Variable globale pour stocker l'événement d'installation
-    let deferredPrompt = null;
+    // Utiliser window.deferredPrompt pour éviter les conflits
+    if (typeof window.deferredPrompt === 'undefined') {
+        window.deferredPrompt = null;
+    }
 
     // Fonction de diagnostic PWA
     async function diagnosticPWA() {
@@ -229,7 +230,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
         console.log('🎉 Event beforeinstallprompt déclenché');
         e.preventDefault();
-        deferredPrompt = e;
+        window.deferredPrompt = e;
         document.getElementById('installButton').style.display = 'flex';
     });
 
@@ -280,13 +281,20 @@
     collapseList.forEach((collapse) => {
         // Force la fermeture de tous les sous-menus au démarrage
         collapse.classList.remove('show');
-        // Initialise le composant collapse de MDB
-        new mdb.Collapse(collapse, {
-            toggle: false
-        });
+        // Vérifier si l'instance existe déjà avant d'initialiser
+        if (!collapse._mdbCollapse) {
+            // Initialise le composant collapse de MDB
+            collapse._mdbCollapse = new mdb.Collapse(collapse, {
+                toggle: false
+            });
+        }
     });
 
-    let deferredPrompt;
+    // Déclarer deferredPrompt seulement s'il n'existe pas déjà
+    if (typeof window.deferredPrompt === 'undefined') {
+        window.deferredPrompt = null;
+    }
+    // Utiliser uniquement window.deferredPrompt (pas de variable locale)
     const installBanner = document.getElementById('installBanner');
     const installBtn = document.getElementById('installBtn');
     const closeBanner = document.getElementById('closeBanner');
@@ -295,25 +303,29 @@
     // Affichage pour Android/Chrome
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
-        deferredPrompt = e;
+        window.deferredPrompt = e;
         installBanner.style.display = 'block';
         installBtn.style.display = 'inline-block';
         installText.textContent = "Voulez-vous installer l'application ?";
     });
 
-    installBtn.addEventListener('click', () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                installBanner.style.display = 'none';
-                deferredPrompt = null;
-            });
-        }
-    });
+    if (installBtn) {
+        installBtn.addEventListener('click', () => {
+            if (window.deferredPrompt) {
+                window.deferredPrompt.prompt();
+                window.deferredPrompt.userChoice.then((choiceResult) => {
+                    if (installBanner) installBanner.style.display = 'none';
+                    window.deferredPrompt = null;
+                });
+            }
+        });
+    }
 
-    closeBanner.addEventListener('click', () => {
-        installBanner.style.display = 'none';
-    });
+    if (closeBanner) {
+        closeBanner.addEventListener('click', () => {
+            if (installBanner) installBanner.style.display = 'none';
+        });
+    }
 
     // Affichage pour iOS/Safari
     function isIos() {

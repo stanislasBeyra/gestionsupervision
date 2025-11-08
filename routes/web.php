@@ -44,10 +44,7 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/Mdbcode', function() {
-        return view('Mdbcode');
-    });
-
+   
     Route::get('{page}', [HomeController::class, 'pageviews'])->name('name.page');
 
     // Routes pour les formulaires

@@ -1,360 +1,497 @@
-<!-- Menu Mobile (Offcanvas) -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header border-bottom">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Menu</h5>
-        <button type="button" class="btn-close" data-mdb-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-
-    <div class="offcanvas-body p-0 d-flex flex-column" style="height: calc(100% - 56px);">
-        <div class="flex-grow-1 overflow-auto">
-            <div class="list-group list-group-flush p-3">
-                <!-- Dashboard principal Mobile -->
-                <div class="list-group-item mb-2">
-                    <a href="/dashboard" class="list-group-item-action d-flex align-items-center px-0 no-blue-effect">
-                        <i class="fas fa-tachometer-alt fa-fw me-3"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </div>
-
-
-
-                <!-- Menu Analytics Mobile -->
-                <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
-                         data-target="analyticsSubmenuMobile">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-tools fa-fw me-3"></i>
-                            <span>Outil de supervision</span>
-                        </div>
-                        <span class="custom-arrow">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </div>
-                    <div class="custom-collapse mt-2" id="analyticsSubmenuMobile">
-                        <div class="ps-4 submenu-content">
-                            <a href="/etablissementsanitaire" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Etablissement sanitaire</a>
-                            <a href="/identifiantsuperviser" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Identifiants supervisés</a>
-                            <a href="/identifiantsuperviseurs" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Identifiants superviseurs</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Menu Supervision Mobile -->
-                <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
-                         data-target="supervisionSubmenuMobile">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-desktop fa-fw me-3"></i>
-                            <span>Supervision</span>
-                        </div>
-                        <span class="custom-arrow">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </div>
-                    <div class="custom-collapse mt-2" id="supervisionSubmenuMobile">
-                        <div class="ps-4 submenu-content">
-                            <a href="/created" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Vue d'ensemble</a>
-                            <a href="/environnementElement" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Element d'environment</a>
-                            <a href="/conpetanceElement" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Element de competance</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="list-group-item mb-2">
-                    <a href="/synthesesupervision" class="list-group-item-action d-flex align-items-center px-0 no-blue-effect">
-                        <i class="fas fa-chart-pie fa-fw me-3"></i>
-                        <span>Synthèse supervision</span>
-                    </a>
-                </div>
-                <div class="list-group-item mb-2">
-                    <a href="/problemeprioritaire" class="list-group-item-action d-flex align-items-center px-0 no-blue-effect">
-                        <i class="fas fa-exclamation-circle fa-fw me-3"></i>
-                        <span>Problèmes prioritaires</span>
-                    </a>
-                </div>
-            </div>
+<!-- Sidebar Desktop -->
+<nav id="sidebarMenu" class="sidebar collapse d-lg-block">
+    <div class="sidebar-content">
+        <!-- Logo -->
+        <div class="sidebar-logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>Supervision</span>
         </div>
 
-        <!-- Footer fixe en bas avec bouton de téléchargement -->
-        <div class="border-top mt-2 p-3 bg-light">
-            <a href="{{ asset('files/rapport.docx') }}" download class="btn-download id="downloadBtn" style="font-size: 0.7rem; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">
-                <i class="fas fa-download me-2"></i>
-                Télécharger le ficher word
+        <!-- Menu -->
+        <div class="sidebar-menu">
+            <a href="/dashboard" class="menu-link" data-route="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <!-- Outil de supervision -->
+            <div class="menu-section">
+                <div class="menu-link menu-toggle" data-target="outilSubmenu">
+                    <i class="fas fa-tools"></i>
+                    <span>Outil de supervision</span>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </div>
+                <div class="submenu" id="outilSubmenu">
+                    <a href="/etablissementsanitaire" class="submenu-link" data-route="etablissementsanitaire">Établissement sanitaire</a>
+                    <a href="/identifiantsuperviser" class="submenu-link" data-route="identifiantsuperviser">Identifiants supervisés</a>
+                    <a href="/identifiantsuperviseurs" class="submenu-link" data-route="identifiantsuperviseurs">Identifiants superviseurs</a>
+                </div>
+            </div>
+
+            <!-- Supervision -->
+            <div class="menu-section">
+                <div class="menu-link menu-toggle" data-target="supervisionSubmenu">
+                    <i class="fas fa-desktop"></i>
+                    <span>Supervision</span>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </div>
+                <div class="submenu" id="supervisionSubmenu">
+                    <a href="/created" class="submenu-link" data-route="created">Vue d'ensemble</a>
+                    <a href="/environnementElement" class="submenu-link" data-route="environnementElement">Élément d'environnement</a>
+                    <a href="/conpetanceElement" class="submenu-link" data-route="conpetanceElement">Élément de compétence</a>
+                </div>
+            </div>
+
+            <a href="/synthesesupervision" class="menu-link" data-route="synthesesupervision">
+                <i class="fas fa-chart-pie"></i>
+                <span>Synthèse supervision</span>
+            </a>
+
+            <a href="/problemeprioritaire" class="menu-link" data-route="problemeprioritaire">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Problèmes prioritaires</span>
             </a>
         </div>
-    </div>
-</div>
 
-<!-- Menu Desktop (Sidebar) -->
-<nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-    <div class="position-sticky d-flex flex-column" style="height: calc(100vh - 56px);">
-        <!-- Contenu principal avec défilement -->
-        <div class="flex-grow-1 overflow-auto">
-            <div class="list-group list-group-flush mx-3 mt-4">
-                <!-- Dashboard principal -->
-                <div class="list-group-item mb-2">
-                    <a href="/dashboard" class="list-group-item-action d-flex align-items-center px-0 no-blue-effect">
-                        <i class="fas fa-tachometer-alt fa-fw me-3"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </div>
-
-
-
-                <!-- Menu Analytics -->
-                <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
-                         data-target="analyticsSubmenu">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-tools fa-fw me-3"></i>
-                            <span>Outil de supervision</span>
-                        </div>
-                        <span class="custom-arrow">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </div>
-                    <div class="custom-collapse mt-2" id="analyticsSubmenu">
-                        <div class="ps-4 submenu-content">
-                            <a href="/etablissementsanitaire" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Etablissement sanitaire</a>
-                            <a href="/identifiantsuperviser" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Identifiants supervisés</a>
-                            <a href="/identifiantsuperviseurs" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Identifiants superviseurs</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Menu Supervision -->
-                <div class="list-group-item mb-2">
-                    <div class="d-flex align-items-center justify-content-between px-0 custom-toggle no-blue-effect"
-                         data-target="supervisionSubmenu">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-desktop fa-fw me-3"></i>
-                            <span>Supervision</span>
-                        </div>
-                        <span class="custom-arrow">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </div>
-                    <div class="custom-collapse mt-2" id="supervisionSubmenu">
-                        <div class="ps-4 submenu-content">
-                            <a href="/created" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Vue d'ensemble</a>
-                            <a href="/environnementElement" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Element d'environment</a>
-                            <a href="/conpetanceElement" class="d-block mb-2 text-decoration-none no-blue-effect menu-item">Element de competance</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="list-group-item mb-2">
-                    <a href="/synthesesupervision" class="list-group-item-action d-flex align-items-center px-0 no-blue-effect">
-                        <i class="fas fa-chart-pie fa-fw me-3"></i>
-                        <span>Synthèse supervision</span>
-                    </a>
-                </div>
-                <div class="list-group-item mb-2">
-                    <a href="/problemeprioritaire" class="list-group-item-action d-flex align-items-center px-0 no-blue-effect">
-                        <i class="fas fa-exclamation-circle fa-fw me-3"></i>
-                        <span>Problèmes prioritaires</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Bouton de téléchargement fixé en bas -->
-        <div class="border-top mt-2 p-2 bg-light">
-        <a href="{{ asset('files/rapport.docx') }}" download class="btn-download" id="downloadBtn" style="font-size: 0.7rem; box-shadow: 0 1px 1px rgba(0,0,0,0.1);">
-                <i class="fas fa-download me-2"></i>
-                Télécharger le ficher word
+        <!-- Footer -->
+        <div class="sidebar-footer">
+            <a href="{{ asset('files/rapport.docx') }}" download class="download-link">
+                <i class="fas fa-download"></i>
+                <span>Télécharger le fichier Word</span>
             </a>
         </div>
     </div>
 </nav>
 
-<!-- CSS for animations and removing blue effect -->
+<!-- Sidebar Mobile -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample">
+    <div class="offcanvas-header">
+        <div class="mobile-logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>Supervision</span>
+        </div>
+        <button type="button" class="btn-close" data-mdb-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="mobile-menu">
+            <a href="/dashboard" class="mobile-link" data-route="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <div class="mobile-section">
+                <div class="mobile-link mobile-toggle" data-target="mobileOutilSubmenu">
+                    <i class="fas fa-tools"></i>
+                    <span>Outil de supervision</span>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </div>
+                <div class="mobile-submenu" id="mobileOutilSubmenu">
+                    <a href="/etablissementsanitaire" class="mobile-submenu-link" data-route="etablissementsanitaire">Établissement sanitaire</a>
+                    <a href="/identifiantsuperviser" class="mobile-submenu-link" data-route="identifiantsuperviser">Identifiants supervisés</a>
+                    <a href="/identifiantsuperviseurs" class="mobile-submenu-link" data-route="identifiantsuperviseurs">Identifiants superviseurs</a>
+                </div>
+            </div>
+
+            <div class="mobile-section">
+                <div class="mobile-link mobile-toggle" data-target="mobileSupervisionSubmenu">
+                    <i class="fas fa-desktop"></i>
+                    <span>Supervision</span>
+                    <i class="fas fa-chevron-down arrow"></i>
+                </div>
+                <div class="mobile-submenu" id="mobileSupervisionSubmenu">
+                    <a href="/created" class="mobile-submenu-link" data-route="created">Vue d'ensemble</a>
+                    <a href="/environnementElement" class="mobile-submenu-link" data-route="environnementElement">Élément d'environnement</a>
+                    <a href="/conpetanceElement" class="mobile-submenu-link" data-route="conpetanceElement">Élément de compétence</a>
+                </div>
+            </div>
+
+            <a href="/synthesesupervision" class="mobile-link" data-route="synthesesupervision">
+                <i class="fas fa-chart-pie"></i>
+                <span>Synthèse supervision</span>
+            </a>
+
+            <a href="/problemeprioritaire" class="mobile-link" data-route="problemeprioritaire">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Problèmes prioritaires</span>
+            </a>
+        </div>
+
+        <div class="mobile-footer">
+            <a href="{{ asset('files/rapport.docx') }}" download class="mobile-download-link">
+                <i class="fas fa-download"></i>
+                <span>Télécharger le fichier Word</span>
+            </a>
+        </div>
+    </div>
+</div>
+
 <style>
-/* Hide collapse containers by default */
-.custom-collapse {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-}
-
-/* Show when the .show class is present */
-.custom-collapse.show {
-    max-height: 1000px;
-    transition: max-height 0.5s ease-in-out;
-}
-
-/* Styles for dropdown items */
-.custom-toggle {
-    cursor: pointer;
-    user-select: none;
-    color: #4f4f4f;
-    transition: all 0.3s ease;
-}
-
-/* Submit animation */
-.submenu-content {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-}
-
-.custom-collapse.show .submenu-content {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Staggered animation for menu items */
-.menu-item {
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.custom-collapse.show .menu-item:nth-child(1) {
-    transition-delay: 0.1s;
-}
-
-.custom-collapse.show .menu-item:nth-child(2) {
-    transition-delay: 0.2s;
-}
-
-.custom-collapse.show .menu-item:nth-child(3) {
-    transition-delay: 0.3s;
-}
-
-.custom-collapse.show .menu-item {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Remove blue effect class */
-.no-blue-effect {
-    background-color: transparent !important;
-}
-
-.no-blue-effect:hover,
-.no-blue-effect:focus,
-.no-blue-effect:active,
-.no-blue-effect.active {
-    background-color: transparent !important;
-    color: inherit !important;
-    box-shadow: none !important;
-    border-color: transparent !important;
-}
-
-/* Override specific MDB blue color */
-.list-group-item,
-.list-group-item-action,
-.list-group-item:hover,
-.list-group-item:focus,
-.list-group-item.active,
-.list-group-item-action:hover,
-.list-group-item-action:focus,
-.list-group-item-action.active {
-    background-color: transparent !important;
-    color: inherit !important;
-    border: none !important;
-}
-
-/* Disable Bootstrap and MDB blue color */
-.active, .selected, .bg-primary, .bg-info, .bg-primary-subtle {
-    background-color: transparent !important;
-    color: inherit !important;
-}
-
-/* Arrow animation */
-.custom-arrow i {
-    transition: transform 0.4s ease;
-}
-
-.custom-toggle.active .custom-arrow i {
-    transform: rotate(180deg);
-}
-
-/* Remove effects when active */
-[aria-selected="true"], [aria-expanded="true"] {
-    background-color: transparent !important;
-    color: inherit !important;
-}
-
-.btn-download {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #2f18de;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn-download:hover {
-    background-color: #1a0dab;
-}
-</style>
-
-<!-- JavaScript for custom collapse implementation with animations -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Disable MDB if needed
-    if (typeof mdb !== 'undefined') {
-        document.querySelectorAll('.custom-collapse').forEach(el => {
-            el.classList.remove('collapse');
-        });
+    /* Variables */
+    :root {
+        --sidebar-width: 260px;
+        --sidebar-bg: #ffffff;
+        --sidebar-text: #334155;
+        --sidebar-text-hover: #1e293b;
+        --sidebar-active: #2563eb;
+        --sidebar-border: #e2e8f0;
+        --sidebar-hover: #f1f5f9;
     }
 
-    // Implementation of custom collapse behavior
-    document.querySelectorAll('.custom-toggle').forEach(toggle => {
+    /* Desktop Sidebar - Important pour override MDB */
+    #sidebarMenu.sidebar {
+        width: var(--sidebar-width) !important;
+        background: var(--sidebar-bg) !important;
+        border-right: 1px solid var(--sidebar-border) !important;
+        position: fixed !important;
+        top: 58px !important;
+        left: 0 !important;
+        height: calc(100vh - 58px) !important;
+        z-index: 1000 !important;
+        overflow-y: auto !important;
+        padding: 0 !important;
+    }
+
+    .sidebar-content {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        padding: 24px 0 !important;
+    }
+
+    /* Logo */
+    .sidebar-logo {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 0 24px 24px !important;
+        border-bottom: 1px solid var(--sidebar-border) !important;
+        margin-bottom: 16px !important;
+    }
+
+    .sidebar-logo i {
+        font-size: 24px;
+        color: var(--sidebar-active);
+    }
+
+    .sidebar-logo span {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--sidebar-text-hover);
+    }
+
+    /* Menu */
+    .sidebar-menu {
+        flex: 1 !important;
+        padding: 0 16px !important;
+    }
+
+    .menu-link {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 12px 16px !important;
+        margin-bottom: 4px !important;
+        border-radius: 8px !important;
+        color: var(--sidebar-text) !important;
+        text-decoration: none !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .menu-link:hover {
+        background: var(--sidebar-hover) !important;
+        color: var(--sidebar-text-hover) !important;
+    }
+
+    .menu-link.active {
+        background: rgba(37, 99, 235, 0.1) !important;
+        color: var(--sidebar-active) !important;
+        font-weight: 600 !important;
+    }
+
+    .menu-link i {
+        width: 20px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        cursor: pointer;
+    }
+
+    .arrow {
+        margin-left: auto;
+        font-size: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-toggle.active .arrow {
+        transform: rotate(180deg);
+    }
+
+    /* Submenu */
+    .submenu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding-left: 32px;
+    }
+
+    .submenu.open {
+        max-height: 300px;
+    }
+
+    .submenu-link {
+        display: block;
+        padding: 10px 16px;
+        margin-bottom: 2px;
+        border-radius: 6px;
+        color: var(--sidebar-text);
+        text-decoration: none;
+        font-size: 13px;
+        transition: all 0.2s ease;
+    }
+
+    .submenu-link:hover {
+        background: var(--sidebar-hover);
+        color: var(--sidebar-text-hover);
+    }
+
+    .submenu-link.active {
+        color: var(--sidebar-active);
+        font-weight: 600;
+    }
+
+    /* Footer */
+    .sidebar-footer {
+        padding: 16px !important;
+        border-top: 1px solid var(--sidebar-border) !important;
+        margin-top: auto !important;
+    }
+
+    .download-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        background: var(--sidebar-active);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background 0.2s ease;
+    }
+
+    .download-link:hover {
+        background: #1d4ed8;
+        color: white;
+    }
+
+    /* Mobile */
+    .mobile-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-logo i {
+        font-size: 24px;
+        color: var(--sidebar-active);
+    }
+
+    .mobile-logo span {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--sidebar-text-hover);
+    }
+
+    .mobile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mobile-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        color: var(--sidebar-text);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-link:hover {
+        background: var(--sidebar-hover);
+        color: var(--sidebar-text-hover);
+    }
+
+    .mobile-link.active {
+        background: rgba(37, 99, 235, 0.1);
+        color: var(--sidebar-active);
+        font-weight: 600;
+    }
+
+    .mobile-link i {
+        width: 20px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .mobile-toggle {
+        cursor: pointer;
+    }
+
+    .mobile-submenu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        padding-left: 32px;
+    }
+
+    .mobile-submenu.open {
+        max-height: 300px;
+    }
+
+    .mobile-submenu-link {
+        display: block;
+        padding: 10px 16px;
+        margin-bottom: 2px;
+        border-radius: 6px;
+        color: var(--sidebar-text);
+        text-decoration: none;
+        font-size: 13px;
+        transition: all 0.2s ease;
+    }
+
+    .mobile-submenu-link:hover {
+        background: var(--sidebar-hover);
+        color: var(--sidebar-text-hover);
+    }
+
+    .mobile-submenu-link.active {
+        color: var(--sidebar-active);
+        font-weight: 600;
+    }
+
+    .mobile-footer {
+        margin-top: auto;
+        padding-top: 16px;
+        border-top: 1px solid var(--sidebar-border);
+    }
+
+    .mobile-download-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px;
+        background: var(--sidebar-active);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background 0.2s ease;
+    }
+
+    .mobile-download-link:hover {
+        background: #1d4ed8;
+        color: white;
+    }
+
+    /* Scrollbar */
+    .sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: var(--sidebar-border);
+        border-radius: 3px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #cbd5e1;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle submenus
+    document.querySelectorAll('.menu-toggle, .mobile-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
-
-            // Remove active class from all elements
-            document.querySelectorAll('.custom-toggle').forEach(t => {
-                if (t !== this && t.classList.contains('active')) {
-                    t.classList.remove('active');
-                    const targetId = t.getAttribute('data-target');
-                    const el = document.getElementById(targetId);
-                    if (el) {
-                        el.classList.remove('show');
-                    }
-                }
-            });
-
-            // Toggle active state for this element
-            this.classList.toggle('active');
-
-            // Toggle collapse
             const targetId = this.getAttribute('data-target');
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                targetElement.classList.toggle('show');
+            const submenu = document.getElementById(targetId);
+            
+            if (submenu) {
+                const isOpen = submenu.classList.contains('open');
+                
+                // Close all other submenus
+                document.querySelectorAll('.submenu, .mobile-submenu').forEach(menu => {
+                    if (menu !== submenu) {
+                        menu.classList.remove('open');
+                        menu.previousElementSibling?.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current submenu
+                submenu.classList.toggle('open');
+                this.classList.toggle('active');
             }
-
-            // Remove classes that might add blue effect
-            this.classList.remove('bg-primary', 'bg-info', 'text-white', 'active');
         });
     });
 
-    // Function to remove blue effects
-    function removeBlueEffects() {
-        // Remove classes that add blue effects
-        document.querySelectorAll('*').forEach(el => {
-            if (el.classList.contains('bg-primary') ||
-                el.classList.contains('bg-info') ||
-                el.classList.contains('blue') ||
-                el.classList.contains('active-menu-item')) {
-                el.classList.remove('bg-primary', 'bg-info', 'blue', 'active-menu-item');
+    // Set active menu item
+    function setActiveMenuItem() {
+        const currentPath = window.location.pathname;
+        
+        // Remove all active classes
+        document.querySelectorAll('.menu-link, .submenu-link, .mobile-link, .mobile-submenu-link').forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // Set active based on route
+        document.querySelectorAll('[data-route]').forEach(item => {
+            const route = item.getAttribute('data-route');
+            if (currentPath.includes(route) || currentPath === '/' + route) {
+                item.classList.add('active');
+                
+                // Open parent submenu if it's a submenu item
+                const submenuItem = item.closest('.submenu, .mobile-submenu');
+                if (submenuItem) {
+                    submenuItem.classList.add('open');
+                    const toggle = document.querySelector(`[data-target="${submenuItem.id}"]`);
+                    if (toggle) {
+                        toggle.classList.add('active');
+                    }
+                }
             }
         });
     }
 
-    // Run periodically to ensure blue effects are removed
-    removeBlueEffects();
-    setInterval(removeBlueEffects, 100);
+    // Initialize
+    setActiveMenuItem();
 
-    // Intercept events that might add blue effect classes
-    document.addEventListener('click', function() {
-        setTimeout(removeBlueEffects, 10);
+    // Update on navigation
+    window.addEventListener('popstate', setActiveMenuItem);
+    
+    document.querySelectorAll('a[href]').forEach(link => {
+        link.addEventListener('click', function() {
+            setTimeout(setActiveMenuItem, 100);
+        });
     });
 });
 </script>

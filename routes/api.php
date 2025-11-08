@@ -112,6 +112,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('save', 'saveEtablissement');
             Route::get('countEtablissement', 'countEtablissement');
         });
+        Route::delete('delete/{id}', [EtablissementController::class, 'deleteEtablissement']);
     });
 
     Route::prefix('supervisers')->group(function () {

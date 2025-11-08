@@ -120,6 +120,7 @@ class EtablissementController extends Controller
             $etablissement = Etablissement::findOrFail($id);
             $etablissement->delete();
 
+            Log::info('Établissement supprimé avec succès', ['id' => $id]);
             return response()->json([
                 'success' => true,
                 'message' => 'Établissement supprimé avec succès'
