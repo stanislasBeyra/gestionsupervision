@@ -19,6 +19,12 @@
             min-height: calc(100vh - 58px - 64px);
         }
 
+        @media (max-width: 768px) {
+            .page-container {
+                padding-top: 40px !important;
+            }
+        }
+
         /* Header */
         .page-header {
             margin-bottom: 32px;
@@ -29,6 +35,9 @@
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 8px;
+            display: block;
+            visibility: visible;
+            opacity: 1;
         }
 
         .page-subtitle {
@@ -523,20 +532,46 @@
                 padding: 16px 12px;
             }
 
+            .page-header {
+                margin-bottom: 24px !important;
+            }
+
+            .page-header > div {
+                flex-direction: column !important;
+            }
+
+            .page-header > div > div:first-child {
+                margin-bottom: 16px !important;
+                width: 100% !important;
+                order: 1 !important;
+                flex-shrink: 0 !important;
+            }
+
+            .header-actions {
+                order: 2 !important;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 0 !important;
+                gap: 8px;
+            }
+
             .page-title {
-                font-size: 20px;
-                margin-bottom: 4px;
+                font-size: 20px !important;
+                margin-bottom: 4px !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                width: 100% !important;
+                position: relative !important;
+                z-index: 1 !important;
+                color: var(--text-primary) !important;
             }
 
             .page-subtitle {
-                font-size: 13px;
-    }
-
-            .header-actions {
-                flex-direction: column;
-                width: 100%;
-                margin-top: 16px;
-                gap: 8px;
+                font-size: 13px !important;
+                display: block !important;
+                visibility: visible !important;
+                color: var(--text-secondary) !important;
             }
 
             .header-actions .btn {
@@ -589,7 +624,7 @@
             <div class="page-header">
                 <div
                     class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
-                <div>
+                <div style="width: 100%;">
                         <h1 class="page-title">Établissements Sanitaires</h1>
                         <p class="page-subtitle">Gérez vos établissements sanitaires</p>
                 </div>
