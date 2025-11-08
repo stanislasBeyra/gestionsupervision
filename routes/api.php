@@ -120,6 +120,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('', 'getSupervisers');
             Route::post('save', 'saveSuperviser');
         });
+        Route::delete('delete/{id}', [SuperviserController::class, 'deleteSuperviser']);
     });
 
     Route::prefix('superviseurs')->group(function () {
@@ -127,6 +128,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('', 'getSuperviseurs');
             Route::post('save', 'saveSuperviseur');
         });
+        Route::delete('delete/{id}', [SuperviseurController::class, 'deleteSuperviseur']);
     });
 
     Route::prefix('problemes')->group(function () {

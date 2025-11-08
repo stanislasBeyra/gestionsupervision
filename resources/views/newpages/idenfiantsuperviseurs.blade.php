@@ -779,6 +779,25 @@
             </div>
         </div>
 
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer ce superviseur ? Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Drawer pour les détails -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
     <div class="drawer" id="detailDrawer">
@@ -801,7 +820,8 @@
     const CONFIG = {
         ENDPOINTS: {
             GET_SUPERVISES: '/api/superviseurs',
-            SAVE_SUPERVISE: '/api/superviseurs/save'
+            SAVE_SUPERVISE: '/api/superviseurs/save',
+            DELETE_SUPERVISE: '/api/superviseurs/delete'
         },
         STORAGE_KEYS: {
             OFFLINE_SUPERVISES: 'offlineSupervises',
@@ -1187,7 +1207,7 @@
                 <button type="button" class="action-btn action-btn-edit" onclick="SuperviseManager.editSupervise(this)" title="Modifier">
                         <i class="fas fa-edit"></i>
                     </button>
-                <button type="button" class="action-btn action-btn-delete" onclick="SuperviseManager.deleteSupervise(this)" title="Supprimer">
+                <button type="button" class="action-btn action-btn-delete" onclick="SuperviseManager.showDeleteModal(this)" title="Supprimer">
                         <i class="fas fa-trash"></i>
                     </button>
             </td>
@@ -1245,7 +1265,7 @@
                     <button type="button" class="action-btn action-btn-edit" onclick="event.stopPropagation(); SuperviseManager.editSuperviseFromCard(this)" title="Modifier">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button type="button" class="action-btn action-btn-delete" onclick="event.stopPropagation(); SuperviseManager.deleteSupervise(this)" title="Supprimer">
+                    <button type="button" class="action-btn action-btn-delete" onclick="event.stopPropagation(); SuperviseManager.showDeleteModal(this)" title="Supprimer">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -1303,6 +1323,12 @@
                         <span class="drawer-label">E-mail</span>
                         <span class="drawer-value">${supervise.email || 'N/A'}</span>
                     </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button class="btn btn-danger" onclick="SuperviseManager.showDeleteModalFromDrawer('${supervise.id || supervise.offlineId}')">
+                        <i class="fas fa-trash me-2"></i>Supprimer
+                    </button>
                 </div>
             `;
 
@@ -1369,8 +1395,171 @@
             }
         },
 
+        showDeleteModal(button) {
+            const modalElement = document.getElementById('deleteModal');
+            if (!modalElement) return;
+            
+            // Stocker le bouton pour la suppression
+            modalElement.dataset.deleteButton = 'true';
+            modalElement._deleteButton = button;
+            
+            // Initialiser le modal MDB
+            let modal;
+            if (modalElement._mdbModal) {
+                modal = modalElement._mdbModal;
+            } else {
+                modal = new mdb.Modal(modalElement);
+                modalElement._mdbModal = modal;
+            }
+            
+            // Gérer le bouton de confirmation
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            if (confirmBtn) {
+                // Supprimer tous les anciens gestionnaires
+                const newConfirmBtn = confirmBtn.cloneNode(true);
+                confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+                
+                // Ajouter le nouveau gestionnaire
+                newConfirmBtn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (modalElement._deleteButton) {
+                        this.deleteSupervise(modalElement._deleteButton);
+                    }
+                    modal.hide();
+                };
+            }
+            
+            modal.show();
+        },
+
+        showDeleteModalFromDrawer(identifier) {
+            closeDrawer();
+            const modalElement = document.getElementById('deleteModal');
+            if (!modalElement) return;
+            
+            // Réutiliser l'instance existante ou en créer une nouvelle
+            let modal;
+            if (modalElement._mdbModal) {
+                modal = modalElement._mdbModal;
+            } else {
+                modal = new mdb.Modal(modalElement);
+                modalElement._mdbModal = modal;
+            }
+            
+            // Stocker l'identifiant pour la suppression
+            modalElement._deleteIdentifier = identifier;
+            
+            // Gérer le bouton de confirmation
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            if (confirmBtn) {
+                // Supprimer tous les anciens gestionnaires
+                const newConfirmBtn = confirmBtn.cloneNode(true);
+                confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+                
+                // Ajouter le nouveau gestionnaire
+                newConfirmBtn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (modalElement._deleteIdentifier) {
+                        this.deleteSuperviseFromDrawer(modalElement._deleteIdentifier);
+                    }
+                    modal.hide();
+                };
+            }
+            
+            modal.show();
+        },
+
+        async deleteSuperviseFromDrawer(identifier) {
+            try {
+                // Trouver l'élément correspondant
+                const row = document.querySelector(`tr[data-id="${identifier}"], tr[data-offline-id="${identifier}"]`);
+                const card = document.querySelector(`.mobile-card[data-id="${identifier}"], .mobile-card[data-offline-id="${identifier}"]`);
+                
+                if (row) {
+                    const button = row.querySelector('.action-btn-delete');
+                    if (button) {
+                        await this.deleteSupervise(button);
+                    } else {
+                        // Si pas de bouton, créer un objet button factice avec les données nécessaires
+                        const superviseId = row.dataset.id || row.dataset.offlineId;
+                        const isOffline = !!row.dataset.offlineId;
+                        await this.deleteSuperviseById(superviseId, isOffline);
+                    }
+                } else if (card) {
+                    const button = card.querySelector('.action-btn-delete');
+                    if (button) {
+                        await this.deleteSupervise(button);
+                    } else {
+                        // Si pas de bouton, créer un objet button factice avec les données nécessaires
+                        const superviseId = card.dataset.id || card.dataset.offlineId;
+                        const isOffline = !!card.dataset.offlineId;
+                        await this.deleteSuperviseById(superviseId, isOffline);
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur lors de la suppression depuis le drawer:', error);
+                NotificationManager.show('Erreur lors de la suppression', 'danger');
+            }
+        },
+
+        async deleteSuperviseById(superviseId, isOffline = false) {
+            try {
+                if (isOffline) {
+                    // Suppression locale
+                    const offlineSupervises = StorageManager.get('OFFLINE_SUPERVISES') || [];
+                    const filtered = offlineSupervises.filter(s => s.id.toString() !== superviseId.toString());
+                    StorageManager.set('OFFLINE_SUPERVISES', filtered);
+                    
+                    // Supprimer les éléments de l'interface
+                    const row = document.querySelector(`tr[data-offline-id="${superviseId}"]`);
+                    const card = document.querySelector(`.mobile-card[data-offline-id="${superviseId}"]`);
+                    if (row) row.remove();
+                    if (card) card.remove();
+                    
+                    this.updateNumbers();
+                    this.checkEmptyTable();
+                    NotificationManager.show('Superviseur supprimé avec succès', 'success');
+                } else {
+                    // Suppression via API
+                    const response = await fetch(`${CONFIG.ENDPOINTS.DELETE_SUPERVISE}/${superviseId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'Erreur lors de la suppression');
+                    }
+
+                    // Supprimer les éléments de l'interface
+                    const row = document.querySelector(`tr[data-id="${superviseId}"]`);
+                    const card = document.querySelector(`.mobile-card[data-id="${superviseId}"]`);
+                    if (row) row.remove();
+                    if (card) card.remove();
+                    
+                    this.updateNumbers();
+                    this.checkEmptyTable();
+                    
+                    // Recharger les données
+                    await this.loadSupervises(this.currentPage, this.searchTerm);
+                    
+                    NotificationManager.show(data.message || 'Superviseur supprimé avec succès', 'success');
+                }
+            } catch (error) {
+                console.error('Erreur lors de la suppression:', error);
+                NotificationManager.show(error.message || 'Erreur lors de la suppression', 'danger');
+            }
+        },
+
         async deleteSupervise(button) {
-                    const row = button.closest('tr');
+            const row = button.closest('tr');
             const card = button.closest('.mobile-card');
             
             let superviseName = '';
@@ -1379,7 +1568,7 @@
 
             if (row) {
                 superviseName = row.cells[1].textContent.trim().replace('Hors ligne', '').trim();
-                    if (row.dataset.offlineId) {
+                if (row.dataset.offlineId) {
                     superviseId = row.dataset.offlineId;
                     isOffline = true;
                 } else if (row.dataset.id) {
@@ -1395,14 +1584,11 @@
                 }
             }
 
-            if (!confirm(`Êtes-vous sûr de vouloir supprimer le superviseur "${superviseName}" ?`)) {
-                return;
-            }
-
             try {
                 if (isOffline) {
+                    // Suppression locale
                     const offlineSupervises = StorageManager.get('OFFLINE_SUPERVISES') || [];
-                    const filtered = offlineSupervises.filter(s => s.id.toString() !== superviseId);
+                    const filtered = offlineSupervises.filter(s => s.id.toString() !== superviseId.toString());
                     StorageManager.set('OFFLINE_SUPERVISES', filtered);
                     if (row) row.remove();
                     if (card) card.remove();
@@ -1410,16 +1596,36 @@
                     this.checkEmptyTable();
                     NotificationManager.show('Superviseur supprimé avec succès', 'success');
                 } else {
-                    // TODO: Implémenter la suppression via API si nécessaire
+                    // Suppression via API
+                    const response = await fetch(`${CONFIG.ENDPOINTS.DELETE_SUPERVISE}/${superviseId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'Erreur lors de la suppression');
+                    }
+
+                    // Supprimer l'élément de l'interface
                     if (row) row.remove();
                     if (card) card.remove();
                     this.updateNumbers();
                     this.checkEmptyTable();
-                    NotificationManager.show('Superviseur supprimé avec succès', 'success');
+                    
+                    // Recharger les données
+                    await this.loadSupervises(this.currentPage, this.searchTerm);
+                    
+                    NotificationManager.show(data.message || 'Superviseur supprimé avec succès', 'success');
                 }
-                } catch (error) {
-                    console.error('Erreur lors de la suppression:', error);
-                    NotificationManager.show('Erreur lors de la suppression', 'danger');
+            } catch (error) {
+                console.error('Erreur lors de la suppression:', error);
+                NotificationManager.show(error.message || 'Erreur lors de la suppression', 'danger');
             }
         },
 

@@ -172,4 +172,35 @@ class SuperviseurController extends Controller
         }
     }
 
+    public function deleteSuperviseur($id)
+    {
+        try {
+            $superviseur = Superviseur::where('id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
+            
+            $superviseur->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Superviseur supprimé avec succès'
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Superviseur introuvable ou vous n\'avez pas les droits pour le supprimer.'
+            ], 404);
+        } catch (Throwable $e) {
+            Log::error('Erreur lors de la suppression du superviseur:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la suppression du superviseur.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }

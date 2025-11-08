@@ -84,29 +84,90 @@ class SuperviserController extends Controller
     public function saveSuperviser(Request $request)
     {
         try {
-
-            // firstname dois prendre nom det prenom
-            $validated = $request->validate([
+            $id = $request->input('id');
+            
+            // Règles de validation
+            $rules = [
                 'firstname' => 'required|string|max:255',
                 'fonction' => 'required|string|max:255',
                 'service' => 'required|string|max:255',
                 'profession' => 'required|string|max:255',
                 'phone' => 'required|string|max:15',
-                'email' => 'required|email|max:255|unique:superviseurs,email',
-            ]);
+                'email' => 'required|email|max:255',
+            ];
 
-            $validated['user_id'] = auth()->user()->id;
-            $superviseur = Superviser::create($validated);
+            // Si c'est une mise à jour, exclure l'email et le téléphone actuels de la validation unique
+            if ($id) {
+                $rules['email'] = 'required|email|max:255|unique:supervisers,email,' . $id;
+                $rules['phone'] = 'required|string|max:15|unique:supervisers,phone,' . $id;
+            } else {
+                $rules['email'] = 'required|email|max:255|unique:supervisers,email';
+                $rules['phone'] = 'required|string|max:15|unique:supervisers,phone';
+            }
 
-            return response()->json([
-                'message' => 'Superviseur enregistré avec succès',
-                'data' => $superviseur
-            ], 200);
-        } catch (Throwable $e) {
-            Log::info($e);
+            $messages = [
+                'firstname.required' => 'Le champ nom et prénom est obligatoire.',
+                'fonction.required' => 'Le champ fonction est obligatoire.',
+                'service.required' => 'Le champ service est obligatoire.',
+                'profession.required' => 'Le champ profession est obligatoire.',
+                'phone.required' => 'Le numéro de téléphone est obligatoire.',
+                'phone.unique' => 'Ce numéro de téléphone est déjà utilisé. Veuillez en choisir un autre.',
+                'phone.max' => 'Le numéro de téléphone ne doit pas dépasser 15 caractères.',
+                'email.required' => 'L\'email est obligatoire.',
+                'email.email' => 'Veuillez entrer une adresse email valide.',
+                'email.unique' => 'Cet email est déjà utilisé. Veuillez en choisir un autre.',
+                'email.max' => 'L\'email ne doit pas dépasser 255 caractères.',
+            ];
+
+            $validated = $request->validate($rules, $messages);
+
+            if ($id) {
+                // Mise à jour
+                $superviseur = Superviser::where('id', $id)
+                    ->where('user_id', auth()->user()->id)
+                    ->firstOrFail();
+                
+                $superviseur->update($validated);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Supervisé mis à jour avec succès',
+                    'data' => $superviseur
+                ], 200);
+            } else {
+                // Création
+                $validated['user_id'] = auth()->user()->id;
+                $superviseur = Superviser::create($validated);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Supervisé enregistré avec succès',
+                    'data' => $superviseur
+                ], 200);
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Les messages sont déjà traduits via le paramètre $messages de validate()
+            $errors = $e->errors();
+            $errorMessages = [];
+            
+            // Extraire tous les messages d'erreur
+            foreach ($errors as $field => $messages) {
+                $errorMessages = array_merge($errorMessages, $messages);
+            }
+
             return response()->json([
                 'success' => false,
-                'message' => 'Une erreur est survenue lors de la creation des supervisers.',
+                'message' => !empty($errorMessages) ? implode(' ', $errorMessages) : 'Erreur de validation',
+                'errors' => $errors
+            ], 422);
+        } catch (Throwable $e) {
+            Log::error('Erreur lors de la sauvegarde du supervisé:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la sauvegarde du supervisé.',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -115,17 +176,29 @@ class SuperviserController extends Controller
     public function deleteSuperviser($id)
     {
         try {
-            $superviseur = Superviser::findOrFail($id);
+            $superviseur = Superviser::where('id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
+            
             $superviseur->delete();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Superviseur supprimé avec succès'
-            ]);
-        } catch (Throwable $e) {
+                'message' => 'Supervisé supprimé avec succès'
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Une erreur est survenue lors de la suppression du superviseur.',
+                'message' => 'Supervisé introuvable ou vous n\'avez pas les droits pour le supprimer.'
+            ], 404);
+        } catch (Throwable $e) {
+            Log::error('Erreur lors de la suppression du supervisé:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la suppression du supervisé.',
                 'error' => $e->getMessage()
             ], 500);
         }
