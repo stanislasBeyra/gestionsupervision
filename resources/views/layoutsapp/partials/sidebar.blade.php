@@ -199,6 +199,17 @@
         transition: all 0.2s ease !important;
         background: transparent !important;
         border: none !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .menu-link span {
+        flex: 1 !important;
+        min-width: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
     }
 
     .menu-link:hover {
@@ -253,6 +264,9 @@
         text-decoration: none;
         font-size: 13px;
         transition: all 0.2s ease;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .submenu-link:hover {
@@ -327,6 +341,16 @@
         font-size: 14px;
         font-weight: 500;
         transition: all 0.2s ease;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .mobile-link span {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .mobile-link:hover {
@@ -370,6 +394,9 @@
         text-decoration: none;
         font-size: 13px;
         transition: all 0.2s ease;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .mobile-submenu-link:hover {
