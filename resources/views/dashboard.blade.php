@@ -41,7 +41,7 @@
         justify-content: space-between;
         margin-bottom: 16px;
         position: relative;
-    }
+        }
 
     .stat-title {
         font-size: 14px;
@@ -90,7 +90,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
+        }
 
     .stat-loading {
             display: flex;

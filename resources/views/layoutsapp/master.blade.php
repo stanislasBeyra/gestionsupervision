@@ -9,7 +9,7 @@
 
 
     <main style="margin-top: 58px">
-        @yield('content')
+            @yield('content')
 
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
             <!-- Toast d'installation -->
@@ -285,9 +285,9 @@
         const existingInstance = mdb.Collapse.getInstance(collapse);
         if (!existingInstance) {
             // Initialise le composant collapse de MDB seulement si aucune instance n'existe
-            new mdb.Collapse(collapse, {
-                toggle: false
-            });
+        new mdb.Collapse(collapse, {
+            toggle: false
+        });
         }
     });
 
@@ -311,21 +311,21 @@
     });
 
     if (installBtn) {
-        installBtn.addEventListener('click', () => {
+    installBtn.addEventListener('click', () => {
             if (window.deferredPrompt) {
                 window.deferredPrompt.prompt();
                 window.deferredPrompt.userChoice.then((choiceResult) => {
                     if (installBanner) installBanner.style.display = 'none';
                     window.deferredPrompt = null;
-                });
-            }
-        });
+            });
+        }
+    });
     }
 
     if (closeBanner) {
-        closeBanner.addEventListener('click', () => {
+    closeBanner.addEventListener('click', () => {
             if (installBanner) installBanner.style.display = 'none';
-        });
+    });
     }
 
     // Affichage pour iOS/Safari

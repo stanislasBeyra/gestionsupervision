@@ -135,13 +135,13 @@ class SuperviseurController extends Controller
                 ], 200);
             } else {
                 // Création
-                $validated['user_id'] = auth()->user()->id;
-                $superviseur = Superviseur::create($validated);
+            $validated['user_id'] = auth()->user()->id;
+            $superviseur = Superviseur::create($validated);
 
-                return response()->json([
+            return response()->json([
                     'success' => true,
-                    'message' => 'Superviseur enregistré avec succès',
-                    'data' => $superviseur
+                'message' => 'Superviseur enregistré avec succès',
+                'data' => $superviseur
                 ], 200);
             }
         } catch (\Illuminate\Validation\ValidationException $e) {

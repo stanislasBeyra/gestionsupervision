@@ -79,7 +79,7 @@
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             50% { transform: translate(30px, -30px) rotate(180deg); }
         }
-
+        
         .login-wrapper {
             width: 100%;
             max-width: 440px;
@@ -87,7 +87,7 @@
             z-index: 1;
             animation: slideUp 0.6s ease-out;
         }
-
+        
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -98,7 +98,7 @@
                 transform: translateY(0);
             }
         }
-
+        
         .login-card {
             background: var(--surface);
             border-radius: 24px;
@@ -204,7 +204,7 @@
         .logo-container:hover {
             animation: logoFloat 3s ease-in-out infinite, logoHover 0.5s ease-out forwards;
         }
-
+        
         @keyframes logoHover {
             0% {
                 transform: translateY(0) scale(1);
@@ -216,7 +216,7 @@
                 transform: translateY(-3px) scale(1.03) rotate(0deg);
             }
         }
-
+        
         .logo-container:hover::after {
             opacity: 1;
         }
@@ -228,7 +228,7 @@
             position: relative;
             z-index: 1;
         }
-
+        
         @keyframes iconPulse {
             0%, 100% {
                 transform: scale(1);
@@ -257,7 +257,7 @@
                 transform: translateY(0);
             }
         }
-
+        
         .login-header p {
             font-size: 15px;
             color: var(--text-secondary);
@@ -328,7 +328,7 @@
         .form-group:nth-child(2) {
             animation-delay: 0.8s;
         }
-
+        
         @keyframes formSlideIn {
             from {
                 opacity: 0;
@@ -389,7 +389,7 @@
             transform: translateY(-2px);
             animation: inputFocus 0.3s ease-out;
         }
-
+        
         @keyframes inputFocus {
             0% {
                 box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.1);
@@ -401,7 +401,7 @@
                 box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
             }
         }
-
+        
         .form-input:focus + .input-icon {
             color: var(--primary-color);
             animation: iconBounce 0.5s ease-out;
@@ -521,7 +521,7 @@
                 transform: translateY(0) scale(1);
             }
         }
-
+        
         .btn-submit::before {
             content: '';
             position: absolute;
@@ -534,12 +534,12 @@
             transform: translate(-50%, -50%);
             transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
+        
         .btn-submit:hover::before {
             width: 300px;
             height: 300px;
         }
-
+        
         .btn-submit:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 12px 24px rgba(37, 99, 235, 0.3);
@@ -562,13 +562,13 @@
             transform: translateY(-1px) scale(0.98);
             transition: all 0.1s;
         }
-
+        
         .btn-submit:disabled {
             opacity: 0.7;
             cursor: not-allowed;
             transform: none;
         }
-
+        
         .btn-content {
             position: relative;
             z-index: 1;
@@ -577,7 +577,7 @@
             justify-content: center;
             gap: 8px;
         }
-
+        
         .divider {
             display: flex;
             align-items: center;
@@ -597,7 +597,7 @@
                 transform: scaleX(1);
             }
         }
-
+        
         .divider::before,
         .divider::after {
             content: '';
@@ -605,7 +605,7 @@
             height: 1px;
             background: var(--border-color);
         }
-
+        
         .divider span {
             padding: 0 16px;
         }
@@ -675,22 +675,22 @@
 <body>
     <div class="login-wrapper">
         <div class="login-card">
-            <div class="login-header">
+                        <div class="login-header">
                 <div class="logo-container">
                     <i class="fas fa-shield-alt"></i>
-                </div>
+                            </div>
                 <h1>Connexion</h1>
                 <p>Accédez à votre espace de supervision</p>
-            </div>
-
+                        </div>
+                        
             <div id="errorContainer" class="alert-container" style="display: none;">
                 <div class="alert alert-error">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span id="errorMessage"></span>
-                </div>
-            </div>
-
-            <form id="loginForm">
+                                <span id="errorMessage"></span>
+                            </div>
+                        </div>
+                        
+                        <form id="loginForm">
                 <div class="form-group">
                     <label for="email" class="form-label">Adresse email</label>
                     <div class="input-wrapper">
@@ -704,8 +704,8 @@
                             autocomplete="email"
                         >
                     </div>
-                </div>
-
+                            </div>
+                            
                 <div class="form-group">
                     <label for="password" class="form-label">Mot de passe</label>
                     <div class="input-wrapper">
@@ -727,34 +727,34 @@
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
-                </div>
-
+                            </div>
+                            
                 <div class="form-options">
                     <div class="checkbox-wrapper">
                         <input type="checkbox" id="remember" name="remember">
                         <label for="remember">Se souvenir de moi</label>
                     </div>
                     <a href="#" class="forgot-link">Mot de passe oublié ?</a>
-                </div>
-
+                            </div>
+                            
                 <button type="submit" class="btn-submit" id="submitBtn">
                     <span class="btn-content">
                         <span>Se connecter</span>
                         <i class="fas fa-arrow-right"></i>
-                    </span>
-                </button>
-            </form>
-
-            <div class="divider">
+                                </span>
+                            </button>
+                        </form>
+                        
+                        <div class="divider">
                 <span>ou</span>
-            </div>
-
+                        </div>
+                        
             <div class="register-link">
                 Pas encore de compte ? <a href="/register">Créer un compte</a>
             </div>
         </div>
     </div>
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -764,7 +764,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            
             // Toggle password visibility
             $('#togglePassword').on('click', function() {
                 const passwordInput = $('#password');
@@ -778,7 +778,7 @@
                     icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
             });
-
+            
             // Form submission
             $('#loginForm').on('submit', function(e) {
                 e.preventDefault();
@@ -800,49 +800,49 @@
                 const remember = $('#remember').is(':checked');
                 
                 // Validation
-                if (!email || !password) {
-                    showError('Veuillez remplir tous les champs');
+                    if (!email || !password) {
+                        showError('Veuillez remplir tous les champs');
                     resetButton($btn, $btnContent, originalContent);
-                    return;
-                }
-                
-                if (!validateEmail(email)) {
-                    showError('Veuillez entrer une adresse email valide');
+                        return;
+                    }
+                    
+                    if (!validateEmail(email)) {
+                        showError('Veuillez entrer une adresse email valide');
                     resetButton($btn, $btnContent, originalContent);
-                    return;
-                }
-                
+                        return;
+                    }
+                    
                 // AJAX request
-                $.ajax({
-                    url: '/login',
-                    method: 'POST',
+                    $.ajax({
+                        url: '/login',
+                        method: 'POST',
                     data: { 
                         email: email, 
                         password: password, 
                         remember: remember 
                     },
-                    success: function(response) {
-                        if (response.status === 'success') {
+                        success: function(response) {
+                            if (response.status === 'success') {
                             // Store token
                             if (response.token) {
                                 localStorage.setItem('auth_token', response.token);
                             }
-                            
+                                
                             // Success feedback
                             $btnContent.html('<i class="fas fa-check"></i> Connexion réussie !');
                             $btn.css('background', 'linear-gradient(135deg, #10b981 0%, #059669 100%)');
-                            
+                                
                             // Redirect
-                            setTimeout(() => {
-                                window.location.href = '/dashboard';
+                                setTimeout(() => {
+                                    window.location.href = '/dashboard';
                             }, 800);
                         } else {
                             showError(response.message || 'Une erreur est survenue');
                             resetButton($btn, $btnContent, originalContent);
-                        }
-                    },
-                    error: function(xhr) {
-                        const response = xhr.responseJSON;
+                            }
+                        },
+                        error: function(xhr) {
+                            const response = xhr.responseJSON;
                         let errorMessage = 'Une erreur est survenue lors de la connexion';
                         
                         if (response && response.message) {
@@ -859,7 +859,7 @@
                     }
                 });
             });
-
+            
             function showError(message) {
                 $('#errorMessage').text(message);
                 $('#errorContainer').slideDown();
@@ -869,7 +869,7 @@
                     $('#errorContainer').slideUp();
                 }, 5000);
             }
-
+            
             function resetButton($btn, $btnContent, originalContent) {
                 $btn.prop('disabled', false);
                 $btnContent.html(originalContent);
@@ -880,7 +880,7 @@
                 const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return re.test(email);
             }
-
+            
             // Enter key to submit
             $('.form-input').on('keypress', function(e) {
                 if (e.which === 13) {

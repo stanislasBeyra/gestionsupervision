@@ -5,28 +5,28 @@
         <div class="sidebar-logo">
             <i class="fas fa-shield-alt"></i>
             <span>Supervision</span>
-        </div>
+    </div>
 
         <!-- Menu -->
         <div class="sidebar-menu">
             <a href="/dashboard" class="menu-link" data-route="dashboard">
                 <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
+                        <span>Dashboard</span>
+                    </a>
 
             <!-- Outil de supervision -->
             <div class="menu-section">
                 <div class="menu-link menu-toggle" data-target="outilSubmenu">
                     <i class="fas fa-tools"></i>
-                    <span>Outil de supervision</span>
+                            <span>Outil de supervision</span>
                     <i class="fas fa-chevron-down arrow"></i>
                 </div>
                 <div class="submenu" id="outilSubmenu">
                     <a href="/etablissementsanitaire" class="submenu-link" data-route="etablissementsanitaire">Établissement sanitaire</a>
                     <a href="/identifiantsuperviser" class="submenu-link" data-route="identifiantsuperviser">Identifiants supervisés</a>
                     <a href="/identifiantsuperviseurs" class="submenu-link" data-route="identifiantsuperviseurs">Identifiants superviseurs</a>
+                    </div>
                 </div>
-            </div>
 
             <!-- Supervision -->
             <div class="menu-section">
@@ -71,26 +71,26 @@
             <span>Supervision</span>
         </div>
         <button type="button" class="btn-close" data-mdb-dismiss="offcanvas"></button>
-    </div>
+</div>
     <div class="offcanvas-body">
         <div class="mobile-menu">
             <a href="/dashboard" class="mobile-link" data-route="dashboard">
                 <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
+                        <span>Dashboard</span>
+                    </a>
 
             <div class="mobile-section">
                 <div class="mobile-link mobile-toggle" data-target="mobileOutilSubmenu">
                     <i class="fas fa-tools"></i>
-                    <span>Outil de supervision</span>
+                            <span>Outil de supervision</span>
                     <i class="fas fa-chevron-down arrow"></i>
                 </div>
                 <div class="mobile-submenu" id="mobileOutilSubmenu">
                     <a href="/etablissementsanitaire" class="mobile-submenu-link" data-route="etablissementsanitaire">Établissement sanitaire</a>
                     <a href="/identifiantsuperviser" class="mobile-submenu-link" data-route="identifiantsuperviser">Identifiants supervisés</a>
                     <a href="/identifiantsuperviseurs" class="mobile-submenu-link" data-route="identifiantsuperviseurs">Identifiants superviseurs</a>
+                    </div>
                 </div>
-            </div>
 
             <div class="mobile-section">
                 <div class="mobile-link mobile-toggle" data-target="mobileSupervisionSubmenu">
@@ -245,11 +245,11 @@
 
     /* Submenu */
     .submenu {
-        max-height: 0;
-        overflow: hidden;
+    max-height: 0;
+    overflow: hidden;
         transition: max-height 0.3s ease;
         padding-left: 32px;
-    }
+}
 
     .submenu.open {
         max-height: 300px;
@@ -272,19 +272,19 @@
     .submenu-link:hover {
         background: var(--sidebar-hover);
         color: var(--sidebar-text-hover);
-    }
+}
 
     .submenu-link.active {
         color: var(--sidebar-active);
         font-weight: 600;
-    }
+}
 
     /* Footer */
     .sidebar-footer {
         padding: 16px !important;
         border-top: 1px solid var(--sidebar-border) !important;
         margin-top: auto !important;
-    }
+}
 
     .download-link {
         display: flex;
@@ -299,12 +299,12 @@
         font-size: 13px;
         font-weight: 500;
         transition: background 0.2s ease;
-    }
+}
 
     .download-link:hover {
         background: #1d4ed8;
         color: white;
-    }
+}
 
     /* Mobile */
     .mobile-logo {
@@ -316,7 +316,7 @@
     .mobile-logo i {
         font-size: 24px;
         color: var(--sidebar-active);
-    }
+}
 
     .mobile-logo span {
         font-size: 18px;
@@ -372,7 +372,7 @@
 
     .mobile-toggle {
         cursor: pointer;
-    }
+}
 
     .mobile-submenu {
         max-height: 0;
@@ -397,7 +397,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-    }
+}
 
     .mobile-submenu-link:hover {
         background: var(--sidebar-hover);
@@ -413,7 +413,7 @@
         margin-top: auto;
         padding-top: 16px;
         border-top: 1px solid var(--sidebar-border);
-    }
+}
 
     .mobile-download-link {
         display: flex;
@@ -422,13 +422,13 @@
         gap: 8px;
         padding: 12px;
         background: var(--sidebar-active);
-        color: white;
-        text-decoration: none;
-        border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
         font-size: 13px;
         font-weight: 500;
         transition: background 0.2s ease;
-    }
+}
 
     .mobile-download-link:hover {
         background: #1d4ed8;
@@ -451,7 +451,7 @@
 
     .sidebar::-webkit-scrollbar-thumb:hover {
         background: #cbd5e1;
-    }
+}
 </style>
 
 <script>
@@ -471,12 +471,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (menu !== submenu) {
                         menu.classList.remove('open');
                         menu.previousElementSibling?.classList.remove('active');
-                    }
-                });
-                
+                }
+            });
+
                 // Toggle current submenu
                 submenu.classList.toggle('open');
-                this.classList.toggle('active');
+            this.classList.toggle('active');
             }
         });
     });

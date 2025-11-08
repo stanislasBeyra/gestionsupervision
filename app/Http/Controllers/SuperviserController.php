@@ -85,7 +85,7 @@ class SuperviserController extends Controller
     {
         try {
             $id = $request->input('id');
-            
+
             // Règles de validation
             $rules = [
                 'firstname' => 'required|string|max:255',
@@ -136,14 +136,14 @@ class SuperviserController extends Controller
                 ], 200);
             } else {
                 // Création
-                $validated['user_id'] = auth()->user()->id;
-                $superviseur = Superviser::create($validated);
+            $validated['user_id'] = auth()->user()->id;
+            $superviseur = Superviser::create($validated);
 
-                return response()->json([
+            return response()->json([
                     'success' => true,
                     'message' => 'Supervisé enregistré avec succès',
-                    'data' => $superviseur
-                ], 200);
+                'data' => $superviseur
+            ], 200);
             }
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Les messages sont déjà traduits via le paramètre $messages de validate()

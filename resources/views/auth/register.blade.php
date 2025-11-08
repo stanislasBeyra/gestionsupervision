@@ -79,7 +79,7 @@
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             50% { transform: translate(30px, -30px) rotate(180deg); }
         }
-
+        
         .register-wrapper {
             width: 100%;
             max-width: 440px;
@@ -87,7 +87,7 @@
             z-index: 1;
             animation: slideUp 0.6s ease-out;
         }
-
+        
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -98,7 +98,7 @@
                 transform: translateY(0);
             }
         }
-
+        
         .register-card {
             background: var(--surface);
             border-radius: 24px;
@@ -204,7 +204,7 @@
         .logo-container:hover {
             animation: logoFloat 3s ease-in-out infinite, logoHover 0.5s ease-out forwards;
         }
-
+        
         @keyframes logoHover {
             0% {
                 transform: translateY(0) scale(1);
@@ -216,7 +216,7 @@
                 transform: translateY(-3px) scale(1.03) rotate(0deg);
             }
         }
-
+        
         .logo-container:hover::after {
             opacity: 1;
         }
@@ -228,7 +228,7 @@
             position: relative;
             z-index: 1;
         }
-
+        
         @keyframes iconPulse {
             0%, 100% {
                 transform: scale(1);
@@ -257,7 +257,7 @@
                 transform: translateY(0);
             }
         }
-
+        
         .register-header p {
             font-size: 15px;
             color: var(--text-secondary);
@@ -336,7 +336,7 @@
         .form-group:nth-child(4) {
             animation-delay: 1s;
         }
-
+        
         @keyframes formSlideIn {
             from {
                 opacity: 0;
@@ -397,7 +397,7 @@
             transform: translateY(-2px);
             animation: inputFocus 0.3s ease-out;
         }
-
+        
         @keyframes inputFocus {
             0% {
                 box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.1);
@@ -409,7 +409,7 @@
                 box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
             }
         }
-
+        
         .form-input:focus + .input-icon {
             color: var(--primary-color);
             animation: iconBounce 0.5s ease-out;
@@ -479,7 +479,7 @@
                 transform: translateY(0) scale(1);
             }
         }
-
+        
         .btn-submit::before {
             content: '';
             position: absolute;
@@ -633,22 +633,22 @@
 <body>
     <div class="register-wrapper">
         <div class="register-card">
-            <div class="register-header">
+                        <div class="register-header">
                 <div class="logo-container">
                     <i class="fas fa-user-plus"></i>
-                </div>
+                            </div>
                 <h1>Inscription</h1>
                 <p>Créez votre compte en quelques étapes</p>
-            </div>
-
+                        </div>
+                        
             <div id="errorContainer" class="alert-container" style="display: none;">
                 <div class="alert alert-error">
                     <i class="fas fa-exclamation-circle"></i>
-                    <span id="errorMessage"></span>
-                </div>
-            </div>
-
-            <form id="registerForm">
+                                <span id="errorMessage"></span>
+                            </div>
+                        </div>
+                        
+                        <form id="registerForm">
                 <div class="form-group">
                     <label for="name" class="form-label">Nom complet</label>
                     <div class="input-wrapper">
@@ -662,8 +662,8 @@
                             autocomplete="name"
                         >
                     </div>
-                </div>
-
+                            </div>
+                            
                 <div class="form-group">
                     <label for="email" class="form-label">Adresse email</label>
                     <div class="input-wrapper">
@@ -677,8 +677,8 @@
                             autocomplete="email"
                         >
                     </div>
-                </div>
-
+                            </div>
+                            
                 <div class="form-group">
                     <label for="password" class="form-label">Mot de passe</label>
                     <div class="input-wrapper">
@@ -699,9 +699,9 @@
                         >
                             <i class="fas fa-eye"></i>
                         </button>
-                    </div>
-                </div>
-
+                            </div>
+                            </div>
+                            
                 <div class="form-group">
                     <label for="password_confirmation" class="form-label">Confirmer le mot de passe</label>
                     <div class="input-wrapper">
@@ -721,7 +721,7 @@
                             aria-label="Afficher le mot de passe"
                         >
                             <i class="fas fa-eye"></i>
-                        </button>
+                            </button>
                     </div>
                 </div>
 
@@ -742,7 +742,7 @@
             </div>
         </div>
     </div>
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -752,7 +752,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
+            
             // Toggle password visibility
             $('#togglePassword').on('click', function() {
                 const passwordInput = $('#password');
@@ -779,7 +779,7 @@
                     icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
             });
-
+            
             // Form submission
             $('#registerForm').on('submit', function(e) {
                 e.preventDefault();
@@ -840,7 +840,7 @@
                         if (response.status === 'success') {
                             // Store token
                             if (response.token) {
-                                localStorage.setItem('auth_token', response.token);
+                            localStorage.setItem('auth_token', response.token);
                             }
                             
                             // Success feedback
@@ -874,7 +874,7 @@
                     }
                 });
             });
-
+            
             function showError(message) {
                 $('#errorMessage').text(message);
                 $('#errorContainer').slideDown();
@@ -884,7 +884,7 @@
                     $('#errorContainer').slideUp();
                 }, 5000);
             }
-
+            
             function resetButton($btn, $btnContent, originalContent) {
                 $btn.prop('disabled', false);
                 $btnContent.html(originalContent);
@@ -905,4 +905,4 @@
         });
     </script>
 </body>
-</html>
+</html> 

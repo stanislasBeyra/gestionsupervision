@@ -677,7 +677,7 @@
         <div class="search-container">
             <div class="search-input-group">
                 <input type="text" id="search-supervises" class="form-control search-input"
-                    placeholder="Rechercher un superviseur...">
+                        placeholder="Rechercher un superviseur...">
             </div>
         </div>
 
@@ -872,8 +872,8 @@
             
             // Vérifier que MDB est disponible
             if (typeof mdb !== 'undefined' && mdb.Toast) {
-                const toast = new mdb.Toast(toastElement);
-                toast.show();
+            const toast = new mdb.Toast(toastElement);
+            toast.show();
             } else {
                 // Fallback si MDB n'est pas disponible
                 toastElement.classList.add('show');
@@ -1078,13 +1078,13 @@
 
                 // Vérifier si la réponse contient success: true ou si c'est un succès (200)
                 if (data.success !== false && (data.success === true || response.status === 200)) {
-                    return {
-                        success: true,
-                        data: {
-                            ...data.data,
-                            nom_prenom: data.data.firstname
-                        }
-                    };
+                return {
+                    success: true,
+                    data: {
+                        ...data.data,
+                        nom_prenom: data.data.firstname
+                    }
+                };
                 } else {
                     throw new Error(data.message || 'Erreur de sauvegarde');
                 }
@@ -1559,7 +1559,7 @@
         },
 
         async deleteSupervise(button) {
-            const row = button.closest('tr');
+                    const row = button.closest('tr');
             const card = button.closest('.mobile-card');
             
             let superviseName = '';
@@ -1568,7 +1568,7 @@
 
             if (row) {
                 superviseName = row.cells[1].textContent.trim().replace('Hors ligne', '').trim();
-                if (row.dataset.offlineId) {
+                    if (row.dataset.offlineId) {
                     superviseId = row.dataset.offlineId;
                     isOffline = true;
                 } else if (row.dataset.id) {
@@ -1587,9 +1587,9 @@
             try {
                 if (isOffline) {
                     // Suppression locale
-                    const offlineSupervises = StorageManager.get('OFFLINE_SUPERVISES') || [];
+                        const offlineSupervises = StorageManager.get('OFFLINE_SUPERVISES') || [];
                     const filtered = offlineSupervises.filter(s => s.id.toString() !== superviseId.toString());
-                    StorageManager.set('OFFLINE_SUPERVISES', filtered);
+                        StorageManager.set('OFFLINE_SUPERVISES', filtered);
                     if (row) row.remove();
                     if (card) card.remove();
                     this.updateNumbers();
@@ -1623,8 +1623,8 @@
                     
                     NotificationManager.show(data.message || 'Superviseur supprimé avec succès', 'success');
                 }
-            } catch (error) {
-                console.error('Erreur lors de la suppression:', error);
+                } catch (error) {
+                    console.error('Erreur lors de la suppression:', error);
                 NotificationManager.show(error.message || 'Erreur lors de la suppression', 'danger');
             }
         },

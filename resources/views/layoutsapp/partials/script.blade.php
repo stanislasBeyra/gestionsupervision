@@ -22,9 +22,9 @@
                 const existingInstance = mdb.Collapse.getInstance(collapse);
                 if (!existingInstance) {
                     // Initialise le composant collapse de MDB seulement si aucune instance n'existe
-                    new mdb.Collapse(collapse, {
-                        toggle: false
-                    });
+                new mdb.Collapse(collapse, {
+                    toggle: false
+                });
                 }
             });
 
