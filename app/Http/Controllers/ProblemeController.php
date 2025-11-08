@@ -111,4 +111,32 @@ class ProblemeController extends Controller
             ], 500);
         }
     }
+
+    public function deleteProbleme($id)
+    {
+        try {
+            $probleme = Probleme::where('id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
+            
+            $probleme->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Problème supprimé avec succès'
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Problème introuvable ou vous n\'avez pas les droits pour le supprimer.'
+            ], 404);
+        } catch (Throwable $e) {
+            Log::error('Erreur lors de la suppression du problème:', ['error' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la suppression du problème.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

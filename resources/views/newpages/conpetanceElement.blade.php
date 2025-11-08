@@ -527,24 +527,24 @@
         <!-- Desktop Table View -->
         <div class="table-wrapper">
             <table class="table">
-                <thead>
-                    <tr>
+                    <thead>
+                        <tr>
                         <th style="width: 40px;">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="selectAll" onchange="toggleAllCheckboxes(this)">
                             </div>
-                        </th>
+                            </th>
                         <th>N°</th>
                         <th>Date d'ajout</th>
                         <th>Établissement</th>
                         <th class="d-none d-md-table-cell">Domaine</th>
                         <th class="d-none d-lg-table-cell">Note Obtenue</th>
                         <th style="text-align: center; width: 60px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                </tbody>
-            </table>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
         </div>
 
         <!-- Mobile Cards View -->
@@ -717,8 +717,8 @@
                     <input class="form-check-input" type="checkbox" value="${supervision.id}">
                 </div>
             </td>
-            <td>${index + 1}</td>
-            <td>${formatDate(supervision.created_at)}</td>
+                <td>${index + 1}</td>
+                <td>${formatDate(supervision.created_at)}</td>
             <td style="cursor: pointer; color: var(--primary-color);" onclick="openDrawerFromRow(this.closest('tr'))">${safeText(getValue(supervision.etablissements))}</td>
             <td class="d-none d-md-table-cell">${safeText(getValue(supervision.domaines?.name_domaine))}</td>
             <td class="d-none d-lg-table-cell">${safeText(getValue(supervision.note))}</td>
@@ -726,7 +726,7 @@
                 <button class="btn btn-primary btn-sm" onclick="openDrawerFromRow(this.closest('tr'))" title="Voir détails">
                     <i class="fas fa-eye"></i>
                 </button>
-            </td>
+                </td>
         `;
         tbody.appendChild(row);
     }
@@ -771,42 +771,42 @@
     }
 
     function renderPagination(data) {
-        const paginationContainer = document.getElementById('pagination-container');
+    const paginationContainer = document.getElementById('pagination-container');
         if (!paginationContainer) return;
 
-        let currentPage = data.current_page;
-        let lastPage = data.last_page;
+    let currentPage = data.current_page;
+    let lastPage = data.last_page;
 
-        let paginationHTML = `
+    let paginationHTML = `
             <nav aria-label="Pagination des supervisions">
                 <ul class="pagination pagination-circle justify-content-center">
-                    <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
                         <a class="page-link" href="#" onclick="fetchSupervisions(${currentPage - 1})" ${currentPage === 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>
                             <span aria-hidden="true">&laquo;</span>
                         </a>
-                    </li>
-        `;
-
-        for (let page = 1; page <= lastPage; page++) {
-            paginationHTML += `
-                <li class="page-item ${page === currentPage ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="fetchSupervisions(${page})">${page}</a>
                 </li>
-            `;
-        }
+    `;
 
+    for (let page = 1; page <= lastPage; page++) {
         paginationHTML += `
-                    <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
+            <li class="page-item ${page === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="fetchSupervisions(${page})">${page}</a>
+            </li>
+        `;
+    }
+
+    paginationHTML += `
+                <li class="page-item ${currentPage === lastPage ? 'disabled' : ''}">
                         <a class="page-link" href="#" onclick="fetchSupervisions(${currentPage + 1})" ${currentPage === lastPage ? 'tabindex="-1" aria-disabled="true"' : ''}>
                             <span aria-hidden="true">&raquo;</span>
                         </a>
-                    </li>
-                </ul>
-            </nav>
-        `;
+                </li>
+            </ul>
+        </nav>
+    `;
 
-        paginationContainer.innerHTML = paginationHTML;
-    }
+    paginationContainer.innerHTML = paginationHTML;
+}
 
     // Ouvrir le drawer avec les détails
     function openDrawerFromRow(row) {
@@ -932,19 +932,48 @@
         }
     }
 
+    function showDeleteModalFromDrawer(identifier) {
+        closeDrawer();
+        const modalElement = document.getElementById('deleteModal');
+        if (!modalElement) return;
+        
+        // Réutiliser l'instance existante ou en créer une nouvelle
+        let modal;
+        if (modalElement._mdbModal) {
+            modal = modalElement._mdbModal;
+        } else {
+            modal = new mdb.Modal(modalElement);
+            modalElement._mdbModal = modal;
+        }
+        
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        if (!confirmBtn) return;
+        
+        // Supprimer l'ancien gestionnaire d'événement
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+        
+        // Ajouter le nouveau gestionnaire
+        newConfirmBtn.onclick = () => {
+            deleteSupervision(identifier);
+            modal.hide();
+        };
+        
+        modal.show();
+    }
+
     // Supprimer une supervision
     function deleteSupervision(id) {
-        if (!confirm('Voulez-vous vraiment supprimer cette supervision ?')) return;
 
-        fetch(`${API_ENDPOINTS.SUPERVISIONS}/${id}`, {
-                method: 'DELETE',
-                headers: {
+            fetch(`${API_ENDPOINTS.SUPERVISIONS}/${id}`, {
+                    method: 'DELETE',
+                    headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
                 if (data.success) {
                     NotificationManager.show('Supervision supprimée avec succès', 'success');
                     fetchSupervisions();

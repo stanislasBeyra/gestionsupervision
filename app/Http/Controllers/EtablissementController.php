@@ -117,7 +117,10 @@ class EtablissementController extends Controller
     public function deleteEtablissement($id)
     {
         try {
-            $etablissement = Etablissement::findOrFail($id);
+            $etablissement = Etablissement::where('id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
+            
             $etablissement->delete();
 
             Log::info('Établissement supprimé avec succès', ['id' => $id]);
@@ -125,6 +128,11 @@ class EtablissementController extends Controller
                 'success' => true,
                 'message' => 'Établissement supprimé avec succès'
             ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Établissement introuvable ou vous n\'avez pas les droits pour le supprimer.'
+            ], 404);
         } catch (Throwable $e) {
             Log::error('Une erreur est survenue lors de la suppression de l\'établissement.', ['error' => $e->getMessage()]);
 
@@ -138,7 +146,9 @@ class EtablissementController extends Controller
     public function updateEtablissement(Request $request, $id)
     {
         try {
-            $etablissement = Etablissement::findOrFail($id);
+            $etablissement = Etablissement::where('id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
 
             $validated = $request->validate([
                 'direction_regionale' => 'required|string|max:255',
@@ -163,6 +173,11 @@ class EtablissementController extends Controller
                 'message' => 'Établissement mis à jour avec succès',
                 'data' => $etablissement
             ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Établissement introuvable ou vous n\'avez pas les droits pour le modifier.'
+            ], 404);
         } catch (ValidationException $e) {
             Log::error('Erreur de validation lors de la mise à jour de l\'établissement.', ['errors' => $e->errors()]);
 
@@ -184,12 +199,19 @@ class EtablissementController extends Controller
     public function getEtablissementById($id)
     {
         try {
-            $etablissement = Etablissement::findOrFail($id);
+            $etablissement = Etablissement::where('id', $id)
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
 
             return response()->json([
                 'success' => true,
                 'data' => $etablissement
             ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Établissement introuvable ou vous n\'avez pas les droits pour y accéder.'
+            ], 404);
         } catch (Throwable $e) {
             Log::error('Une erreur est survenue lors de la récupération de l\'établissement.', ['error' => $e->getMessage()]);
 
@@ -223,7 +245,7 @@ class EtablissementController extends Controller
     public function countEtablissement()
     {
         try {
-            $count = Etablissement::count();
+            $count = Etablissement::where('user_id', auth()->user()->id)->count();
 
             Log::info('Nombre d\'établissements:', ['count' => $count]);
             return response()->json([

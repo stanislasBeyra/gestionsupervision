@@ -232,7 +232,9 @@ class SupervisionsController extends Controller
         ]);
 
         try {
-            $supervision = Supervision::findOrFail($validated['id']);
+            $supervision = Supervision::where('id', $validated['id'])
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
 
             $supervision->update([
                 'domaine' => $validated['domaine'],
@@ -251,6 +253,11 @@ class SupervisionsController extends Controller
                 'message' => 'Supervision mise à jour avec succès',
                 'data' => $supervision
             ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Supervision introuvable ou vous n\'avez pas les droits pour la modifier.'
+            ], 404);
         } catch (Throwable $t) {
             return response()->json([
                 'success' => false,
@@ -267,13 +274,21 @@ class SupervisionsController extends Controller
         ]);
 
         try {
-            $supervision = Supervision::findOrFail($validated['id']);
+            $supervision = Supervision::where('id', $validated['id'])
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
+            
             $supervision->delete();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Supervision supprimée avec succès'
             ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Supervision introuvable ou vous n\'avez pas les droits pour la supprimer.'
+            ], 404);
         } catch (Throwable $t) {
             return response()->json([
                 'success' => false,
@@ -285,8 +300,11 @@ class SupervisionsController extends Controller
     public function getsynthese()
 {
     try {
-        // Récupération des données avec les relations
-        $data = Supervision::with(['domaines:id,name_domaine'])
+        $userId = auth()->id();
+        
+        // Récupération des données avec les relations, filtrées par user_id
+        $data = Supervision::where('user_id', $userId)
+            ->with(['domaines:id,name_domaine'])
             ->select('points_disponible', 'note', 'domaine')
             ->get();
 

@@ -137,6 +137,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('', 'getProbleme');
             Route::post('save', 'saveProbleme');
         });
+        Route::delete('delete/{id}', [ProblemeController::class, 'deleteProbleme']);
     });
 
     Route::prefix('supervision')->group(function () {

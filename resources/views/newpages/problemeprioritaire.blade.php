@@ -601,15 +601,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">N°</th>
-                            <th scope="col">Date de création</th>
-                            <th scope="col">Problème prioritaire</th>
-                            <th scope="col" class="d-none d-lg-table-cell">Causes</th>
-                            <th scope="col" class="d-none d-xl-table-cell">Actions correctrices</th>
-                            <th scope="col" class="d-none d-xl-table-cell">Sources vérification</th>
-                            <th scope="col" class="d-none d-lg-table-cell">Acteurs</th>
-                            <th scope="col" class="d-none d-xl-table-cell">Ressources</th>
-                            <th scope="col" class="d-none d-md-table-cell">Délais</th>
+                            <th>N°</th>
+                            <th>Date de création</th>
+                            <th>Problème prioritaire</th>
+                            <th class="d-none d-md-table-cell">Causes</th>
+                            <th class="d-none d-lg-table-cell">Délais</th>
+                            <th style="text-align: center; width: 60px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="problems-table">
@@ -716,6 +713,25 @@
                     </button>
                 </div>
             </form>
+    </div>
+</div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer ce problème prioritaire ? Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+                </div>
+        </div>
     </div>
 </div>
 
@@ -1212,7 +1228,7 @@
             if (problemes.length === 0) {
                 tableBody.innerHTML = `
                 <tr>
-                    <td colspan="9" class="text-center py-4">
+                    <td colspan="6" class="text-center py-4">
                         <i class="fas fa-folder-open fa-2x mb-3 text-muted"></i>
                         <p class="text-muted mb-0">Aucun problème prioritaire trouvé</p>
                     </td>
@@ -1233,21 +1249,23 @@
 
         createRow(probleme, index, isOffline = false) {
             const safeText = (text) => text ? text.replace(/</g, '&lt;').replace(/>/g, '&gt;') : '';
+            const problemeData = JSON.stringify(probleme).replace(/"/g, '&quot;');
 
             return `
-            <tr data-id="${probleme.id}" ${isOffline ? 'data-offline="true"' : ''} style="cursor: pointer;" onclick="ProblemeManager.openDrawerFromRow(this)">
+            <tr data-id="${probleme.id}" data-probleme='${JSON.stringify(probleme)}' ${isOffline ? 'data-offline="true"' : ''}>
                 <td>${index}</td>
                 <td>${this.formatDatecreated(probleme.created_at)}</td>
-                <td class="text-wrap">
+                <td class="text-wrap" style="cursor: pointer; color: var(--primary-color);" onclick="ProblemeManager.openDrawerFromRow(this.closest('tr'))">
                     ${safeText(probleme.probleme)}
                     ${isOffline ? '<span class="badge bg-warning text-dark">Hors ligne</span>' : ''}
                 </td>
-                <td class="d-none d-lg-table-cell text-wrap">${safeText(probleme.causes)}</td>
-                <td class="d-none d-xl-table-cell text-wrap">${safeText(probleme.actions)}</td>
-                <td class="d-none d-xl-table-cell text-wrap">${safeText(probleme.sources)}</td>
-                <td class="d-none d-lg-table-cell">${safeText(probleme.acteurs)}</td>
-                <td class="d-none d-xl-table-cell">${safeText(probleme.ressources)}</td>
-                <td class="d-none d-md-table-cell">${this.formatDate(probleme.delai)}</td>
+                <td class="d-none d-md-table-cell text-wrap">${safeText(probleme.causes)}</td>
+                <td class="d-none d-lg-table-cell">${this.formatDate(probleme.delai)}</td>
+                <td onclick="event.stopPropagation()">
+                    <button class="btn btn-primary btn-sm" onclick="ProblemeManager.openDrawerFromRow(this.closest('tr'))" title="Voir détails">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </td>
             </tr>
         `;
         },
@@ -1364,6 +1382,12 @@
                     <div class="drawer-item">
                         <span class="drawer-value">${safeText(probleme.ressources) || 'N/A'}</span>
                     </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button class="btn btn-danger" onclick="ProblemeManager.showDeleteModalFromDrawer('${probleme.id}')">
+                        <i class="fas fa-trash me-2"></i>Supprimer
+                    </button>
                 </div>
             `;
 
@@ -1510,6 +1534,80 @@
                 if (offlineData.length > 0) {
                     NotificationManager.show(`${offlineData.length} problème(s) en attente de synchronisation`, 'info');
                 }
+            }
+        },
+
+        showDeleteModalFromDrawer(identifier) {
+            closeDrawer();
+            const modalElement = document.getElementById('deleteModal');
+            if (!modalElement) return;
+            
+            // Réutiliser l'instance existante ou en créer une nouvelle
+            let modal;
+            if (modalElement._mdbModal) {
+                modal = modalElement._mdbModal;
+            } else {
+                modal = new mdb.Modal(modalElement);
+                modalElement._mdbModal = modal;
+            }
+            
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            if (!confirmBtn) return;
+            
+            // Supprimer l'ancien gestionnaire d'événement
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+            
+            // Ajouter le nouveau gestionnaire
+            newConfirmBtn.onclick = async () => {
+                await this.deleteProbleme(identifier);
+                modal.hide();
+            };
+            
+            modal.show();
+        },
+
+        async deleteProbleme(id) {
+            try {
+                const response = await fetch(`${CONFIG.API_ENDPOINTS.DELETE_PROBLEME}/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    NotificationManager.show('Problème supprimé avec succès', 'success');
+                    
+                    // Supprimer du DOM
+                    const rows = document.querySelectorAll('#problems-table tr');
+                    const cards = document.querySelectorAll('.mobile-card');
+                    
+                    rows.forEach(row => {
+                        const rowId = row.getAttribute('data-id');
+                        if (rowId && rowId.toString() === id.toString()) {
+                            row.remove();
+                        }
+                    });
+                    
+                    cards.forEach(card => {
+                        const cardId = card.getAttribute('data-id') || card.getAttribute('data-offline-id');
+                        if (cardId && cardId.toString() === id.toString()) {
+                            card.remove();
+                        }
+                    });
+                    
+                    // Recharger les problèmes
+                    await this.loadProblemes(this.currentPage);
+                } else {
+                    NotificationManager.show(data.message || 'Erreur lors de la suppression', 'danger');
+                }
+            } catch (error) {
+                console.error('Erreur lors de la suppression:', error);
+                NotificationManager.show('Erreur lors de la suppression', 'danger');
             }
         },
 
