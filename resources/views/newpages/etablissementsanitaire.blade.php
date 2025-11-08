@@ -874,6 +874,9 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 <script>
+    // ID de l'utilisateur connecté
+    const CURRENT_USER_ID = {{ auth()->id() }};
+    
     const API_ENDPOINTS = {
         GET_ETABLISSEMENTS: '/api/etablissements',
         SAVE_ETABLISSEMENT: '/api/etablissements/save',
@@ -881,8 +884,8 @@
     };
 
     const STORAGE_KEYS = {
-        ETABLISSEMENTS: 'cached_etablissements',
-        PENDING_ETABLISSEMENTS: 'pending_etablissements'
+        ETABLISSEMENTS: `cached_etablissements_${CURRENT_USER_ID}`,
+        PENDING_ETABLISSEMENTS: `pending_etablissements_${CURRENT_USER_ID}`
     };
 
     function showForm() {
@@ -1075,14 +1078,18 @@
                     }
                 }
 
-                const allEtablissements = [...etablissements, ...pendingEtablissements];
+                // Filtrer les données en cache par user_id (sécurité supplémentaire)
+                const filteredEtablissements = etablissements.filter(etab => !etab.user_id || etab.user_id === CURRENT_USER_ID);
+                const filteredPending = pendingEtablissements.filter(etab => !etab.user_id || etab.user_id === CURRENT_USER_ID);
+                
+                const allEtablissements = [...filteredEtablissements, ...filteredPending];
                 allEtablissements.forEach((etablissement, index) => {
-                    this.addRowToTable(etablissement, index, pendingEtablissements);
-                        this.addMobileCard(etablissement, index, pendingEtablissements);
+                    this.addRowToTable(etablissement, index, filteredPending);
+                        this.addMobileCard(etablissement, index, filteredPending);
                 });
 
-                if (!navigator.onLine && pendingEtablissements.length > 0) {
-                    AlertManager.showWarning(`${pendingEtablissements.length} établissement(s) en attente de synchronisation`);
+                if (!navigator.onLine && filteredPending.length > 0) {
+                    AlertManager.showWarning(`${filteredPending.length} établissement(s) en attente de synchronisation`);
                 }
 
                 // Masquer le spinner une fois le chargement terminé
@@ -1254,6 +1261,7 @@
                 } else {
                     etablissement.id = Date.now();
                     etablissement.timestamp = new Date().toISOString();
+                    etablissement.user_id = CURRENT_USER_ID; // Ajouter user_id pour la sécurité
                     CacheManager.addPendingEtablissement(etablissement);
                     AlertManager.showSuccess('Établissement sauvegardé localement - En attente de synchronisation');
                 }

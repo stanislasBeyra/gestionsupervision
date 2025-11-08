@@ -817,6 +817,9 @@
 </div>
 
 <script>
+    // ID de l'utilisateur connecté
+    const CURRENT_USER_ID = {{ auth()->id() }};
+    
     /**
      * Configuration principale de l'application
      */
@@ -827,9 +830,9 @@
             DELETE_SUPERVISE: '/api/superviseurs/delete'
         },
         STORAGE_KEYS: {
-            OFFLINE_SUPERVISES: 'offlineSupervises',
-            FORM_STATE: 'superviseFormState',
-            LAST_SYNC: 'lastSuperviseSync'
+            OFFLINE_SUPERVISES: `offlineSupervises_${CURRENT_USER_ID}`,
+            FORM_STATE: `superviseFormState_${CURRENT_USER_ID}`,
+            LAST_SYNC: `lastSuperviseSync_${CURRENT_USER_ID}`
         },
         TOAST_DURATION: 3000
     };

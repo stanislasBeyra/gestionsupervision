@@ -755,6 +755,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    // ID de l'utilisateur connecté
+    const CURRENT_USER_ID = {{ auth()->id() }};
+    
     // Configuration globale
     const CONFIG = {
         ENDPOINTS: {
@@ -763,9 +766,9 @@
             DELETE_PROBLEME: '/api/problemes/delete'
         },
         STORAGE_KEYS: {
-            OFFLINE_PROBLEMS: 'offlineProblems',
-            LAST_SYNC: 'lastSync',
-            FORM_STATE: 'formState'
+            OFFLINE_PROBLEMS: `offlineProblems_${CURRENT_USER_ID}`,
+            LAST_SYNC: `lastSync_${CURRENT_USER_ID}`,
+            FORM_STATE: `formState_${CURRENT_USER_ID}`
         }
     };
 

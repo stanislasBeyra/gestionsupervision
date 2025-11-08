@@ -901,16 +901,19 @@
         DELETESUPERVISION: '/api/supervision/delete'
     };
 
-    // Clés de stockage local
+    // ID de l'utilisateur connecté
+    const CURRENT_USER_ID = {{ auth()->id() }};
+    
+    // Clés de stockage local (avec ID utilisateur pour l'isolation)
     const STORAGE_KEYS = {
-        SUPERVISIONS: 'offline_supervisions',
-        PENDING_SUPERVISIONS: 'pending_supervisions',
-        DOMAINES: 'cached_domaines',
-        CONTENUS: 'cached_contenus',
-        QUESTIONS: 'cached_questions',
-        METHODES: 'cached_methodes',
-        NOTES: 'cached_notes',
-        LAST_SYNC: 'last_sync_timestamp'
+        SUPERVISIONS: `offline_supervisions_${CURRENT_USER_ID}`,
+        PENDING_SUPERVISIONS: `pending_supervisions_${CURRENT_USER_ID}`,
+        DOMAINES: 'cached_domaines', // Données partagées (pas de user_id)
+        CONTENUS: 'cached_contenus', // Données partagées (pas de user_id)
+        QUESTIONS: 'cached_questions', // Données partagées (pas de user_id)
+        METHODES: 'cached_methodes', // Données partagées (pas de user_id)
+        NOTES: 'cached_notes', // Données partagées (pas de user_id)
+        LAST_SYNC: `last_sync_timestamp_${CURRENT_USER_ID}`
     };
 
     // Types d'établissements
