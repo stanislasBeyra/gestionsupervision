@@ -282,9 +282,10 @@
         // Force la fermeture de tous les sous-menus au démarrage
         collapse.classList.remove('show');
         // Vérifier si l'instance existe déjà avant d'initialiser
-        if (!collapse._mdbCollapse) {
-            // Initialise le composant collapse de MDB
-            collapse._mdbCollapse = new mdb.Collapse(collapse, {
+        const existingInstance = mdb.Collapse.getInstance(collapse);
+        if (!existingInstance) {
+            // Initialise le composant collapse de MDB seulement si aucune instance n'existe
+            new mdb.Collapse(collapse, {
                 toggle: false
             });
         }

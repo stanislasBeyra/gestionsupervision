@@ -79,55 +79,63 @@ class HomeController extends Controller
     // Fonction pour le nombre d'établissements sanitaires
     public function getEtablissementCount()
     {
-        $count = Etablissement::count();
+        $userId = auth()->id();
+        $count = Etablissement::where('user_id', $userId)->count();
         return response()->json(['success' => true, 'data' => $count]);
     }
 
     // Fonction pour le nombre de supervisions réalisées
     public function getSupervisionCount()
     {
-        $count = Supervision::count();
+        $userId = auth()->id();
+        $count = Supervision::where('user_id', $userId)->count();
         return response()->json(['success' => true, 'data' => $count]);
     }
 
     // Fonction pour le nombre de superviseurs
     public function getSuperviseurCount()
     {
-        $count = Superviseur::count();
+        $userId = auth()->id();
+        $count = Superviseur::where('user_id', $userId)->count();
         return response()->json(['success' => true, 'data' => $count]);
     }
 
     // Fonction pour le nombre de supervisés
     public function getSuperviserCount()
     {
-        $count = Superviser::count();
+        $userId = auth()->id();
+        $count = Superviser::where('user_id', $userId)->count();
         return response()->json(['success' => true, 'data' => $count]);
     }
 
     // Fonction pour le nombre de problèmes prioritaires
     public function getProblemeCount()
     {
-        $count = Probleme::count();
+        $userId = auth()->id();
+        $count = Probleme::where('user_id', $userId)->count();
         return response()->json(['success' => true, 'data' => $count]);
     }
 
     // Fonction pour le nombre d'éléments de compétence (type=2)
     public function getCompetanceElementCount()
     {
-        $count = Supervision::where('type', 2)->count();
+        $userId = auth()->id();
+        $count = Supervision::where('user_id', $userId)->where('type', 2)->count();
         return response()->json(['success' => true, 'data' => $count]);
     }
 
     // Fonction pour le nombre d'éléments d'environnement (type=1)
     public function getEnvironnementElementCount()
     {
-        $count = Supervision::where('type', 1)->count();
+        $userId = auth()->id();
+        $count = Supervision::where('user_id', $userId)->where('type', 1)->count();
         return response()->json(['success' => true, 'data' => $count]);
     }
 
     // Fonction pour les statistiques de supervisions par mois (année en cours)
     public function getSupervisionStatsByMonth()
     {
+        $userId = auth()->id();
         $year = date('Y');
         $currentMonth = date('n');
         $moisNoms = [
@@ -145,6 +153,7 @@ class HomeController extends Controller
             12 => 'décembre',
         ];
         $stats = Supervision::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->where('user_id', $userId)
             ->whereYear('created_at', $year)
             ->groupBy('month')
             ->orderBy('month')
@@ -165,8 +174,10 @@ class HomeController extends Controller
     // Fonction pour les statistiques de supervisions par semaine (année en cours)
     public function getSupervisionStatsByWeek()
     {
+        $userId = auth()->id();
         $year = date('Y');
         $stats = Supervision::selectRaw('WEEK(created_at, 1) as week, COUNT(*) as count')
+            ->where('user_id', $userId)
             ->whereYear('created_at', $year)
             ->groupBy('week')
             ->orderBy('week')
@@ -188,6 +199,7 @@ class HomeController extends Controller
     // Fonction pour les statistiques de supervisions par jour de la semaine en cours
     public function getSupervisionStatsCurrentWeekByDay()
     {
+        $userId = auth()->id();
         // Début et fin de la semaine en cours (lundi à dimanche)
         $startOfWeek = now()->startOfWeek();
         $endOfWeek = now()->endOfWeek();
@@ -201,6 +213,7 @@ class HomeController extends Controller
             7 => 'dimanche',
         ];
         $stats = Supervision::selectRaw('DAYOFWEEK(created_at) as day, COUNT(*) as count')
+            ->where('user_id', $userId)
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->groupBy('day')
             ->orderBy('day')

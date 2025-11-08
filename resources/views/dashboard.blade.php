@@ -739,7 +739,13 @@
                             return mois.charAt(0).toUpperCase() + mois.slice(1);
                         });
                         const data = Object.values(response.data);
-                        const barCtx = document.getElementById('barChart').getContext('2d');
+                        const barChartElement = document.getElementById('barChart');
+                        if (!barChartElement) {
+                            console.error('Élément barChart introuvable');
+                            setChartLoading('barChart', false);
+                            return;
+                        }
+                        const barCtx = barChartElement.getContext('2d');
                         new Chart(barCtx, {
                             type: 'bar',
                             data: {
@@ -796,7 +802,13 @@
                             return jour.charAt(0).toUpperCase() + jour.slice(1);
                         });
                         const data = Object.values(response.data);
-                        const pieCtx = document.getElementById('pieChart').getContext('2d');
+                        const pieChartElement = document.getElementById('pieChart');
+                        if (!pieChartElement) {
+                            console.error('Élément pieChart introuvable');
+                            setChartLoading('pieChart', false);
+                            return;
+                        }
+                        const pieCtx = pieChartElement.getContext('2d');
                         new Chart(pieCtx, {
                             type: 'pie',
                             data: {

@@ -9,15 +9,15 @@
     <!-- PWA méta tags -->
     <link rel="manifest" href="{{ asset('manifest.json') }}"> 
      {{-- <link rel="manifest" href="{{ route('manifest') }}"> --}}
-    <meta name="theme-color" content="#3b82f6">
+    <meta name="theme-color" content="#2563eb">
 
     <!-- <link rel="manifest" href="/manifest.json"> -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Problèmes">
-    <meta name="apple-mobile-web-app-title" content="Problèmes">
-    <meta name="theme-color" content="#3b82f6">
-    <meta name="msapplication-navbutton-color" content="#3b82f6">
+    <meta name="application-name" content="Supervision Sanitaire">
+    <meta name="apple-mobile-web-app-title" content="Supervision">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="msapplication-navbutton-color" content="#2563eb">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="msapplication-starturl" content="/">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

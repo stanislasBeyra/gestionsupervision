@@ -16,8 +16,25 @@ const STATIC_ASSETS = [
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(STATIC_CACHE).then(cache => cache.addAll(STATIC_ASSETS))
+    caches.open(STATIC_CACHE).then(cache => {
+      // Ajouter les fichiers individuellement pour éviter l'échec complet si un fichier est manquant
+      return Promise.allSettled(
+        STATIC_ASSETS.map(url => {
+          return cache.add(url).catch(err => {
+            console.warn(`Impossible de mettre en cache ${url}:`, err);
+            return null; // Continue même si un fichier échoue
+          });
+        })
+      );
+    })
   );
+  
+  // Notification de mise à jour
+  self.clients.matchAll().then(clients => {
+    clients.forEach(client => {
+      client.postMessage({ type: 'SW_UPDATE_AVAILABLE' });
+    });
+  });
 });
 
 // Activation : nettoyage des anciens caches
@@ -68,13 +85,3 @@ async function cacheFirst(req) {
   const cached = await cache.match(req);
   return cached || fetch(req);
 }
-
-// Notification de mise à jour
-self.addEventListener('install', event => {
-  self.skipWaiting();
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ type: 'SW_UPDATE_AVAILABLE' });
-    });
-  });
-});
