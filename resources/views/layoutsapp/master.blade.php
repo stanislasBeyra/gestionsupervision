@@ -327,7 +327,6 @@
             if (installBanner) installBanner.style.display = 'none';
     });
     }
-
     // Affichage pour iOS/Safari
     function isIos() {
         return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
