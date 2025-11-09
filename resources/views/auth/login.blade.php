@@ -665,7 +665,6 @@
     </style>
 </head>
 <body>
-    <!-- Ronds décoratifs -->
     <div class="decoration-circle circle-1"></div>
     <div class="decoration-circle circle-2"></div>
     <div class="decoration-circle circle-3"></div>
