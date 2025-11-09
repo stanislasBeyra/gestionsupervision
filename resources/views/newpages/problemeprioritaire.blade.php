@@ -427,7 +427,7 @@
         position: fixed;
         top: 0;
         right: -100%;
-        width: 90%;
+        width: 100%;
         max-width: 500px;
         height: 100%;
         background: white;
@@ -582,7 +582,8 @@
                 </button>
                     <button type="button" class="btn btn-primary-custom" onclick="showForm()">
                         <i class="fas fa-plus-circle"></i>
-                        <span>Ajouter un problème</span>
+                        <span class="d-none d-md-inline">Ajouter un problème</span>
+                        <span class="d-md-none">Ajouter</span>
                 </button>
             </div>
         </div>

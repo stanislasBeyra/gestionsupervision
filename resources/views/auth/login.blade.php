@@ -756,12 +756,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Fonction pour obtenir le token CSRF
+            function getCsrfToken() {
+                return $('meta[name="csrf-token"]').attr('content');
+            }
+            
             // Configuration CSRF
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': getCsrfToken()
                 }
             });
+            
+            // Rafraîchir le token CSRF si nécessaire
+            function refreshCsrfToken() {
+                $.get('/').done(function(html) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newToken = doc.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                    if (newToken) {
+                        $('meta[name="csrf-token"]').attr('content', newToken);
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': newToken
+                            }
+                        });
+                    }
+                });
+            }
             
             // Toggle password visibility
             $('#togglePassword').on('click', function() {
@@ -814,10 +836,14 @@
                 $.ajax({
                     url: '/login',
                     method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': getCsrfToken()
+                    },
                     data: { 
                         email: email, 
                         password: password, 
-                        remember: remember 
+                        remember: remember,
+                        _token: getCsrfToken()
                     },
                     success: function(response) {
                         if (response.status === 'success') {
@@ -843,9 +869,16 @@
                         const response = xhr.responseJSON;
                         let errorMessage = 'Une erreur est survenue lors de la connexion';
                         
-                        if (response && response.message) {
+                        // Gestion spécifique du CSRF token mismatch
+                        if (xhr.status === 419 || (response && response.message && (response.message.includes('CSRF') || response.message.includes('token')))) {
+                            errorMessage = 'Session expirée. Rafraîchissement de la page...';
+                            // Rafraîchir la page pour obtenir un nouveau token
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500);
+                        } else if (response && response.message) {
                             errorMessage = response.message;
-                        } else if (xhr.status === 422 && response.errors) {
+                        } else if (xhr.status === 422 && response && response.errors) {
                             const firstError = Object.values(response.errors)[0];
                             errorMessage = Array.isArray(firstError) ? firstError[0] : firstError;
                         } else if (xhr.status === 401) {
