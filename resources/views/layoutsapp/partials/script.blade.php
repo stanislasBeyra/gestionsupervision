@@ -18,10 +18,14 @@
             collapseList.forEach((collapse) => {
                 // Force la fermeture de tous les sous-menus au démarrage
                 collapse.classList.remove('show');
-                // Initialise le composant collapse de MDB
+                // Vérifier si l'instance existe déjà avant d'initialiser
+                const existingInstance = mdb.Collapse.getInstance(collapse);
+                if (!existingInstance) {
+                    // Initialise le composant collapse de MDB seulement si aucune instance n'existe
                 new mdb.Collapse(collapse, {
                     toggle: false
                 });
+                }
             });
 
             // Gestion des clics sur les toggles

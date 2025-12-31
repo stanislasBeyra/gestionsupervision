@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layoutsapp.master')
 
 @section('title', 'Page Introuvable')
 
