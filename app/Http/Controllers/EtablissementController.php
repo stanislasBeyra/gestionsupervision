@@ -6,6 +6,11 @@ use App\Models\Etablissement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 use Throwable;
 
 class EtablissementController extends Controller
@@ -258,6 +263,122 @@ class EtablissementController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Une erreur est survenue lors du comptage des établissements.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function exportToExcel(Request $request)
+    {
+        try {
+            $query = Etablissement::query();
+            $query->where('user_id', auth()->user()->id);
+            
+            $search = $request->input('search');
+            if ($search) {
+                $query->where('direction_regionale', 'LIKE', "%{$search}%")
+                    ->orWhere('district_sanitaire', 'LIKE', "%{$search}%")
+                    ->orWhere('etablissement_sanitaire', 'LIKE', "%{$search}%")
+                    ->orWhere('categorie_etablissement', 'LIKE', "%{$search}%")
+                    ->orWhere('code_etablissement', 'LIKE', "%{$search}%")
+                    ->orWhere('responsable', 'LIKE', "%{$search}%")
+                    ->orWhere('telephone', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            }
+
+            $etablissements = $query->orderBy('id', 'desc')->get();
+
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setTitle('Établissements');
+
+            // En-têtes
+            $headers = ['N°', 'Direction Régionale', 'District Sanitaire', 'Établissement', 'Catégorie', 'Code', 'Période', 'Périodicité', 'Date début', 'Date fin', 'Responsable', 'Téléphone', 'E-mail', 'Date de création'];
+            $sheet->fromArray($headers, null, 'A1');
+
+            // Style des en-têtes
+            $headerStyle = [
+                'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+                'fill' => [
+                    'fillType' => Fill::FILL_SOLID,
+                    'startColor' => ['rgb' => '2563eb']
+                ],
+                'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => Border::BORDER_THIN,
+                        'color' => ['rgb' => '000000']
+                    ]
+                ]
+            ];
+            $sheet->getStyle('A1:N1')->applyFromArray($headerStyle);
+
+            // Données
+            $row = 2;
+            foreach ($etablissements as $index => $etablissement) {
+                $sheet->setCellValue('A' . $row, $index + 1);
+                $sheet->setCellValue('B' . $row, $etablissement->direction_regionale ?? '');
+                $sheet->setCellValue('C' . $row, $etablissement->district_sanitaire ?? '');
+                $sheet->setCellValue('D' . $row, $etablissement->etablissement_sanitaire ?? '');
+                $sheet->setCellValue('E' . $row, $etablissement->categorie_etablissement ?? '');
+                $sheet->setCellValue('F' . $row, $etablissement->code_etablissement ?? '');
+                $sheet->setCellValue('G' . $row, $etablissement->periode ?? '');
+                $sheet->setCellValue('H' . $row, $etablissement->periodicite ?? '');
+                $sheet->setCellValue('I' . $row, $etablissement->date_debut ? date('Y-m-d', strtotime($etablissement->date_debut)) : '');
+                $sheet->setCellValue('J' . $row, $etablissement->date_fin ? date('Y-m-d', strtotime($etablissement->date_fin)) : '');
+                $sheet->setCellValue('K' . $row, $etablissement->responsable ?? '');
+                $sheet->setCellValue('L' . $row, $etablissement->telephone ?? '');
+                $sheet->setCellValue('M' . $row, $etablissement->email ?? '');
+                $sheet->setCellValue('N' . $row, $etablissement->created_at ? $etablissement->created_at->format('Y-m-d H:i:s') : '');
+                $row++;
+            }
+
+            // Ajuster la largeur des colonnes
+            $sheet->getColumnDimension('A')->setWidth(5);
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(30);
+            $sheet->getColumnDimension('E')->setWidth(20);
+            $sheet->getColumnDimension('F')->setWidth(15);
+            $sheet->getColumnDimension('G')->setWidth(15);
+            $sheet->getColumnDimension('H')->setWidth(15);
+            $sheet->getColumnDimension('I')->setWidth(12);
+            $sheet->getColumnDimension('J')->setWidth(12);
+            $sheet->getColumnDimension('K')->setWidth(25);
+            $sheet->getColumnDimension('L')->setWidth(15);
+            $sheet->getColumnDimension('M')->setWidth(25);
+            $sheet->getColumnDimension('N')->setWidth(18);
+
+            // Bordures pour toutes les cellules
+            $lastRow = $row - 1;
+            if ($lastRow > 0) {
+                $sheet->getStyle('A1:N' . $lastRow)->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => Border::BORDER_THIN,
+                            'color' => ['rgb' => 'CCCCCC']
+                        ]
+                    ]
+                ]);
+            }
+
+            $writer = new Xlsx($spreadsheet);
+            $fileName = 'etablissements_sanitaires_' . date('Y-m-d') . '.xlsx';
+            
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $fileName . '"');
+            header('Cache-Control: max-age=0');
+
+            $writer->save('php://output');
+            exit;
+        } catch (Throwable $e) {
+            Log::error('Erreur lors de l\'export Excel des établissements:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de l\'export Excel',
                 'error' => $e->getMessage()
             ], 500);
         }

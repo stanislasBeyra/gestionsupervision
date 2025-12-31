@@ -887,7 +887,6 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 <script>
     // Points d'accès de l'API
     const API_ENDPOINTS = {
@@ -985,6 +984,10 @@
 
         static showWarning(message) {
             this.showAlert(message, 'warning');
+        }
+
+        static showInfo(message) {
+            this.showAlert(message, 'info');
         }
     }
 
@@ -1840,24 +1843,14 @@
     // Export Excel
     function exportToExcel() {
         try {
-            const table = document.querySelector('table');
-            if (!table) throw new Error('Table non trouvée');
-
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.table_to_sheet(table, {
-                raw: true,
-                display: false,
-                skipHidden: true
-            });
-
-            ws['!cols'] = Array(table.rows[0].cells.length).fill({
-                wch: 15
-            });
-
-            XLSX.utils.book_append_sheet(wb, ws, "Supervision");
-            XLSX.writeFile(wb, `supervision_${new Date().toISOString().split('T')[0]}.xlsx`);
-
-            AlertManager.showSuccess('Export Excel réussi');
+            const searchInput = document.getElementById('search-supervision');
+            const search = searchInput ? searchInput.value.trim() : '';
+            const url = `/api/supervision/export${search ? '?search=' + encodeURIComponent(search) : ''}`;
+            
+            // Rediriger vers l'API d'export
+            window.location.href = url;
+            
+            AlertManager.showInfo('Export Excel en cours...');
         } catch (error) {
             console.error('Erreur lors de l\'export Excel:', error);
             AlertManager.showError('Erreur lors de l\'export Excel');

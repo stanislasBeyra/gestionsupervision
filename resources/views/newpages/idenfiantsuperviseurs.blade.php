@@ -1877,38 +1877,17 @@
 
         async exportToExcel() {
             try {
-                const table = document.getElementById('supervises-table');
-                if (!table) return;
-
-                const rows = Array.from(table.getElementsByTagName('tr'));
-                let csvContent = "N°,Noms/prénoms,Fonction,Service,Profession,Téléphone,E-mail\n";
-
-                rows.forEach(row => {
-                    if (!row.classList.contains('d-none')) {
-                        const columns = Array.from(row.cells)
-                            .slice(0, -1)
-                            .map(cell => cell.textContent.replace(/Hors ligne/g, '').trim())
-                            .map(text => `"${text.replace(/"/g, '""')}"`)
-                            .join(',');
-                        csvContent += columns + '\n';
-                    }
-                });
-
-                const blob = new Blob([csvContent], {
-                    type: 'text/csv;charset=utf-8;'
-                });
-                const link = document.createElement('a');
-                const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
-                link.href = URL.createObjectURL(blob);
-                link.setAttribute('download', `superviseurs_${timestamp}.csv`);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                NotificationManager.show('Export réussi', 'success');
+                const searchInput = document.getElementById('search-supervises');
+                const search = searchInput ? searchInput.value.trim() : '';
+                const url = `/api/superviseurs/export${search ? '?search=' + encodeURIComponent(search) : ''}`;
+                
+                // Rediriger vers l'API d'export
+                window.location.href = url;
+                
+                NotificationManager.show('Export Excel en cours...', 'info');
             } catch (error) {
-                console.error('Erreur lors de l\'export:', error);
-                NotificationManager.show('Erreur lors de l\'export', 'danger');
+                console.error('Erreur lors de l\'export Excel:', error);
+                NotificationManager.show('Erreur lors de l\'export Excel', 'danger');
             }
         }
     };

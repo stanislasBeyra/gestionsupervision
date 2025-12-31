@@ -762,7 +762,17 @@
 
     // Fonction pour l'export Excel
     function exportToExcel() {
-        showAlert('Fonctionnalité d\'export Excel à implémenter', 'warning');
+        try {
+            const url = `/api/supervision/export/synthese`;
+            
+            // Rediriger vers l'API d'export
+            window.location.href = url;
+            
+            showAlert('Export Excel en cours...', 'info');
+        } catch (error) {
+            console.error('Erreur lors de l\'export Excel:', error);
+            showAlert('Erreur lors de l\'export Excel', 'error');
+        }
     }
 
     // Fonctions pour gérer le loading spinner
