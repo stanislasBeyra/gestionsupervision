@@ -111,6 +111,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('', 'getEtablissements');
             Route::post('save', 'saveEtablissement');
             Route::get('countEtablissement', 'countEtablissement');
+            Route::get('export', 'exportToExcel');
         });
         Route::delete('delete/{id}', [EtablissementController::class, 'deleteEtablissement']);
     });
@@ -119,6 +120,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::controller(SuperviserController::class)->group(function () {
             Route::get('', 'getSupervisers');
             Route::post('save', 'saveSuperviser');
+            Route::get('export', 'exportToExcel');
         });
         Route::delete('delete/{id}', [SuperviserController::class, 'deleteSuperviser']);
     });
@@ -127,6 +129,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::controller(SuperviseurController::class)->group(function () {
             Route::get('', 'getSuperviseurs');
             Route::post('save', 'saveSuperviseur');
+            Route::get('export', 'exportToExcel');
         });
         Route::delete('delete/{id}', [SuperviseurController::class, 'deleteSuperviseur']);
     });
@@ -136,6 +139,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::controller(ProblemeController::class)->group(function () {
             Route::get('', 'getProbleme');
             Route::post('save', 'saveProbleme');
+            Route::get('export', 'exportToExcel');
         });
         Route::delete('delete/{id}', [ProblemeController::class, 'deleteProbleme']);
     });
@@ -149,6 +153,10 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::get('synthese','getsynthese');
             Route::post('update', 'updateSupervision');
             Route::post('delete', 'deleteSupervision');
+            Route::get('export', 'exportToExcel');
+            Route::get('export/environnement', 'exportEnvironnementElement');
+            Route::get('export/competance', 'exportCompetanceElement');
+            Route::get('export/synthese', 'exportSynthese');
         });
     });
 

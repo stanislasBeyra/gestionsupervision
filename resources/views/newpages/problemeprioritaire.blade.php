@@ -575,7 +575,7 @@
                     <p class="page-subtitle">Aperçu de la vue des Problèmes prioritaires</p>
             </div>
                 <div class="header-actions">
-                    <button type="button" class="btn btn-outline-success-custom" onclick="exportToCSV()">
+                    <button type="button" class="btn btn-outline-success-custom" onclick="exportToExcel()">
                         <i class="fas fa-file-excel"></i>
                         <span class="d-none d-md-inline">Exporter en Excel</span>
                         <span class="d-md-none">Exporter</span>
@@ -754,7 +754,6 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     // ID de l'utilisateur connecté
     const CURRENT_USER_ID = {{ auth()->id() }};
@@ -1615,35 +1614,20 @@
             }
         },
 
-        exportToCSV() {
-            const table = document.getElementById('problems-table');
-            if (!table) return;
-
-            const headers = [
-                "N°", "Date de création", "Problème", "Causes", "Actions", "Sources",
-                "Acteurs", "Ressources", "Délai"
-            ];
-
-            const rows = Array.from(table.getElementsByTagName('tr'));
-            const csvContent = [
-                headers.join(','),
-                ...rows.map(row =>
-                    Array.from(row.cells)
-                    .map(cell => `"${cell.textContent.replace(/Hors ligne/g, '').trim().replace(/"/g, '""')}"`)
-                    .join(',')
-                )
-            ].join('\n');
-
-            const blob = new Blob([csvContent], {
-                type: 'text/csv;charset=utf-8;'
-            });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `problemes_prioritaires_${new Date().toISOString().slice(0,10)}.csv`;
-            link.click();
-            URL.revokeObjectURL(link.href);
-
-            NotificationManager.show('Export CSV réussi', 'success');
+        exportToExcel() {
+            try {
+                const searchInput = document.getElementById('search-problemes');
+                const search = searchInput ? searchInput.value.trim() : '';
+                const url = `/api/problemes/export${search ? '?search=' + encodeURIComponent(search) : ''}`;
+                
+                // Rediriger vers l'API d'export
+                window.location.href = url;
+                
+                NotificationManager.show('Export Excel en cours...', 'info');
+            } catch (error) {
+                console.error('Erreur lors de l\'export Excel:', error);
+                NotificationManager.show('Erreur lors de l\'export Excel', 'danger');
+            }
         }
     };
 
@@ -1693,7 +1677,7 @@
     window.ProblemeManager = ProblemeManager;
     window.showForm = () => ProblemeManager.showForm();
     window.showTable = () => ProblemeManager.showTable();
-    window.exportToCSV = () => ProblemeManager.exportToCSV();
+    window.exportToExcel = () => ProblemeManager.exportToExcel();
     window.searchProblemes = () => {
         const searchInput = document.getElementById('search-problemes');
         if (searchInput) {

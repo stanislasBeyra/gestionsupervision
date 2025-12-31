@@ -597,7 +597,6 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 <script>
     // Points d'accès de l'API
     const API_ENDPOINTS = {
@@ -990,24 +989,14 @@
     // Export Excel
     function exportToExcel() {
         try {
-            const table = document.querySelector('table');
-            if (!table) throw new Error('Table non trouvée');
-
-            const wb = XLSX.utils.book_new();
-            const ws = XLSX.utils.table_to_sheet(table, {
-                raw: true,
-                display: false,
-                skipHidden: true
-            });
-
-            ws['!cols'] = Array(table.rows[0].cells.length).fill({
-                wch: 15
-            });
-
-            XLSX.utils.book_append_sheet(wb, ws, "Éléments de compétance");
-            XLSX.writeFile(wb, `elements_competance_${new Date().toISOString().split('T')[0]}.xlsx`);
-
-            NotificationManager.show('Export Excel réussi', 'success');
+            const searchInput = document.getElementById('search-supervision');
+            const search = searchInput ? searchInput.value.trim() : '';
+            const url = `/api/supervision/export/competance${search ? '?search=' + encodeURIComponent(search) : ''}`;
+            
+            // Rediriger vers l'API d'export
+            window.location.href = url;
+            
+            NotificationManager.show('Export Excel en cours...', 'info');
         } catch (error) {
             console.error('Erreur lors de l\'export Excel:', error);
             NotificationManager.show('Erreur lors de l\'export Excel', 'danger');

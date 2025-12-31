@@ -944,6 +944,10 @@
         static showWarning(message) {
             this.showAlert(message, 'warning');
         }
+
+        static showInfo(message) {
+            this.showAlert(message, 'info');
+        }
     }
 
     class CacheManager {
@@ -1735,7 +1739,19 @@
     }
 
     function exportToExcel() {
-        AlertManager.showWarning('Fonctionnalité d\'export Excel à implémenter');
+        try {
+            const searchInput = document.getElementById('search-etablissements');
+            const search = searchInput ? searchInput.value.trim() : '';
+            const url = `/api/etablissements/export${search ? '?search=' + encodeURIComponent(search) : ''}`;
+            
+            // Rediriger vers l'API d'export
+            window.location.href = url;
+            
+            AlertManager.showInfo('Export Excel en cours...');
+        } catch (error) {
+            console.error('Erreur lors de l\'export Excel:', error);
+            AlertManager.showError('Erreur lors de l\'export Excel');
+        }
     }
 
     const directionToDistricts = {
