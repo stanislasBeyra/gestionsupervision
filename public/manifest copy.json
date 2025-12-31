@@ -1,0 +1,86 @@
+{
+    "name": "Supervision Sanitaire",
+    "short_name": "SupSan",
+    "description": "Application de supervision des établissements sanitaires et gestion des problèmes prioritaires",
+    "start_url": "/dashboard",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2979ff",
+    "orientation": "portrait",
+    "scope": "/",
+    "lang": "fr",
+    "dir": "ltr",
+    "icons": [
+      {
+        "src": "/icons/icon-144.jpg",
+        "sizes": "144x144",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-144.jpg",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/icon-144.jpg",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/icons/maskable-192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "src": "/icons/maskable-512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ],
+    "shortcuts": [
+      {
+        "name": "Dashboard",
+        "short_name": "Dashboard",
+        "description": "Accéder au tableau de bord principal",
+        "url": "/dashboard",
+        "icons": [{ "src": "/icons/dashboard.png", "sizes": "192x192" }]
+      },
+      {
+        "name": "Synthèse supervision",
+        "short_name": "Synthèse",
+        "description": "Consulter la synthèse des supervisions",
+        "url": "/synthesesupervision",
+        "icons": [{ "src": "/icons/chart.png", "sizes": "192x192" }]
+      },
+      {
+        "name": "Problèmes prioritaires",
+        "short_name": "Problèmes",
+        "description": "Accéder aux problèmes prioritaires",
+        "url": "/problemeprioritaire",
+        "icons": [{ "src": "/icons/warning.png", "sizes": "192x192" }]
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "/screenshots/desktop.png",
+        "sizes": "1280x720",
+        "type": "image/png",
+        "form_factor": "wide",
+        "label": "Dashboard de l'application de supervision"
+      },
+      {
+        "src": "/screenshots/mobile.png",
+        "sizes": "750x1334",
+        "type": "image/png",
+        "form_factor": "narrow",
+        "label": "Version mobile de l'application"
+      }
+    ],
+    "categories": ["healthcare", "utilities", "productivity"],
+    "prefer_related_applications": false
+  }

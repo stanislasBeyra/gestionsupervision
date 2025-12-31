@@ -12,6 +12,7 @@ class Supervision extends Model
 
 
     protected $fillable = [
+        'user_id',
         'domaine',
         'contenu',
         'question',
@@ -31,25 +32,23 @@ class Supervision extends Model
 
     public function domaines()
     {
-        return $this->belongsTo(Domaine::class,'domaine');
+        return $this->belongsTo(Domaine::class, 'domaine');
     }
-
-    
 
     // Relation avec Questions associées
-    public function questions()
+    public function question()
     {
-        return $this->hasMany(Alluquestion::class,'id','question');
+        return $this->belongsTo(Alluquestion::class, 'question');
     }
 
-    // Relation avec les commentaires
-    public function continues()
+    // Relation avec les contenus
+    public function contenu()
     {
-        return $this->hasMany(Contenu::class,'id','contenu');
+        return $this->belongsTo(Contenu::class, 'contenu');
     }
 
-    public function methodes()
+    public function methode()
     {
-        return $this->hasMany(Methode::class,'id','methode');
+        return $this->belongsTo(Methode::class, 'methode');
     }
 }

@@ -9,9 +9,7 @@
 
 
     <main style="margin-top: 58px">
-        <div class="container-fluid pt-4">
             @yield('content')
-        </div>
 
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
             <!-- Toast d'installation -->
@@ -24,13 +22,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- Bannière d'installation PWA -->
+        <div id="installBanner" style="display:none; position:fixed; bottom:20px; left:0; right:0; background:#2979ff; color:white; padding:16px; text-align:center; z-index:9999;">
+            <span id="installText">Voulez-vous installer l'application ?</span>
+            <button id="installBtn" style="margin-left:10px; background:white; color:#2979ff; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;">
+                Installer
+            </button>
+            <button id="closeBanner" style="margin-left:10px; background:transparent; color:white; border:none; font-size:20px; cursor:pointer;">×</button>
+        </div>
     </main>
 
     @include('layoutsapp.partials.script')
 </body>
-<!-- <script>
+<script>
     // Variable globale pour stocker l'événement d'installation
-    let deferredPrompt = null;
+    // Utiliser window.deferredPrompt pour éviter les conflits
+    if (typeof window.deferredPrompt === 'undefined') {
+        window.deferredPrompt = null;
+    }
 
     // Fonction de diagnostic PWA
     async function diagnosticPWA() {
@@ -220,7 +230,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
         console.log('🎉 Event beforeinstallprompt déclenché');
         e.preventDefault();
-        deferredPrompt = e;
+        window.deferredPrompt = e;
         document.getElementById('installButton').style.display = 'flex';
     });
 
@@ -235,19 +245,26 @@
 
         if ('serviceWorker' in navigator) {
             try {
-                // Désinscrire les anciens Service Workers si nécessaire
-                const registrations = await navigator.serviceWorker.getRegistrations();
-                for (let registration of registrations) {
-                    await registration.unregister();
-                }
-
-                // Enregistrer le nouveau Service Worker
+                // Enregistrer le Service Worker (ne plus désinscrire systématiquement)
                 const registration = await navigator.serviceWorker.register('/service-worker.js', {
                     scope: '/',
                     updateViaCache: 'none'
                 });
-
                 console.log('✅ Service Worker enregistré avec succès:', registration.scope);
+
+                // Gestion de la notification de mise à jour
+                navigator.serviceWorker.addEventListener('message', function(event) {
+                    if (event.data && event.data.type === 'SW_UPDATE_AVAILABLE') {
+                        // Affiche le toast de mise à jour
+                        const toast = document.getElementById('installToast');
+                        toast.querySelector('.toast-body').innerHTML = `
+                            <i class="fas fa-sync-alt me-2"></i>
+                            Nouvelle version disponible&nbsp;!
+                            <button class="btn btn-sm btn-light ms-2" onclick="location.reload()">Recharger</button>
+                        `;
+                        new mdb.Toast(toast).show();
+                    }
+                });
             } catch (error) {
                 console.error('❌ Erreur d\'enregistrement du Service Worker:', error);
                 console.error('Détails:', {
@@ -259,7 +276,70 @@
 
         await diagnosticPWA();
     });
-</script> -->
+
+    const collapseList = document.querySelectorAll('.collapse');
+    collapseList.forEach((collapse) => {
+        // Force la fermeture de tous les sous-menus au démarrage
+        collapse.classList.remove('show');
+        // Vérifier si l'instance existe déjà avant d'initialiser
+        const existingInstance = mdb.Collapse.getInstance(collapse);
+        if (!existingInstance) {
+            // Initialise le composant collapse de MDB seulement si aucune instance n'existe
+        new mdb.Collapse(collapse, {
+            toggle: false
+        });
+        }
+    });
+
+    // Déclarer deferredPrompt seulement s'il n'existe pas déjà
+    if (typeof window.deferredPrompt === 'undefined') {
+        window.deferredPrompt = null;
+    }
+    // Utiliser uniquement window.deferredPrompt (pas de variable locale)
+    const installBanner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installBtn');
+    const closeBanner = document.getElementById('closeBanner');
+    const installText = document.getElementById('installText');
+
+    // Affichage pour Android/Chrome
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        window.deferredPrompt = e;
+        installBanner.style.display = 'block';
+        installBtn.style.display = 'inline-block';
+        installText.textContent = "Voulez-vous installer l'application ?";
+    });
+
+    if (installBtn) {
+    installBtn.addEventListener('click', () => {
+            if (window.deferredPrompt) {
+                window.deferredPrompt.prompt();
+                window.deferredPrompt.userChoice.then((choiceResult) => {
+                    if (installBanner) installBanner.style.display = 'none';
+                    window.deferredPrompt = null;
+            });
+        }
+    });
+    }
+
+    if (closeBanner) {
+    closeBanner.addEventListener('click', () => {
+            if (installBanner) installBanner.style.display = 'none';
+    });
+    }
+    // Affichage pour iOS/Safari
+    function isIos() {
+        return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+    }
+    function isInStandaloneMode() {
+        return ('standalone' in window.navigator) && window.navigator.standalone;
+    }
+    if (isIos() && !isInStandaloneMode()) {
+        installBanner.style.display = 'block';
+        installBtn.style.display = 'none';
+        installText.innerHTML = "Pour installer l'application, cliquez sur <img src='/icons/ios-share.png' style='height:1em;vertical-align:middle;'> puis 'Sur l'écran d'accueil'";
+    }
+</script>
 
 
 </html>

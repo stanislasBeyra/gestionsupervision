@@ -12,12 +12,15 @@ class Etablissement extends Model
 
 
     protected $fillable = [
+        //ajout de user_id pour la relation avec l'utilisateur
+        'user_id',
         'direction_regionale',
         'district_sanitaire',
         'etablissement_sanitaire',
         'categorie_etablissement',
         'code_etablissement',
         'periode',
+        'periodicite',
         'date_debut',
         'date_fin',
         'responsable',
@@ -25,5 +28,5 @@ class Etablissement extends Model
         'email',
     ];
 
-   
+
 }
