@@ -6,7 +6,7 @@
     }
 </style>
 
-<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+<nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top ">
     <div class="container-fluid">
         <!-- Toggle button -->
         <button class="navbar-toggler" type="button" data-mdb-toggle="offcanvas" data-mdb-target="#offcanvasExample"
@@ -43,7 +43,6 @@
 
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="/profile">Mon profil</a></li>
-                    <li><a class="dropdown-item" href="#">Paramètres</a></li>
                     <li>
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
